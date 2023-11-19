@@ -30,5 +30,27 @@ namespace Sha.BaseService.Dal
             db.Insertable<t_Address>(address).ExecuteCommand();
             return true;
         }
+
+        /// <summary>
+        /// 更新
+        /// </summary>
+        /// <param name="address"></param>
+        /// <returns></returns>
+        public bool Update(t_Address address)
+        {
+            db.Updateable<t_Address>(address).UpdateColumns(it => new
+            {
+                it.Code,
+                it.Number,
+                it.NameCn,
+                it.NameEn,
+                it.ShortName,
+                it.ParentKey,
+                it.Type,
+                it.Sort,
+                it.IsDelete
+            }).ExecuteCommand();
+            return true;
+        }
     }
 }
