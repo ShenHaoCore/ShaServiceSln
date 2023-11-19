@@ -1,6 +1,5 @@
 ﻿using Asp.Versioning;
 using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Sha.Framework.Base;
@@ -19,19 +18,16 @@ namespace Sha.UserService.Api.Controllers.V1
     public class IdentityCardController : ShaBaseController
     {
         private readonly ILogger<IdentityCardController> logger;
-        private readonly IMapper mapper;
         private readonly IdentityCardBll bll;
 
         /// <summary>
         /// 身份证
         /// </summary>
         /// <param name="logger">日志</param>
-        /// <param name="mapper"></param>
         /// <param name="bll">业务逻辑层</param>
-        public IdentityCardController(ILogger<IdentityCardController> logger, IMapper mapper, IdentityCardBll bll)
+        public IdentityCardController(ILogger<IdentityCardController> logger, IdentityCardBll bll)
         {
             this.logger = logger;
-            this.mapper = mapper;
             this.bll = bll;
         }
 
@@ -54,10 +50,26 @@ namespace Sha.UserService.Api.Controllers.V1
         public BaseResponse Create([FromBody] IdcardCreateRequest request)
         {
             logger.LogDebug($"身份证新增请求{JsonConvert.SerializeObject(request)}");
-            IdcardCreateParam param = mapper.Map<IdcardCreateParam>(request);
+            IdcardCreateParam param = ConvertTo(request);
             ResultModel<bool> result = bll.Create(param);
             if (!result.IsSuccess) { return new BaseResponse(false, result.Code, result.Message); }
             return new BaseResponse(true, FrameworkEnum.StatusCode.Success);
         }
+
+        #region 转型
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public IdcardCreateParam ConvertTo(IdcardCreateRequest request)
+        {
+            IdcardCreateParam param = new IdcardCreateParam()
+            {
+                Name = request.Name
+            };
+            return param;
+        }
+        #endregion
     }
 }

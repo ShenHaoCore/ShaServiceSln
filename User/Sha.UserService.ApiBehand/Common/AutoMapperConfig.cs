@@ -14,7 +14,6 @@ namespace Sha.UserService.ApiBehand.Common
         /// </summary>
         public AutoMapperConfig()
         {
-            CreateMap<IdcardCreateRequest, IdcardCreateParam>();
         }
     }
 }
