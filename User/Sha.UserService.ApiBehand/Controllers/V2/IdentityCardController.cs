@@ -1,5 +1,4 @@
 ﻿using Asp.Versioning;
-using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Sha.Framework.Base;
@@ -8,7 +7,6 @@ using Sha.UserService.Bll;
 using Sha.UserService.Model.DTO;
 using Sha.UserService.Model.Entity;
 using Sha.UserService.Model.Request;
-using System.Xml.Linq;
 
 namespace Sha.UserService.ApiBehand.Controllers.V2
 {
