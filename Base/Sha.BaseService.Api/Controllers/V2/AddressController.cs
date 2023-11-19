@@ -36,7 +36,7 @@ namespace Sha.BaseService.Api.Controllers.V2
         [HttpPost]
         public BaseResponse Create([FromBody] AddressCreateRequest request)
         {
-            logger.LogDebug($"身份证新增请求【{JsonConvert.SerializeObject(request)}】");
+            logger.LogDebug($"地址新增请求【{JsonConvert.SerializeObject(request)}】");
             AddressCreateParam param = new AddressCreateParam();
             ResultModel<bool> result = bll.Create(param);
             if (!result.IsSuccess) { return new BaseResponse(false, result.Code, result.Message); }

@@ -52,5 +52,16 @@ namespace Sha.BaseService.Dal
             }).ExecuteCommand();
             return true;
         }
+
+        /// <summary>
+        /// 更新
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public bool Delete(Guid key)
+        {
+            db.Deleteable<t_Address>().Where(it => it.Key == key).ExecuteCommand();
+            return true;
+        }
     }
 }

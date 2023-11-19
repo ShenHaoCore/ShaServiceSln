@@ -54,6 +54,17 @@ namespace Sha.BaseService.Bll
             if (!this.dal.Update(address)) { return new ResultModel<bool>(false, FrameworkEnum.StatusCode.Fail); }
             return new ResultModel<bool>(true, FrameworkEnum.StatusCode.Success);
         }
+
+        /// <summary>
+        /// 删除
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public ResultModel<bool> Delete(Guid key)
+        {
+            if (!this.dal.Delete(key)) { return new ResultModel<bool>(false, FrameworkEnum.StatusCode.Fail); }
+            return new ResultModel<bool>(true, FrameworkEnum.StatusCode.Success);
+        }
         #endregion
 
         #region 转型

@@ -36,11 +36,54 @@ namespace Sha.BaseService.Api.Controllers.V1
         [HttpPost]
         public BaseResponse Create([FromBody] AddressCreateRequest request)
         {
-            logger.LogDebug($"身份证新增请求【{JsonConvert.SerializeObject(request)}】");
-            AddressCreateParam param = new AddressCreateParam();
+            logger.LogDebug($"地址新增请求【{JsonConvert.SerializeObject(request)}】");
+            AddressCreateParam param = ConvertTo(request);
             ResultModel<bool> result = bll.Create(param);
             if (!result.IsSuccess) { return new BaseResponse(false, result.Code, result.Message); }
             return new BaseResponse(true, FrameworkEnum.StatusCode.Success);
         }
+
+        /// <summary>
+        /// 更新
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public BaseResponse Update([FromBody] AddressUpdateRequest request)
+        {
+            logger.LogDebug($"地址更新请求【{JsonConvert.SerializeObject(request)}】");
+            AddressUpdateParam param = ConvertTo(request);
+            ResultModel<bool> result = bll.Update(param);
+            if (!result.IsSuccess) { return new BaseResponse(false, result.Code, result.Message); }
+            return new BaseResponse(true, FrameworkEnum.StatusCode.Success);
+        }
+
+        #region 转型
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public AddressCreateParam ConvertTo(AddressCreateRequest request)
+        {
+            AddressCreateParam param = new AddressCreateParam()
+            {
+                NameCn = request.NameCn,
+            };
+            return param;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public AddressUpdateParam ConvertTo(AddressUpdateRequest request)
+        {
+            AddressUpdateParam param = new AddressUpdateParam()
+            {
+                NameCn = request.NameCn,
+            };
+            return param;
+        }
+        #endregion
     }
 }
