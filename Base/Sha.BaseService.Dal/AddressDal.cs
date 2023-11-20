@@ -21,6 +21,26 @@ namespace Sha.BaseService.Dal
         }
 
         /// <summary>
+        /// 获取
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public t_Address GetByKey(Guid key)
+        {
+            return db.Queryable<t_Address>().First(it => it.Key == key);
+        }
+
+        /// <summary>
+        /// 获取
+        /// </summary>
+        /// <param name="code"></param>
+        /// <returns></returns>
+        public t_Address GetByCode(string code)
+        {
+            return db.Queryable<t_Address>().First(it => it.Code == code);
+        }
+
+        /// <summary>
         /// 新增
         /// </summary>
         /// <param name="address"></param>

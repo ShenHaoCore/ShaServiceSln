@@ -32,6 +32,7 @@ namespace Sha.BaseService.Api.Controllers.V1
         /// <summary>
         /// 新增
         /// </summary>
+        /// <param name="request">请求</param>
         /// <returns></returns>
         [HttpPost]
         public BaseResponse Create([FromBody] AddressCreateRequest request)
@@ -46,6 +47,7 @@ namespace Sha.BaseService.Api.Controllers.V1
         /// <summary>
         /// 更新
         /// </summary>
+        /// <param name="request">请求</param>
         /// <returns></returns>
         [HttpPost]
         public BaseResponse Update([FromBody] AddressUpdateRequest request)
@@ -53,6 +55,19 @@ namespace Sha.BaseService.Api.Controllers.V1
             logger.LogDebug($"地址更新请求【{JsonConvert.SerializeObject(request)}】");
             AddressUpdateParam param = ConvertTo(request);
             ResultModel<bool> result = bll.Update(param);
+            if (!result.IsSuccess) { return new BaseResponse(false, result.Code, result.Message); }
+            return new BaseResponse(true, FrameworkEnum.StatusCode.Success);
+        }
+
+        /// <summary>
+        /// 删除
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public BaseResponse Delete([FromQuery] Guid key)
+        {
+            ResultModel<bool> result = bll.Delete(key);
             if (!result.IsSuccess) { return new BaseResponse(false, result.Code, result.Message); }
             return new BaseResponse(true, FrameworkEnum.StatusCode.Success);
         }
