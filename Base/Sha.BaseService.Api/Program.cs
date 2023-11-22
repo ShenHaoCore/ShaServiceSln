@@ -11,6 +11,7 @@ using Sha.BaseService.Model.Common;
 using Sha.Framework.Cache;
 using Sha.Framework.Common;
 using Sha.Framework.Filter;
+using Sha.Framework.Jwt;
 using Sha.Framework.Redis;
 using Sha.Framework.Serilog;
 using Sha.Framework.SqlSugar;
@@ -54,6 +55,7 @@ builder.Services.AddApiVersioning(options =>
     options.GroupNameFormat = "'v'VVV";
     options.SubstituteApiVersionInUrl = true;
 });
+builder.Services.AddJwtSetup();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.Replace(ServiceDescriptor.Transient<IControllerActivator, ServiceBasedControllerActivator>()); // 属性注入必须
 builder.Services.AddSwaggerSetup(xmlFileNames);
@@ -67,6 +69,7 @@ if (app.Environment.IsDevelopment())
 }
 app.UseSerilogMiddle();
 app.UseHttpsRedirection();
-app.UseAuthorization();
+app.UseAuthentication(); // 认证中间件
+app.UseAuthorization(); // 授权中间件
 app.MapControllers();
 app.Run();

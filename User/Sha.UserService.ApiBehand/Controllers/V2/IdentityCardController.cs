@@ -1,4 +1,5 @@
 ﻿using Asp.Versioning;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Sha.Framework.Base;
@@ -13,6 +14,7 @@ namespace Sha.UserService.ApiBehand.Controllers.V2
     /// <summary>
     /// 身份证
     /// </summary>
+    [Authorize]
     [ApiVersion(2.0)]
     public class IdentityCardController : ShaBaseController
     {
@@ -61,7 +63,7 @@ namespace Sha.UserService.ApiBehand.Controllers.V2
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public IdcardCreateParam ConvertTo(IdcardCreateRequest request)
+        private IdcardCreateParam ConvertTo(IdcardCreateRequest request)
         {
             IdcardCreateParam param = new IdcardCreateParam()
             {
