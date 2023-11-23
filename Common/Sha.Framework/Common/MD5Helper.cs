@@ -11,18 +11,13 @@ namespace Sha.Framework.Common
         /// <summary>
         /// MD5编码
         /// </summary>
-        /// <param name="text"></param>
+        /// <param name="input">明文</param>
         /// <returns></returns>
-        public static string MD5Encoding(string text)
+        public static string MD5Encoding(string input)
         {
-            using (MD5 md5 = MD5.Create())
-            {
-                byte[] textBytes = Encoding.UTF8.GetBytes(text);
-                byte[] hashBytes = md5.ComputeHash(textBytes);
-                StringBuilder byteStr = new StringBuilder();
-                for (int i = 0; i < hashBytes.Length; i++) { byteStr.Append(hashBytes[i].ToString("x2")); } // 以十六进制格式格式化
-                return byteStr.ToString();
-            }
+            var inputBytes = Encoding.UTF8.GetBytes(input);
+            var hashBytes = MD5.HashData(inputBytes);
+            return Convert.ToHexString(hashBytes);
         }
     }
 }

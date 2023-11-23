@@ -9,13 +9,29 @@ namespace Sha.Framework.Base
     public class ResultModel<T>
     {
         /// <summary>
-        /// 构造函数
+        /// 结果
         /// </summary>
+        /// <param name="isSuccess"></param>
+        /// <param name="code"></param>
         public ResultModel(bool isSuccess, FrameworkEnum.StatusCode code)
         {
             this.IsSuccess = isSuccess;
             this.Code = code.GetHashCode().ToString();
             this.Message = code.GetDescription();
+        }
+
+        /// <summary>
+        /// 结果
+        /// </summary>
+        /// <param name="isSuccess"></param>
+        /// <param name="code"></param>
+        /// <param name="date"></param>
+        public ResultModel(bool isSuccess, FrameworkEnum.StatusCode code, T date)
+        {
+            this.IsSuccess = isSuccess;
+            this.Code = code.GetHashCode().ToString();
+            this.Message = code.GetDescription();
+            this.Data = date;
         }
 
         /// <summary>

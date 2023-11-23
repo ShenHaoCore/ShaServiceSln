@@ -1,6 +1,33 @@
 ﻿namespace Sha.UserService.Model.DTO
 {
     /// <summary>
+    /// 员工登录
+    /// </summary>
+    public class EmployeLoginParam
+    {
+        /// <summary>
+        /// 员工登录
+        /// </summary>
+        /// <param name="number">工号</param>
+        /// <param name="password">密码</param>
+        public EmployeLoginParam(string number, string password)
+        {
+            this.Number = number;
+            this.Password = password;
+        }
+
+        /// <summary>
+        /// 工号
+        /// </summary>
+        public string Number { get; set; }
+
+        /// <summary>
+        /// 密码
+        /// </summary>
+        public string Password { get; set; }
+    }
+
+    /// <summary>
     /// 
     /// </summary>
     public class EmployeLoginModel

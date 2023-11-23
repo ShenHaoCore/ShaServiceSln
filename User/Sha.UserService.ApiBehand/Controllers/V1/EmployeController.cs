@@ -3,14 +3,14 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Sha.Framework.Base;
 using Sha.Framework.Enum;
-using Sha.Framework.Jwt;
 using Sha.UserService.Bll;
 using Sha.UserService.Model.DTO;
+using Sha.UserService.Model.Request;
 
 namespace Sha.UserService.ApiBehand.Controllers.V1
 {
     /// <summary>
-    /// 职员
+    /// 员工
     /// </summary>
     [Authorize]
     [ApiVersion(1.0)]
@@ -20,7 +20,7 @@ namespace Sha.UserService.ApiBehand.Controllers.V1
         private readonly EmployeBll bll;
 
         /// <summary>
-        /// 职员
+        /// 员工
         /// </summary>
         /// <param name="logger">日志</param>
         /// <param name="bll">业务逻辑层</param>
@@ -33,13 +33,16 @@ namespace Sha.UserService.ApiBehand.Controllers.V1
         /// <summary>
         /// 登录
         /// </summary>
+        /// <param name="request">请求</param>
         /// <returns></returns>
         [AllowAnonymous]
         [HttpPost]
-        public BaseResponseObject<EmployeLoginModel> Login()
+        public BaseResponseObject<EmployeLoginModel> Login([FromBody] EmployeLoginRequest request)
         {
-            EmployeLoginModel login = new EmployeLoginModel(JwtHelper.IssueToken(new JwtUserModel() { Uid = 1000 }));
-            return new BaseResponseObject<EmployeLoginModel>(true, FrameworkEnum.StatusCode.Success, login);
+            EmployeLoginParam param = new EmployeLoginParam(request.Number, request.Password);
+            ResultModel<EmployeLoginModel> result = bll.Login(param);
+            if (!result.IsSuccess) { return new BaseResponseObject<EmployeLoginModel>(false, result.Code, result.Message); }
+            return new BaseResponseObject<EmployeLoginModel>(true, FrameworkEnum.StatusCode.Success, result.Data);
         }
     }
 }

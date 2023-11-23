@@ -85,6 +85,12 @@ namespace Sha.Framework.Enum
             SystemError = 500,
 
             /// <summary>
+            /// 用户不存在
+            /// </summary>
+            [Description("用户不存在")]
+            UserNotFount = 1000,
+
+            /// <summary>
             /// 用户已存在
             /// </summary>
             [Description("用户已存在")]
