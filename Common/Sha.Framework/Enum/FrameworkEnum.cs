@@ -49,12 +49,6 @@ namespace Sha.Framework.Enum
             RequestNull = 202,
 
             /// <summary>
-            /// 未授权
-            /// </summary>
-            [Description("未授权")]
-            UnAuthorized = 401,
-
-            /// <summary>
             /// 没有服务器的访问权限
             /// </summary>
             [Description("拒绝访问")]
@@ -77,6 +71,12 @@ namespace Sha.Framework.Enum
             /// </summary>
             [Description("保存失败")]
             SaveFailed = 207,
+
+            /// <summary>
+            /// 未授权
+            /// </summary>
+            [Description("未授权")]
+            UnAuthorized = 401,
 
             /// <summary>
             /// 服务器遇到错误无法完成请求

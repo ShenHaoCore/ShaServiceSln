@@ -11,13 +11,25 @@ namespace Sha.Framework.Common
         /// <summary>
         /// MD5编码
         /// </summary>
-        /// <param name="input">明文</param>
+        /// <param name="text">明文</param>
         /// <returns></returns>
-        public static string MD5Encoding(string input)
+        public static string MD5Encoding(string text)
         {
-            var inputBytes = Encoding.UTF8.GetBytes(input);
+            var inputBytes = Encoding.UTF8.GetBytes(text);
             var hashBytes = MD5.HashData(inputBytes);
             return Convert.ToHexString(hashBytes);
+        }
+
+        /// <summary>
+        /// MD5编码
+        /// </summary>
+        /// <param name="text">明文</param>
+        /// <param name="salt">盐</param>
+        /// <returns></returns>
+        public static string MD5Encoding(string text, string salt)
+        {
+            if (string.IsNullOrWhiteSpace(salt)) { throw new ArgumentNullException(nameof(salt)); }
+            return MD5Encoding($"{text}{salt}");
         }
     }
 }
