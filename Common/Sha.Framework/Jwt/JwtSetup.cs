@@ -37,11 +37,44 @@ namespace Sha.Framework.Jwt
                 ClockSkew = TimeSpan.Zero
             };
 
-            services.AddAuthentication(option => { option.DefaultScheme = JwtBearerDefaults.AuthenticationScheme; }).AddJwtBearer(option =>
+            services.AddAuthentication(option =>
+            {
+                option.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(option =>
             {
                 option.TokenValidationParameters = tokenParam;
-                option.Events = new JwtBearerEvents { OnMessageReceived = MessageReceived, OnChallenge = Challenge, OnAuthenticationFailed = AuthenticationFailed };
+                option.Events = new JwtBearerEvents
+                {
+                    OnTokenValidated = TokenValidated,
+                    OnMessageReceived = MessageReceived,
+                    OnChallenge = Challenge,
+                    OnAuthenticationFailed = AuthenticationFailed,
+                    OnForbidden = Forbidden
+                };
             });
+        }
+
+        /// <summary>
+        /// 权限不足
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public static Task Forbidden(ForbiddenContext context)
+        {
+            context.Response.ContentType = "application/json";
+            context.Response.StatusCode = StatusCodes.Status200OK;
+            context.Response.WriteAsync(JsonConvert.SerializeObject(new BaseResponse(false, FrameworkEnum.StatusCode.Forbidden)));
+            return Task.CompletedTask;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public static Task TokenValidated(TokenValidatedContext context)
+        {
+            return Task.CompletedTask;
         }
 
         /// <summary>
@@ -64,7 +97,7 @@ namespace Sha.Framework.Jwt
             context.HandleResponse();
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = StatusCodes.Status200OK;
-            context.Response.WriteAsync(JsonConvert.SerializeObject(new BaseResponse(true, FrameworkEnum.StatusCode.UnAuthorized)));
+            context.Response.WriteAsync(JsonConvert.SerializeObject(new BaseResponse(false, FrameworkEnum.StatusCode.UnAuthorized)));
             return Task.CompletedTask;
         }
 

@@ -44,5 +44,15 @@ namespace Sha.UserService.ApiBehand.Controllers.V1
             if (!result.IsSuccess) { return new BaseResponseObject<EmployeLoginModel>(false, result.Code, result.Message); }
             return new BaseResponseObject<EmployeLoginModel>(true, FrameworkEnum.StatusCode.Success, result.Data);
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public BaseResponse Create()
+        {
+            return new BaseResponse(true, FrameworkEnum.StatusCode.Success);
+        }
     }
 }

@@ -21,7 +21,7 @@ namespace Sha.Framework.Jwt
             JwtConfig? jwtConfig = AppSettings.GetObject<JwtConfig>(JwtConfig.KEY);
             if (jwtConfig == null) { throw new ArgumentNullException(nameof(jwtConfig)); }
 
-            IEnumerable<Claim> claims = new Claim[] { new Claim(JwtRegisteredClaimNames.Jti, user.Uid.ToString()), new Claim(ClaimTypes.Role, "") };
+            IEnumerable<Claim> claims = new Claim[] { new Claim(JwtRegisteredClaimNames.Jti, user.Uid.ToString()), new Claim(ClaimTypes.Role, user.Role) };
             SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfig.SecretKey));
             SigningCredentials sign = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
             JwtSecurityToken jwtoken = new JwtSecurityToken(issuer: jwtConfig.Issuer, audience: jwtConfig.Audience, claims: claims, notBefore: DateTime.UtcNow, expires: DateTime.UtcNow.AddSeconds(1000), signingCredentials: sign);

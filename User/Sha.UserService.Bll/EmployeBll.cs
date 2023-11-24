@@ -35,9 +35,10 @@ namespace Sha.UserService.Bll
         /// <returns></returns>
         public ResultModel<EmployeLoginModel> Login(EmployeLoginParam param)
         {
-            t_Employe employe = dal.GetByNumber(param.Number);
-            if (employe == null) { return new ResultModel<EmployeLoginModel>(false, FrameworkEnum.StatusCode.UserNotFount); }
-            JwtUserModel user = new JwtUserModel() { Uid = employe.ID };
+            //t_Employe employe = dal.GetByNumber(param.Number);
+            //if (employe == null) { return new ResultModel<EmployeLoginModel>(false, FrameworkEnum.StatusCode.UserNotFount); }
+            //JwtUserModel user = new JwtUserModel() { Uid = employe.ID };
+            JwtUserModel user = new JwtUserModel() { Uid = 1000, Role = "Employe" };
             EmployeLoginModel login = new EmployeLoginModel(JwtHelper.IssueToken(user));
             return new ResultModel<EmployeLoginModel>(true, FrameworkEnum.StatusCode.Success, login);
         }
