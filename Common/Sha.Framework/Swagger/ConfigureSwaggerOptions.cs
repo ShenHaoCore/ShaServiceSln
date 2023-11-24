@@ -1,9 +1,10 @@
 ﻿using Asp.Versioning.ApiExplorer;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
+using Sha.Framework.Common;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace Sha.Framework.Version
+namespace Sha.Framework.Swagger
 {
     /// <summary>
     /// 
@@ -27,13 +28,16 @@ namespace Sha.Framework.Version
         /// <param name="options"></param>
         public void Configure(SwaggerGenOptions options)
         {
+            ServiceConfig? serveiceConfig = AppSettings.GetObject<ServiceConfig>(ServiceConfig.KEY);
+            if (serveiceConfig == null) { throw new ArgumentNullException(nameof(serveiceConfig)); }
+
             foreach (var description in provider.ApiVersionDescriptions)
             {
                 options.SwaggerDoc(description.GroupName, new OpenApiInfo()
                 {
-                    Title = $"基础 API {description.ApiVersion}",
+                    Title = $"{serveiceConfig.PrefixName} API {description.ApiVersion}",
                     Version = description.ApiVersion.ToString(),
-                    Description = $"基础{description.ApiVersion}版本"
+                    Description = $"{serveiceConfig.PrefixName} {description.ApiVersion} 版本"
                 });
             }
         }

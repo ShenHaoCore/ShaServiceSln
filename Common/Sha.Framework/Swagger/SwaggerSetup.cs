@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
-using Sha.Framework.Version;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Sha.Framework.Swagger

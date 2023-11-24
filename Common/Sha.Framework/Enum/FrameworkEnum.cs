@@ -79,9 +79,9 @@ namespace Sha.Framework.Enum
             UnAuthorized = 401,
 
             /// <summary>
-            /// 没有权限访问此站
+            /// 权限不足
             /// </summary>
-            [Description("没有权限访问此站")]
+            [Description("权限不足")]
             Forbidden = 403,
 
             /// <summary>
