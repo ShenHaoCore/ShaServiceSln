@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using FluentValidation.Results;
+using Microsoft.Extensions.Logging;
 using Sha.Framework.Base;
 using Sha.Framework.Enum;
 using Sha.Framework.Jwt;
@@ -33,8 +34,11 @@ namespace Sha.UserService.Bll
         /// </summary>
         /// <param name="param">参数</param>
         /// <returns></returns>
-        public ResultModel<EmployeLoginModel> Login(EmployeLoginParam param)
+        public ResultModel<EmployeLoginModel> Login(EmployeeLogin param)
         {
+            EmployeeLoginValidator validator = new EmployeeLoginValidator();
+            ValidationResult validResult = validator.Validate(param);
+            if (!validResult.IsValid) { return new ResultModel<EmployeLoginModel>(false, FrameworkEnum.StatusCode.Fail); }
             t_Employee employee = dal.GetByNumber(param.Number);
             if (employee == null) { return new ResultModel<EmployeLoginModel>(false, FrameworkEnum.StatusCode.UserNotFount); }
             JwtUserModel user = new JwtUserModel() { Uid = employee.ID, Role = "Employee" };

@@ -37,10 +37,9 @@ namespace Sha.UserService.ApiBehand.Controllers.V1
         /// <returns></returns>
         [AllowAnonymous]
         [HttpPost]
-        public BaseResponseObject<EmployeLoginModel> Login([FromBody] EmployeLoginRequest request)
+        public BaseResponseObject<EmployeLoginModel> Login([FromBody] EmployeeLogin request)
         {
-            EmployeLoginParam param = new EmployeLoginParam(request.Number, request.Password);
-            ResultModel<EmployeLoginModel> result = bll.Login(param);
+            ResultModel<EmployeLoginModel> result = bll.Login(request);
             if (!result.IsSuccess) { return new BaseResponseObject<EmployeLoginModel>(false, result.Code, result.Message); }
             return new BaseResponseObject<EmployeLoginModel>(true, FrameworkEnum.StatusCode.Success, result.Data);
         }
