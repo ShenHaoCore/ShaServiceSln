@@ -34,16 +34,16 @@ namespace Sha.UserService.Bll
         /// </summary>
         /// <param name="param">参数</param>
         /// <returns></returns>
-        public ResultModel<EmployeLoginModel> Login(EmployeeLogin param)
+        public ResultModel<LoginModel> Login(EmployeeLogin param)
         {
             EmployeeLoginValidator validator = new EmployeeLoginValidator();
             ValidationResult validResult = validator.Validate(param);
-            if (!validResult.IsValid) { return new ResultModel<EmployeLoginModel>(false, FrameworkEnum.StatusCode.Fail); }
+            if (!validResult.IsValid) { return new ResultModel<LoginModel>(false, FrameworkEnum.StatusCode.Fail); }
             t_Employee employee = dal.GetByNumber(param.Number);
-            if (employee == null) { return new ResultModel<EmployeLoginModel>(false, FrameworkEnum.StatusCode.UserNotFount); }
+            if (employee == null) { return new ResultModel<LoginModel>(false, FrameworkEnum.StatusCode.UserNotFount); }
             JwtUserModel user = new JwtUserModel() { Uid = employee.ID, Role = "Employee" };
-            EmployeLoginModel login = new EmployeLoginModel(JwtHelper.Type, JwtHelper.IssueToken(user));
-            return new ResultModel<EmployeLoginModel>(true, FrameworkEnum.StatusCode.Success, login);
+            LoginModel login = new LoginModel(JwtHelper.Type, JwtHelper.IssueToken(user));
+            return new ResultModel<LoginModel>(true, FrameworkEnum.StatusCode.Success, login);
         }
     }
 }

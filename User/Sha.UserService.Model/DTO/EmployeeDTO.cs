@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using System.ComponentModel.DataAnnotations;
 
 namespace Sha.UserService.Model.DTO
 {
@@ -39,22 +40,22 @@ namespace Sha.UserService.Model.DTO
         /// </summary>
         public EmployeeLoginValidator()
         {
-            RuleFor(it => it.Number).NotEmpty();
-            RuleFor(it => it.Password).NotEmpty();
+            RuleFor(it => it.Number).NotEmpty().WithName("工号");
+            RuleFor(it => it.Password).NotEmpty().WithName("密码");
         }
     }
 
     /// <summary>
     /// 
     /// </summary>
-    public class EmployeLoginModel
+    public class LoginModel
     {
         /// <summary>
         /// 
         /// </summary>
         /// <param name="type"></param>
         /// <param name="token"></param>
-        public EmployeLoginModel(string type, string token)
+        public LoginModel(string type, string token)
         {
             this.Type = type;
             this.Token = token;

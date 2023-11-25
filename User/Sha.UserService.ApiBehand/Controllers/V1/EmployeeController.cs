@@ -37,11 +37,11 @@ namespace Sha.UserService.ApiBehand.Controllers.V1
         /// <returns></returns>
         [AllowAnonymous]
         [HttpPost]
-        public BaseResponseObject<EmployeLoginModel> Login([FromBody] EmployeeLogin request)
+        public BaseResponseObject<LoginModel> Login([FromBody] EmployeeLogin request)
         {
-            ResultModel<EmployeLoginModel> result = bll.Login(request);
-            if (!result.IsSuccess) { return new BaseResponseObject<EmployeLoginModel>(false, result.Code, result.Message); }
-            return new BaseResponseObject<EmployeLoginModel>(true, FrameworkEnum.StatusCode.Success, result.Data);
+            ResultModel<LoginModel> result = bll.Login(request);
+            if (!result.IsSuccess) { return new BaseResponseObject<LoginModel>(false, result.Code, result.Message); }
+            return new BaseResponseObject<LoginModel>(true, FrameworkEnum.StatusCode.Success, result.Data);
         }
 
         /// <summary>
