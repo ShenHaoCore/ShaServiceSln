@@ -35,11 +35,18 @@
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="type"></param>
         /// <param name="token"></param>
-        public EmployeLoginModel(string token)
+        public EmployeLoginModel(string type,string token)
         {
+            this.Type = type;
             this.Token = token;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string Type { get; set; }
 
         /// <summary>
         /// 

@@ -35,7 +35,7 @@ namespace Sha.Framework.Swagger
             {
                 options.SwaggerDoc(description.GroupName, new OpenApiInfo()
                 {
-                    Title = $"{serveiceConfig.PrefixName} API {description.ApiVersion}",
+                    Title = $"{serveiceConfig.PrefixName} API",
                     Version = description.ApiVersion.ToString(),
                     Description = $"{serveiceConfig.PrefixName} {description.ApiVersion} 版本"
                 });

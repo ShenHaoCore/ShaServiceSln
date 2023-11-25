@@ -14,17 +14,17 @@ namespace Sha.UserService.ApiBehand.Controllers.V1
     /// </summary>
     [Authorize]
     [ApiVersion(1.0)]
-    public class EmployeController : ShaBaseController
+    public class EmployeeController : ShaBaseController
     {
-        private readonly ILogger<EmployeController> logger;
-        private readonly EmployeBll bll;
+        private readonly ILogger<EmployeeController> logger;
+        private readonly EmployeeBll bll;
 
         /// <summary>
         /// 员工
         /// </summary>
         /// <param name="logger">日志</param>
         /// <param name="bll">业务逻辑层</param>
-        public EmployeController(ILogger<EmployeController> logger, EmployeBll bll)
+        public EmployeeController(ILogger<EmployeeController> logger, EmployeeBll bll)
         {
             this.logger = logger;
             this.bll = bll;

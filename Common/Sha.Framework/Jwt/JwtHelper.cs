@@ -11,6 +11,8 @@ namespace Sha.Framework.Jwt
     /// </summary>
     public class JwtHelper
     {
+        public readonly static string Type = "Bearer";
+
         /// <summary>
         /// 颁发
         /// </summary>

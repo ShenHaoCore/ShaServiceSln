@@ -7,7 +7,7 @@ namespace Sha.UserService.Dal
     /// <summary>
     /// 员工
     /// </summary>
-    public class EmployeDal : UserServiceDal
+    public class EmployeeDal : UserServiceDal
     {
         private readonly ISqlSugarClient db;
 
@@ -15,7 +15,7 @@ namespace Sha.UserService.Dal
         /// 员工
         /// </summary>
         /// <param name="db"></param>
-        public EmployeDal(ISqlSugarClient db)
+        public EmployeeDal(ISqlSugarClient db)
         {
             this.db = db;
         }
@@ -25,9 +25,9 @@ namespace Sha.UserService.Dal
         /// </summary>
         /// <param name="number">工号</param>
         /// <returns></returns>
-        public t_Employe GetByNumber(string number)
+        public t_Employee GetByNumber(string number)
         {
-            return db.Queryable<t_Employe>().First(P => P.Number == number);
+            return db.Queryable<t_Employee>().First(P => P.Number == number);
         }
     }
 }

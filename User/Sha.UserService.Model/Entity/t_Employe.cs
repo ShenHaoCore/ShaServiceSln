@@ -5,12 +5,12 @@ namespace Sha.UserService.Model.Entity
     /// <summary>
     /// 
     /// </summary>
-    public class t_Employe
+    public class t_Employee
     {
         /// <summary>
         /// 
         /// </summary>
-        public t_Employe()
+        public t_Employee()
         {
             this.Number = string.Empty;
             this.Password = string.Empty;
