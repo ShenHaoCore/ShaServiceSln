@@ -1,11 +1,11 @@
 ﻿using System.Reflection;
 
-namespace Sha.UserService.Model.Common
+namespace Sha.BaseService.Model.Common
 {
     /// <summary>
     /// 
     /// </summary>
-    public class AppHelper
+    public class ModelHelper
     {
         /// <summary>
         /// 
