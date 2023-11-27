@@ -14,7 +14,7 @@ namespace Sha.UserService.ApiBehand.Controllers.V1
     /// <summary>
     /// 身份证
     /// </summary>
-    [Authorize(Roles = "Employe")]
+    [Authorize(Roles = "Employee")]
     [ApiVersion(1.0)]
     public class IdentityCardController : ShaBaseController
     {

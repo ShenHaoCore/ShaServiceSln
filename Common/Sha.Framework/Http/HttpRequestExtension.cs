@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.IO;
+using System.Text;
 
 namespace Sha.Framework.Http
 {
@@ -29,9 +30,12 @@ namespace Sha.Framework.Http
         public static string GetRequestBody(this HttpRequest request)
         {
             string bodyString = string.Empty;
-            request.Body.Seek(0, SeekOrigin.Begin);  // 启用倒带功能，就可以让 Request.Body 可以再次读取
+            request.EnableBuffering();
+            request.Body.Position = 0;
+            request.Body.Seek(0, SeekOrigin.Begin); // 启用倒带功能，就可以让 Request.Body 可以再次读取
+            if (!request.Body.CanRead || !request.Body.CanSeek || request.Body.Length < 1) { return string.Empty; }
             using (StreamReader reader = new StreamReader(request.Body, Encoding.UTF8, true, 1024, true)) { bodyString = reader.ReadToEndAsync().GetAwaiter().GetResult(); }
-            request.Body.Seek(0, SeekOrigin.Begin);
+            request.Body.Seek(0, SeekOrigin.Begin); // 自己填坑
             request.Body.Position = 0;
             return bodyString;
         }
@@ -60,7 +64,10 @@ namespace Sha.Framework.Http
             if (context.Request.Headers.TryGetValue(headerName, out var values))
             {
                 string rawValues = values.ToString();
-                if (!string.IsNullOrWhiteSpace(rawValues)) { return (T)Convert.ChangeType(values.ToString(), typeof(T)); }
+                if (!string.IsNullOrWhiteSpace(rawValues))
+                {
+                    return (T)Convert.ChangeType(values.ToString(), typeof(T));
+                }
             }
             return default;
         }

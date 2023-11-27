@@ -51,6 +51,7 @@ namespace Sha.Framework.Serilog
             diagnosticContext.Set("Protocol", httpContext.Request.Protocol);
             diagnosticContext.Set("RequestIp", httpContext.GetRequestIp());
             diagnosticContext.Set("QueryString", httpContext.Request.QueryString.HasValue ? httpContext.Request.QueryString.Value : string.Empty);
+            diagnosticContext.Set("Body", httpContext.Request.ContentLength > 0 ? httpContext.Request.GetRequestBody() : string.Empty);
             diagnosticContext.Set("ContentType", httpContext.Response.ContentType);
             diagnosticContext.Set("EndpointName", endpoint != null ? endpoint.DisplayName : string.Empty);
         }
