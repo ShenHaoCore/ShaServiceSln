@@ -29,14 +29,14 @@ namespace Sha.Framework.Common
         }
 
         /// <summary>
-        /// RSA加密
+        /// 公钥加密
         /// </summary>
         /// <param name="text"></param>
         /// <returns></returns>
         public string RSAEncrypt(string text)
         {
             var size = publicRsa.KeySize / 8 - 11;
-            byte[] buffer = new byte[size];
+            byte[] buffer = new byte[size]; // 待加密块
             using (MemoryStream msInput = new MemoryStream(encoding.GetBytes(text)))
             {
                 using (MemoryStream msOutput = new MemoryStream())
@@ -44,7 +44,7 @@ namespace Sha.Framework.Common
                     int length; while ((length = msInput.Read(buffer, 0, size)) > 0)
                     {
                         byte[] dataToEnc = new byte[length];
-                        Array.Copy(buffer, 0, dataToEnc, 0, length); 
+                        Array.Copy(buffer, 0, dataToEnc, 0, length);
                         byte[] encData = publicRsa.Encrypt(dataToEnc, RSAEncryptionPadding.Pkcs1);
                         msOutput.Write(encData, 0, encData.Length);
                     }
@@ -55,13 +55,39 @@ namespace Sha.Framework.Common
         }
 
         /// <summary>
-        /// RSA解密
+        /// 私钥签名
+        /// </summary>
+        /// <param name="text">明文</param>
+        /// <returns></returns>
+        public string Sign(string text)
+        {
+            byte[] textBytes = encoding.GetBytes(text);
+            var signBytes = privateRsa.SignData(textBytes, hashname, RSASignaturePadding.Pkcs1);
+            return Convert.ToBase64String(signBytes);
+        }
+
+        /// <summary>
+        /// 公钥验签
+        /// </summary>
+        /// <param name="text">明文</param>
+        /// <param name="sign">签名</param>
+        /// <returns></returns>
+        public bool Verify(string text, string sign)
+        {
+            byte[] textBytes = encoding.GetBytes(text);
+            byte[] signBytes = Convert.FromBase64String(sign);
+            var verify = publicRsa.VerifyData(textBytes, signBytes, hashname, RSASignaturePadding.Pkcs1);
+            return verify;
+        }
+
+        /// <summary>
+        /// 私钥解密
         /// </summary>
         /// <returns></returns>
         public string RSADecrypt(string text)
         {
             var size = privateRsa.KeySize / 8;
-            byte[] buffer = new byte[size];//待解密块  
+            byte[] buffer = new byte[size]; // 待解密块
             using (MemoryStream msInput = new MemoryStream(Convert.FromBase64String(text)))
             {
                 using (MemoryStream msOutput = new MemoryStream())
