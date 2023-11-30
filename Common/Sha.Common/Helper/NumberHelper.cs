@@ -10,7 +10,7 @@ namespace Sha.Common.Helper
         /// <summary>
         /// 将正整数转换为26进制字符
         /// </summary>
-        /// <param name="number">自然数</param>
+        /// <param name="number">正整数</param>
         /// <returns></returns>
         public static string ToChar(int number)
         {

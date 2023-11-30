@@ -61,7 +61,7 @@ namespace Sha.UserService.Api.Controllers.V2
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public IdcardCreateParam ConvertTo(IdcardCreateRequest request)
+        private IdcardCreateParam ConvertTo(IdcardCreateRequest request)
         {
             IdcardCreateParam param = new IdcardCreateParam()
             {

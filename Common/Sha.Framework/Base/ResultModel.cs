@@ -35,6 +35,19 @@ namespace Sha.Framework.Base
         }
 
         /// <summary>
+        /// 结果
+        /// </summary>
+        /// <param name="isSuccess"></param>
+        /// <param name="code"></param>
+        /// <param name="message"></param>
+        public ResultModel(bool isSuccess, string code, string message)
+        {
+            this.IsSuccess = isSuccess;
+            this.Code = code;
+            this.Message = message;
+        }
+
+        /// <summary>
         /// 处理成功失败标志
         /// </summary>
         public bool IsSuccess { get; set; }

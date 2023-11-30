@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AlipaySDKNet.Standard" Version="4.8.76" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Sha.Framework\Sha.Framework.csproj" />
   </ItemGroup>
 

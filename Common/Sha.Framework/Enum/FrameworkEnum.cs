@@ -31,46 +31,10 @@ namespace Sha.Framework.Enum
         public enum StatusCode
         {
             /// <summary>
-            /// 服务器已成功处理了请求
-            /// </summary>
-            [Description("成功")]
-            Success = 200,
-
-            /// <summary>
-            /// 失败
-            /// </summary>
-            [Description("失败")]
-            Fail = 201,
-
-            /// <summary>
-            /// 服务器接收到的请求为空
-            /// </summary>
-            [Description("请求为空")]
-            RequestNull = 202,
-
-            /// <summary>
-            /// 没有服务器的访问权限
-            /// </summary>
-            [Description("拒绝访问")]
-            AccessDenied = 204,
-
-            /// <summary>
-            /// 未开通此服务
-            /// </summary>
-            [Description("无服务")]
-            NoService = 205,
-
-            /// <summary>
             /// 这里应该有数据，但是现在是空的
             /// </summary>
             [Description("无数据")]
             NoData = 206,
-
-            /// <summary>
-            /// 操作数据库失败
-            /// </summary>
-            [Description("保存失败")]
-            SaveFailed = 207,
 
             /// <summary>
             /// 未授权
@@ -88,19 +52,73 @@ namespace Sha.Framework.Enum
             /// 服务器遇到错误无法完成请求
             /// </summary>
             [Description("服务器内部错误")]
-            SystemError = 500,
+            ServerError = 500,
+
+            /// <summary>
+            /// 服务器已成功处理了请求
+            /// </summary>
+            [Description("成功")]
+            Success = 10000,
+
+            /// <summary>
+            /// 失败
+            /// </summary>
+            [Description("失败")]
+            Fail = 10001,
+
+            /// <summary>
+            /// 服务器接收到的请求参数为空
+            /// </summary>
+            [Description("请求为空")]
+            RequestNull = 10002,
+
+            /// <summary>
+            /// 没有读取到配置
+            /// </summary>
+            [Description("配置为空")]
+            NullConfig = 10003,
+
+            /// <summary>
+            /// 没有服务器的访问权限
+            /// </summary>
+            [Description("拒绝访问")]
+            AccessDenied = 10004,
+
+            /// <summary>
+            /// 响应为空
+            /// </summary>
+            [Description("无响应")]
+            ResponseNull = 10005,
+
+            /// <summary>
+            /// 未开通此服务
+            /// </summary>
+            [Description("无服务")]
+            NoService = 10006,
+
+            /// <summary>
+            /// 数据保存数据库失败
+            /// </summary>
+            [Description("保存失败")]
+            SaveFailed = 10007,
+
+            /// <summary>
+            /// 请求错误
+            /// </summary>
+            [Description("请求错误")]
+            RequestError = 10008,
 
             /// <summary>
             /// 用户不存在
             /// </summary>
             [Description("用户不存在")]
-            UserNotFount = 1000,
+            UserNotFount = 20000,
 
             /// <summary>
             /// 用户已存在
             /// </summary>
             [Description("用户已存在")]
-            UserExists = 1001,
+            UserExists = 20001,
         }
     }
 }
