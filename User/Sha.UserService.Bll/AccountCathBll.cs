@@ -38,7 +38,7 @@ namespace Sha.UserService.Bll
             if (!Enum.IsDefined(typeof(BusinessEnum.Payment), paramObj.Payment)) { return new ResultModel<RechargeTradeModel>(false, FrameworkEnum.StatusCode.Fail); }
             IPayment iPay = context.ResolveKeyed<IPayment>((BusinessEnum.Payment)paramObj.Payment);
             string tradeNo = DateTime.Now.ToString("yyyyMMddHHmmssfff");
-            PaymentTradeParam trade = new PaymentTradeParam("支付充值", string.Format("账户充值{0}元", paramObj.Amount.ToString("f2")), paramObj.Amount, tradeNo, paramObj.Method);
+            PaymentTradeParam trade = new PaymentTradeParam("支付充值", $"账户充值{paramObj.Amount.ToString("f2")}元", paramObj.Amount, tradeNo, paramObj.Method);
             ResultModel<PaymentTradeModel> payResult = iPay.TradeApp(trade);
             if (!payResult.IsSuccess) { return new ResultModel<RechargeTradeModel>(false, payResult.Code, payResult.Message); }
             if (payResult.Data == null) { return new ResultModel<RechargeTradeModel>(false, FrameworkEnum.StatusCode.NoData); }
@@ -55,7 +55,7 @@ namespace Sha.UserService.Bll
             if (!Enum.IsDefined(typeof(BusinessEnum.Payment), paramObj.Payment)) { return new ResultModel<RechargeTradeModel>(false, FrameworkEnum.StatusCode.Fail); }
             IPayment iPay = context.ResolveKeyed<IPayment>((BusinessEnum.Payment)paramObj.Payment);
             string tradeNo = DateTime.Now.ToString("yyyyMMddHHmmssfff");
-            PaymentTradeParam trade = new PaymentTradeParam("支付充值", string.Format("账户充值{0}元", paramObj.Amount.ToString("f2")), paramObj.Amount, tradeNo, paramObj.Method);
+            PaymentTradeParam trade = new PaymentTradeParam("支付充值", $"账户充值{paramObj.Amount.ToString("f2")}元", paramObj.Amount, tradeNo, paramObj.Method);
             ResultModel<PaymentTradeModel> payResult = iPay.TradePage(trade);
             if (!payResult.IsSuccess) { return new ResultModel<RechargeTradeModel>(false, payResult.Code, payResult.Message); }
             if (payResult.Data == null) { return new ResultModel<RechargeTradeModel>(false, FrameworkEnum.StatusCode.NoData); }
