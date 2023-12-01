@@ -73,18 +73,6 @@ namespace Sha.Framework.Enum
             RequestNull = 10002,
 
             /// <summary>
-            /// 没有读取到配置
-            /// </summary>
-            [Description("配置为空")]
-            NullConfig = 10003,
-
-            /// <summary>
-            /// 没有服务器的访问权限
-            /// </summary>
-            [Description("拒绝访问")]
-            AccessDenied = 10004,
-
-            /// <summary>
             /// 响应为空
             /// </summary>
             [Description("无响应")]
@@ -97,28 +85,10 @@ namespace Sha.Framework.Enum
             NoService = 10006,
 
             /// <summary>
-            /// 数据保存数据库失败
-            /// </summary>
-            [Description("保存失败")]
-            SaveFailed = 10007,
-
-            /// <summary>
-            /// 请求错误
-            /// </summary>
-            [Description("请求错误")]
-            RequestError = 10008,
-
-            /// <summary>
             /// 用户不存在
             /// </summary>
             [Description("用户不存在")]
             UserNotFount = 20000,
-
-            /// <summary>
-            /// 用户已存在
-            /// </summary>
-            [Description("用户已存在")]
-            UserExists = 20001,
         }
     }
 }
