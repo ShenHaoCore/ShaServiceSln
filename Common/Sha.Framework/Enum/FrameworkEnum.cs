@@ -73,10 +73,10 @@ namespace Sha.Framework.Enum
             RequestNull = 10002,
 
             /// <summary>
-            /// 响应为空
+            /// 错误的响应
             /// </summary>
-            [Description("无响应")]
-            ResponseNull = 10005,
+            [Description("错误响应")]
+            ResponseError = 10005,
 
             /// <summary>
             /// 未开通此服务

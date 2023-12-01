@@ -39,7 +39,7 @@ namespace Sha.UserService.Bll
             IPayment iPay = context.ResolveKeyed<IPayment>((BusinessEnum.PayPlatform)paramObj.PayPlatform);
             t_Cus_RechargeTrade recharge = new t_Cus_RechargeTrade() { TradeNo = DateTime.Now.ToString("yyyyMMddHHmmssfff") };
             AppPaymentTradeParam trade = new AppPaymentTradeParam("支付充值", $"账户充值{recharge.Amount.ToString("f2")}元", recharge.Amount, recharge.TradeNo);
-            ResultModel<AppPaymentTradeModel> payResult = iPay.AppTrade(trade);
+            ResultModel<AppPaymentTradeOrder> payResult = iPay.AppTrade(trade);
             if (!payResult.IsSuccess) { return new ResultModel<AppRechargeTradeModel>(false, payResult.Code, payResult.Message); }
             if (payResult.Data == null) { return new ResultModel<AppRechargeTradeModel>(false, FrameworkEnum.StatusCode.NoData); }
             return new ResultModel<AppRechargeTradeModel>(true, FrameworkEnum.StatusCode.Success, new AppRechargeTradeModel(payResult.Data.Body));
@@ -56,7 +56,7 @@ namespace Sha.UserService.Bll
             IPayment iPay = context.ResolveKeyed<IPayment>((BusinessEnum.PayPlatform)paramObj.PayPlatform);
             string tradeNo = DateTime.Now.ToString("yyyyMMddHHmmssfff");
             PagePaymentTradeParam trade = new PagePaymentTradeParam("支付充值", $"账户充值{paramObj.Amount.ToString("f2")}元", paramObj.Amount, tradeNo, paramObj.Method);
-            ResultModel<PagePaymentTradeModel> payResult = iPay.PageTrade(trade);
+            ResultModel<PagePaymentTradeOrder> payResult = iPay.PageTrade(trade);
             if (!payResult.IsSuccess) { return new ResultModel<PageRechargeTradeModel>(false, payResult.Code, payResult.Message); }
             if (payResult.Data == null) { return new ResultModel<PageRechargeTradeModel>(false, FrameworkEnum.StatusCode.NoData); }
             return new ResultModel<PageRechargeTradeModel>(true, FrameworkEnum.StatusCode.Success, new PageRechargeTradeModel(payResult.Data.Body));

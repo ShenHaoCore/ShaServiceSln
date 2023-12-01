@@ -13,9 +13,9 @@ namespace Sha.Business.Payment
         /// </summary>
         /// <param name="paramObj"></param>
         /// <returns></returns>
-        public ResultModel<AppPaymentTradeModel> AppTrade(AppPaymentTradeParam paramObj)
+        public ResultModel<AppPaymentTradeOrder> AppTrade(AppPaymentTradeParam paramObj)
         {
-            return new ResultModel<AppPaymentTradeModel>(false, FrameworkEnum.StatusCode.NoService);
+            return new ResultModel<AppPaymentTradeOrder>(false, FrameworkEnum.StatusCode.NoService);
         }
 
         /// <summary>
@@ -23,9 +23,9 @@ namespace Sha.Business.Payment
         /// </summary>
         /// <param name="paramObj"></param>
         /// <returns></returns>
-        public ResultModel<PagePaymentTradeModel> PageTrade(PagePaymentTradeParam paramObj)
+        public ResultModel<PagePaymentTradeOrder> PageTrade(PagePaymentTradeParam paramObj)
         {
-            return new ResultModel<PagePaymentTradeModel>(false, FrameworkEnum.StatusCode.NoService);
+            return new ResultModel<PagePaymentTradeOrder>(false, FrameworkEnum.StatusCode.NoService);
         }
     }
 }

@@ -12,13 +12,13 @@ namespace Sha.Business.Payment
         /// </summary>
         /// <param name="paramObj"></param>
         /// <returns></returns>
-        ResultModel<AppPaymentTradeModel> AppTrade(AppPaymentTradeParam paramObj);
+        ResultModel<AppPaymentTradeOrder> AppTrade(AppPaymentTradeParam paramObj);
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="paramObj"></param>
         /// <returns></returns>
-        ResultModel<PagePaymentTradeModel> PageTrade(PagePaymentTradeParam paramObj);
+        ResultModel<PagePaymentTradeOrder> PageTrade(PagePaymentTradeParam paramObj);
     }
 }

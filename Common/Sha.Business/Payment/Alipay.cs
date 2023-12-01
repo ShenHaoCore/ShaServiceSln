@@ -38,14 +38,14 @@ namespace Sha.Business.Payment
         /// </summary>
         /// <param name="paramObj"></param>
         /// <returns></returns>
-        public ResultModel<AppPaymentTradeModel> AppTrade(AppPaymentTradeParam paramObj)
+        public ResultModel<AppPaymentTradeOrder> AppTrade(AppPaymentTradeParam paramObj)
         {
             AlipayTradeAppPayModel trade = new AlipayTradeAppPayModel() { Body = paramObj.Body, Subject = paramObj.Subject, TotalAmount = paramObj.Amount.ToString(), OutTradeNo = paramObj.TradeNo };
             trade.ProductCode = ProductCode;
             trade.TimeoutExpress = TimeoutExpress;
             AlipayTradeAppPayResponse? response = client.TradeAppPay(trade);
-            if (response == null || response.IsError) { return new ResultModel<AppPaymentTradeModel>(false, FrameworkEnum.StatusCode.Fail); }
-            return new ResultModel<AppPaymentTradeModel>(true, FrameworkEnum.StatusCode.Success, new AppPaymentTradeModel(response.Body));
+            if (response == null || response.IsError) { return new ResultModel<AppPaymentTradeOrder>(false, FrameworkEnum.StatusCode.ResponseError); }
+            return new ResultModel<AppPaymentTradeOrder>(true, FrameworkEnum.StatusCode.Success, new AppPaymentTradeOrder(response.Body));
         }
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace Sha.Business.Payment
         /// </summary>
         /// <param name="paramObj"></param>
         /// <returns></returns>
-        public ResultModel<PagePaymentTradeModel> PageTrade(PagePaymentTradeParam paramObj)
+        public ResultModel<PagePaymentTradeOrder> PageTrade(PagePaymentTradeParam paramObj)
         {
             AlipayTradePagePayModel trade = new AlipayTradePagePayModel() { Body = paramObj.Body, Subject = paramObj.Subject, TotalAmount = paramObj.Amount.ToString(), OutTradeNo = paramObj.TradeNo };
             trade.ProductCode = ProductCode;
@@ -61,8 +61,8 @@ namespace Sha.Business.Payment
             BusinessEnum.RequestMethod method = BusinessEnum.RequestMethod.POST; // POST方式请求，生成FORM表单
             if (paramObj.Method.Equals(BusinessEnum.RequestMethod.GET.ToString(), StringComparison.OrdinalIgnoreCase)) { method = BusinessEnum.RequestMethod.GET; } // GET方式请求，即生成URL链接;
             AlipayTradePagePayResponse? response = client.TradePagePay(trade, method);
-            if (response == null || response.IsError) { return new ResultModel<PagePaymentTradeModel>(false, FrameworkEnum.StatusCode.Fail); }
-            return new ResultModel<PagePaymentTradeModel>(true, FrameworkEnum.StatusCode.Success, new PagePaymentTradeModel(response.Body));
+            if (response == null || response.IsError) { return new ResultModel<PagePaymentTradeOrder>(false, FrameworkEnum.StatusCode.ResponseError); }
+            return new ResultModel<PagePaymentTradeOrder>(true, FrameworkEnum.StatusCode.Success, new PagePaymentTradeOrder(response.Body));
         }
     }
 }
