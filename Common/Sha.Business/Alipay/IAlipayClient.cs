@@ -1,5 +1,6 @@
 ﻿using Aop.Api.Domain;
 using Aop.Api.Response;
+using Sha.Business.Enum;
 using Sha.Framework.Base;
 
 namespace Sha.Business.Alipay
@@ -20,17 +21,17 @@ namespace Sha.Business.Alipay
         /// 电脑网站支付
         /// </summary>
         /// <param name="bizModel"></param>
-        /// <param name="requestMethod"></param>
+        /// <param name="method"></param>
         /// <returns></returns>
-        AlipayTradePagePayResponse? TradePagePay(AlipayTradePagePayModel bizModel, string requestMethod);
+        AlipayTradePagePayResponse? TradePagePay(AlipayTradePagePayModel bizModel, BusinessEnum.RequestMethod method);
 
         /// <summary>
         /// 手机网站支付
         /// </summary>
         /// <param name="bizModel"></param>
-        /// <param name="requestMethod"></param>
+        /// <param name="method"></param>
         /// <returns></returns>
-        AlipayTradeWapPayResponse? TradeWapPay(AlipayTradeWapPayModel bizModel, string requestMethod);
+        AlipayTradeWapPayResponse? TradeWapPay(AlipayTradeWapPayModel bizModel, BusinessEnum.RequestMethod method);
 
         /// <summary>
         /// 付款码支付
