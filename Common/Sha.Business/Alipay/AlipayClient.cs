@@ -17,6 +17,7 @@ namespace Sha.Business.Alipay
     public class AlipayClient : IAlipayClient
     {
         private readonly ILogger<AlipayClient> logger;
+        private readonly AlipayConfig config;
 
         /// <summary>
         /// 支付宝客户端
@@ -25,6 +26,9 @@ namespace Sha.Business.Alipay
         public AlipayClient(ILogger<AlipayClient> logger)
         {
             this.logger = logger;
+            var alipayconfig = AppSettings.GetObject<AlipayConfig>(AlipayConfig.KEY);
+            if (alipayconfig == null) { throw new ArgumentNullException(nameof(alipayconfig)); }
+            this.config = alipayconfig;
         }
 
         /// <summary>
@@ -37,8 +41,6 @@ namespace Sha.Business.Alipay
             try
             {
                 logger.LogDebug($"支付宝创建APP订单，参数【{JsonConvert.SerializeObject(paramObj)}】");
-                var config = AppSettings.GetObject<AlipayConfig>(AlipayConfig.KEY);
-                if (config == null) { return new ResultModel<TradeAppOrder>(false, FrameworkEnum.StatusCode.NullConfig); }
                 IAopClient client = new DefaultAopClient(config.ServerUrl, config.AppID, config.MerchantPrivateKey, "json", "1.0", "RSA2", config.AlipayPublicKey, "UTF-8", false);
                 AlipayTradeAppPayRequest request = new AlipayTradeAppPayRequest();
                 AlipayTradeAppPayModel bizmodel = new AlipayTradeAppPayModel()
@@ -74,8 +76,6 @@ namespace Sha.Business.Alipay
             try
             {
                 logger.LogDebug($"支付宝创建PAGE订单，参数【{JsonConvert.SerializeObject(paramObj)}】");
-                var config = AppSettings.GetObject<AlipayConfig>(AlipayConfig.KEY);
-                if (config == null) { return new ResultModel<TradePageOrder>(false, FrameworkEnum.StatusCode.NullConfig); }
                 IAopClient client = new DefaultAopClient(config.ServerUrl, config.AppID, config.MerchantPrivateKey, "json", "1.0", "RSA2", config.AlipayPublicKey, "UTF-8", false);
                 AlipayTradePagePayRequest request = new AlipayTradePagePayRequest();
                 AlipayTradePagePayModel bizModel = new AlipayTradePagePayModel()

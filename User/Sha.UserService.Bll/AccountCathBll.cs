@@ -33,16 +33,16 @@ namespace Sha.UserService.Bll
         /// </summary>
         /// <param name="paramObj">参数</param>
         /// <returns></returns>
-        public ResultModel<RechargeTradeModel> AppRecharge(RechargeTradeParam paramObj)
+        public ResultModel<AppRechargeTradeModel> AppRecharge(AppRechargeTradeParam paramObj)
         {
-            if (!Enum.IsDefined(typeof(BusinessEnum.PayPlatform), paramObj.PayPlatform)) { return new ResultModel<RechargeTradeModel>(false, FrameworkEnum.StatusCode.Fail); }
+            if (!Enum.IsDefined(typeof(BusinessEnum.PayPlatform), paramObj.PayPlatform)) { return new ResultModel<AppRechargeTradeModel>(false, FrameworkEnum.StatusCode.Fail); }
             IPayment iPay = context.ResolveKeyed<IPayment>((BusinessEnum.PayPlatform)paramObj.PayPlatform);
             t_Cus_RechargeTrade recharge = new t_Cus_RechargeTrade() { TradeNo = DateTime.Now.ToString("yyyyMMddHHmmssfff") };
-            PaymentTradeParam trade = new PaymentTradeParam("支付充值", $"账户充值{recharge.Amount.ToString("f2")}元", recharge.Amount, recharge.TradeNo, paramObj.Method);
-            ResultModel<PaymentTradeModel> payResult = iPay.TradeApp(trade);
-            if (!payResult.IsSuccess) { return new ResultModel<RechargeTradeModel>(false, payResult.Code, payResult.Message); }
-            if (payResult.Data == null) { return new ResultModel<RechargeTradeModel>(false, FrameworkEnum.StatusCode.NoData); }
-            return new ResultModel<RechargeTradeModel>(true, FrameworkEnum.StatusCode.Success, new RechargeTradeModel(payResult.Data.Body));
+            AppPaymentTradeParam trade = new AppPaymentTradeParam("支付充值", $"账户充值{recharge.Amount.ToString("f2")}元", recharge.Amount, recharge.TradeNo);
+            ResultModel<AppPaymentTradeModel> payResult = iPay.AppTrade(trade);
+            if (!payResult.IsSuccess) { return new ResultModel<AppRechargeTradeModel>(false, payResult.Code, payResult.Message); }
+            if (payResult.Data == null) { return new ResultModel<AppRechargeTradeModel>(false, FrameworkEnum.StatusCode.NoData); }
+            return new ResultModel<AppRechargeTradeModel>(true, FrameworkEnum.StatusCode.Success, new AppRechargeTradeModel(payResult.Data.Body));
         }
 
         /// <summary>
@@ -50,16 +50,16 @@ namespace Sha.UserService.Bll
         /// </summary>
         /// <param name="paramObj">参数</param>
         /// <returns></returns>
-        public ResultModel<RechargeTradeModel> PageRecharge(RechargeTradeParam paramObj)
+        public ResultModel<PageRechargeTradeModel> PageRecharge(PageRechargeTradeParam paramObj)
         {
-            if (!Enum.IsDefined(typeof(BusinessEnum.PayPlatform), paramObj.PayPlatform)) { return new ResultModel<RechargeTradeModel>(false, FrameworkEnum.StatusCode.Fail); }
+            if (!Enum.IsDefined(typeof(BusinessEnum.PayPlatform), paramObj.PayPlatform)) { return new ResultModel<PageRechargeTradeModel>(false, FrameworkEnum.StatusCode.Fail); }
             IPayment iPay = context.ResolveKeyed<IPayment>((BusinessEnum.PayPlatform)paramObj.PayPlatform);
             string tradeNo = DateTime.Now.ToString("yyyyMMddHHmmssfff");
-            PaymentTradeParam trade = new PaymentTradeParam("支付充值", $"账户充值{paramObj.Amount.ToString("f2")}元", paramObj.Amount, tradeNo, paramObj.Method);
-            ResultModel<PaymentTradeModel> payResult = iPay.TradePage(trade);
-            if (!payResult.IsSuccess) { return new ResultModel<RechargeTradeModel>(false, payResult.Code, payResult.Message); }
-            if (payResult.Data == null) { return new ResultModel<RechargeTradeModel>(false, FrameworkEnum.StatusCode.NoData); }
-            return new ResultModel<RechargeTradeModel>(true, FrameworkEnum.StatusCode.Success, new RechargeTradeModel(payResult.Data.Body));
+            PagePaymentTradeParam trade = new PagePaymentTradeParam("支付充值", $"账户充值{paramObj.Amount.ToString("f2")}元", paramObj.Amount, tradeNo, paramObj.Method);
+            ResultModel<PagePaymentTradeModel> payResult = iPay.PageTrade(trade);
+            if (!payResult.IsSuccess) { return new ResultModel<PageRechargeTradeModel>(false, payResult.Code, payResult.Message); }
+            if (payResult.Data == null) { return new ResultModel<PageRechargeTradeModel>(false, FrameworkEnum.StatusCode.NoData); }
+            return new ResultModel<PageRechargeTradeModel>(true, FrameworkEnum.StatusCode.Success, new PageRechargeTradeModel(payResult.Data.Body));
         }
         #endregion
     }

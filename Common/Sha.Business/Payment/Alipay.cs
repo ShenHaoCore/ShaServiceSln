@@ -25,12 +25,12 @@ namespace Sha.Business.Payment
         /// </summary>
         /// <param name="paramObj"></param>
         /// <returns></returns>
-        public ResultModel<PaymentTradeModel> TradeApp(PaymentTradeParam paramObj)
+        public ResultModel<AppPaymentTradeModel> AppTrade(AppPaymentTradeParam paramObj)
         {
             TradeAppParam trade = new TradeAppParam(paramObj.Amount.ToString(), paramObj.Body, paramObj.Subject, paramObj.TradeNo);
             ResultModel<TradeAppOrder> result = client.TradeAppPay(trade);
-            if (!result.IsSuccess || result.Data == null) { return new ResultModel<PaymentTradeModel>(false, result.Code, result.Message); }
-            return new ResultModel<PaymentTradeModel>(true, FrameworkEnum.StatusCode.Success, new PaymentTradeModel(result.Data.Body));
+            if (!result.IsSuccess || result.Data == null) { return new ResultModel<AppPaymentTradeModel>(false, result.Code, result.Message); }
+            return new ResultModel<AppPaymentTradeModel>(true, FrameworkEnum.StatusCode.Success, new AppPaymentTradeModel(result.Data.Body));
         }
 
         /// <summary>
@@ -38,12 +38,12 @@ namespace Sha.Business.Payment
         /// </summary>
         /// <param name="paramObj"></param>
         /// <returns></returns>
-        public ResultModel<PaymentTradeModel> TradePage(PaymentTradeParam paramObj)
+        public ResultModel<PagePaymentTradeModel> PageTrade(PagePaymentTradeParam paramObj)
         {
             TradePageParam trade = new TradePageParam(paramObj.Amount.ToString(), paramObj.Body, paramObj.Subject, paramObj.TradeNo, paramObj.Method);
             ResultModel<TradePageOrder> result = client.TradePagePay(trade);
-            if (!result.IsSuccess || result.Data == null) { return new ResultModel<PaymentTradeModel>(false, result.Code, result.Message); }
-            return new ResultModel<PaymentTradeModel>(true, FrameworkEnum.StatusCode.Success, new PaymentTradeModel(result.Data.Body));
+            if (!result.IsSuccess || result.Data == null) { return new ResultModel<PagePaymentTradeModel>(false, result.Code, result.Message); }
+            return new ResultModel<PagePaymentTradeModel>(true, FrameworkEnum.StatusCode.Success, new PagePaymentTradeModel(result.Data.Body));
         }
     }
 }
