@@ -1,5 +1,6 @@
 ﻿using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Sha.Framework.Base;
 using Sha.Framework.Enum;
 using Sha.UserService.Bll;
@@ -37,6 +38,7 @@ namespace Sha.UserService.Api.Controllers.V1
         public BaseResponseObject<AppRechargeTradeModel> AppRecharge([FromBody] AppRechargeRequest request)
         {
             if (request == null) { return new BaseResponseObject<AppRechargeTradeModel>(false, FrameworkEnum.StatusCode.RequestNull); }
+            logger.LogDebug($"APP充值请求【{JsonConvert.SerializeObject(request)}】");
             AppRechargeTradeParam paramObj = new AppRechargeTradeParam(request.Amount, request.PayPlatform);
             ResultModel<AppRechargeTradeModel> result = bll.AppRecharge(paramObj);
             if (!result.IsSuccess) { return new BaseResponseObject<AppRechargeTradeModel>(false, result.Code, result.Message); }
@@ -53,6 +55,7 @@ namespace Sha.UserService.Api.Controllers.V1
         public BaseResponseObject<PageRechargeTradeModel> PageRecharge([FromBody] PageRechargeRequest request)
         {
             if (request == null) { return new BaseResponseObject<PageRechargeTradeModel>(false, FrameworkEnum.StatusCode.RequestNull); }
+            logger.LogDebug($"网页充值请求【{JsonConvert.SerializeObject(request)}】");
             PageRechargeTradeParam paramObj = new PageRechargeTradeParam(request.Amount, request.PayPlatform, request.Method);
             ResultModel<PageRechargeTradeModel> result = bll.PageRecharge(paramObj);
             if (!result.IsSuccess) { return new BaseResponseObject<PageRechargeTradeModel>(false, result.Code, result.Message); }
