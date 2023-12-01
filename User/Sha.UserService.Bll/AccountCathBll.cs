@@ -1,11 +1,11 @@
-﻿using Aop.Api.Domain;
-using Autofac;
+﻿using Autofac;
 using Sha.Business.Enum;
 using Sha.Business.Payment;
 using Sha.Framework.Base;
 using Sha.Framework.Enum;
 using Sha.UserService.Bll.Common;
 using Sha.UserService.Model.DTO;
+using Sha.UserService.Model.Entity;
 
 namespace Sha.UserService.Bll
 {
@@ -35,10 +35,10 @@ namespace Sha.UserService.Bll
         /// <returns></returns>
         public ResultModel<RechargeTradeModel> AppRecharge(RechargeTradeParam paramObj)
         {
-            if (!Enum.IsDefined(typeof(BusinessEnum.Payment), paramObj.Payment)) { return new ResultModel<RechargeTradeModel>(false, FrameworkEnum.StatusCode.Fail); }
-            IPayment iPay = context.ResolveKeyed<IPayment>((BusinessEnum.Payment)paramObj.Payment);
-            string tradeNo = DateTime.Now.ToString("yyyyMMddHHmmssfff");
-            PaymentTradeParam trade = new PaymentTradeParam("支付充值", $"账户充值{paramObj.Amount.ToString("f2")}元", paramObj.Amount, tradeNo, paramObj.Method);
+            if (!Enum.IsDefined(typeof(BusinessEnum.PayPlatform), paramObj.PayPlatform)) { return new ResultModel<RechargeTradeModel>(false, FrameworkEnum.StatusCode.Fail); }
+            IPayment iPay = context.ResolveKeyed<IPayment>((BusinessEnum.PayPlatform)paramObj.PayPlatform);
+            t_Cus_RechargeTrade recharge = new t_Cus_RechargeTrade() { TradeNo = DateTime.Now.ToString("yyyyMMddHHmmssfff") };
+            PaymentTradeParam trade = new PaymentTradeParam("支付充值", $"账户充值{recharge.Amount.ToString("f2")}元", recharge.Amount, recharge.TradeNo, paramObj.Method);
             ResultModel<PaymentTradeModel> payResult = iPay.TradeApp(trade);
             if (!payResult.IsSuccess) { return new ResultModel<RechargeTradeModel>(false, payResult.Code, payResult.Message); }
             if (payResult.Data == null) { return new ResultModel<RechargeTradeModel>(false, FrameworkEnum.StatusCode.NoData); }
@@ -52,8 +52,8 @@ namespace Sha.UserService.Bll
         /// <returns></returns>
         public ResultModel<RechargeTradeModel> PageRecharge(RechargeTradeParam paramObj)
         {
-            if (!Enum.IsDefined(typeof(BusinessEnum.Payment), paramObj.Payment)) { return new ResultModel<RechargeTradeModel>(false, FrameworkEnum.StatusCode.Fail); }
-            IPayment iPay = context.ResolveKeyed<IPayment>((BusinessEnum.Payment)paramObj.Payment);
+            if (!Enum.IsDefined(typeof(BusinessEnum.PayPlatform), paramObj.PayPlatform)) { return new ResultModel<RechargeTradeModel>(false, FrameworkEnum.StatusCode.Fail); }
+            IPayment iPay = context.ResolveKeyed<IPayment>((BusinessEnum.PayPlatform)paramObj.PayPlatform);
             string tradeNo = DateTime.Now.ToString("yyyyMMddHHmmssfff");
             PaymentTradeParam trade = new PaymentTradeParam("支付充值", $"账户充值{paramObj.Amount.ToString("f2")}元", paramObj.Amount, tradeNo, paramObj.Method);
             ResultModel<PaymentTradeModel> payResult = iPay.TradePage(trade);

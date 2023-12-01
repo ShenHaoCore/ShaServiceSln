@@ -8,9 +8,9 @@ namespace Sha.Business.Enum
     public class BusinessEnum
     {
         /// <summary>
-        /// 支付
+        /// 支付平台
         /// </summary>
-        public enum Payment
+        public enum PayPlatform
         {
             /// <summary>
             /// 支付宝

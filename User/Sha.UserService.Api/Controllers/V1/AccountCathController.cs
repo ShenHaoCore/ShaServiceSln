@@ -37,7 +37,7 @@ namespace Sha.UserService.Api.Controllers.V1
         public BaseResponseObject<RechargeTradeModel> AppRecharge([FromBody] RechargeRequest request)
         {
             if (request == null) { return new BaseResponseObject<RechargeTradeModel>(false, FrameworkEnum.StatusCode.RequestNull); }
-            RechargeTradeParam paramObj = new RechargeTradeParam(request.Amount, request.Payment, request.Method);
+            RechargeTradeParam paramObj = new RechargeTradeParam(request.Amount, request.PayPlatform, request.Method);
             ResultModel<RechargeTradeModel> result = bll.AppRecharge(paramObj);
             if (!result.IsSuccess) { return new BaseResponseObject<RechargeTradeModel>(false, result.Code, result.Message); }
             if (result.Data == null) { return new BaseResponseObject<RechargeTradeModel>(false, FrameworkEnum.StatusCode.NoData); }
@@ -53,7 +53,7 @@ namespace Sha.UserService.Api.Controllers.V1
         public BaseResponseObject<RechargeTradeModel> PageRecharge([FromBody] RechargeRequest request)
         {
             if (request == null) { return new BaseResponseObject<RechargeTradeModel>(false, FrameworkEnum.StatusCode.RequestNull); }
-            RechargeTradeParam paramObj = new RechargeTradeParam(request.Amount, request.Payment, request.Method);
+            RechargeTradeParam paramObj = new RechargeTradeParam(request.Amount, request.PayPlatform, request.Method);
             ResultModel<RechargeTradeModel> result = bll.PageRecharge(paramObj);
             if (!result.IsSuccess) { return new BaseResponseObject<RechargeTradeModel>(false, result.Code, result.Message); }
             if (result.Data == null) { return new BaseResponseObject<RechargeTradeModel>(false, FrameworkEnum.StatusCode.NoData); }

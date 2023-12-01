@@ -9,22 +9,22 @@
         /// 构造函数
         /// </summary>
         /// <param name="amount">金额</param>
-        /// <param name="payment">支付方式<sample>1：支付宝[Alipay]</sample><sample>2：微信[WeChat]</sample><sample>3：银联支付[UnionPay]</sample></param>
+        /// <param name="payplatform">支付平台<sample>1：支付宝[Alipay]</sample><sample>2：微信[WeChat]</sample><sample>3：银联支付[UnionPay]</sample></param>
         /// <param name="method">(可选)请求方式，仅支持支付宝<sample>GET：生成URL链接</sample><sample>POST：生成URL链接</sample></param>
-        public RechargeTradeParam(decimal amount, int payment, string method)
+        public RechargeTradeParam(decimal amount, int payplatform, string method)
         {
             this.Amount = amount;
-            this.Payment = payment;
+            this.PayPlatform = payplatform;
             this.Method = method;
         }
 
         /// <summary>
-        /// 支付方式
+        /// 支付平台
         /// <sample>1：支付宝[Alipay]</sample>
         /// <sample>2：微信[WeChat]</sample>
         /// <sample>3：银联支付[UnionPay]</sample>
         /// </summary>
-        public int Payment { get; set; }
+        public int PayPlatform { get; set; }
 
         /// <summary>
         /// 金额
