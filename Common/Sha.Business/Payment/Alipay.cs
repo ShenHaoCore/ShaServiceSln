@@ -1,4 +1,6 @@
-﻿using Sha.Business.Alipay;
+﻿using Aop.Api.Domain;
+using Aop.Api.Response;
+using Sha.Business.Alipay;
 using Sha.Framework.Base;
 using Sha.Framework.Enum;
 
@@ -27,10 +29,18 @@ namespace Sha.Business.Payment
         /// <returns></returns>
         public ResultModel<AppPaymentTradeModel> AppTrade(AppPaymentTradeParam paramObj)
         {
-            TradeAppParam trade = new TradeAppParam(paramObj.Amount.ToString(), paramObj.Body, paramObj.Subject, paramObj.TradeNo);
-            ResultModel<TradeAppOrder> result = client.TradeAppPay(trade);
-            if (!result.IsSuccess || result.Data == null) { return new ResultModel<AppPaymentTradeModel>(false, result.Code, result.Message); }
-            return new ResultModel<AppPaymentTradeModel>(true, FrameworkEnum.StatusCode.Success, new AppPaymentTradeModel(result.Data.Body));
+            AlipayTradeAppPayModel trade = new AlipayTradeAppPayModel()
+            {
+                Body = paramObj.Body,
+                Subject = paramObj.Subject,
+                TotalAmount = paramObj.Amount.ToString(),
+                ProductCode = "FAST_INSTANT_TRADE_PAY",
+                OutTradeNo = paramObj.TradeNo,
+                TimeoutExpress = "90m"
+            };
+            AlipayTradeAppPayResponse? response = client.TradeAppPay(trade);
+            if (response == null || response.IsError) { return new ResultModel<AppPaymentTradeModel>(false, FrameworkEnum.StatusCode.Fail); }
+            return new ResultModel<AppPaymentTradeModel>(true, FrameworkEnum.StatusCode.Success, new AppPaymentTradeModel(response.Body));
         }
 
         /// <summary>
@@ -40,10 +50,18 @@ namespace Sha.Business.Payment
         /// <returns></returns>
         public ResultModel<PagePaymentTradeModel> PageTrade(PagePaymentTradeParam paramObj)
         {
-            TradePageParam trade = new TradePageParam(paramObj.Amount.ToString(), paramObj.Body, paramObj.Subject, paramObj.TradeNo, paramObj.Method);
-            ResultModel<TradePageOrder> result = client.TradePagePay(trade);
-            if (!result.IsSuccess || result.Data == null) { return new ResultModel<PagePaymentTradeModel>(false, result.Code, result.Message); }
-            return new ResultModel<PagePaymentTradeModel>(true, FrameworkEnum.StatusCode.Success, new PagePaymentTradeModel(result.Data.Body));
+            AlipayTradePagePayModel trade = new AlipayTradePagePayModel()
+            {
+                Body = paramObj.Body,
+                Subject = paramObj.Subject,
+                TotalAmount = paramObj.Amount.ToString(),
+                ProductCode = "FAST_INSTANT_TRADE_PAY",
+                OutTradeNo = paramObj.TradeNo,
+                TimeoutExpress = "90m"
+            };
+            AlipayTradePagePayResponse? response = client.TradePagePay(trade, paramObj.Method);
+            if (response == null || response.IsError) { return new ResultModel<PagePaymentTradeModel>(false, FrameworkEnum.StatusCode.Fail); }
+            return new ResultModel<PagePaymentTradeModel>(true, FrameworkEnum.StatusCode.Success, new PagePaymentTradeModel(response.Body));
         }
     }
 }

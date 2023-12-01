@@ -47,7 +47,7 @@
         public int PayPlatform { get; set; }
 
         /// <summary>
-        /// (可选)请求方式，默认POST，仅支持支付宝网页支付
+        /// (可选)请求方式，默认POST，仅支持支付宝
         /// <sample>GET：生成URL链接</sample>
         /// <sample>POST：生成FORM表单</sample>
         /// </summary>

@@ -1,4 +1,6 @@
-﻿using Sha.Framework.Base;
+﻿using Aop.Api.Domain;
+using Aop.Api.Response;
+using Sha.Framework.Base;
 
 namespace Sha.Business.Alipay
 {
@@ -8,17 +10,40 @@ namespace Sha.Business.Alipay
     public interface IAlipayClient
     {
         /// <summary>
-        /// 创建APP订单
+        /// APP支付
         /// </summary>
-        /// <param name="paramObj"></param>
+        /// <param name="bizmodel"></param>
         /// <returns></returns>
-        ResultModel<TradeAppOrder> TradeAppPay(TradeAppParam paramObj);
+        AlipayTradeAppPayResponse? TradeAppPay(AlipayTradeAppPayModel bizmodel);
 
         /// <summary>
-        /// 创建PAGE订单
+        /// 电脑网站支付
+        /// </summary>
+        /// <param name="bizModel"></param>
+        /// <param name="requestMethod"></param>
+        /// <returns></returns>
+        AlipayTradePagePayResponse? TradePagePay(AlipayTradePagePayModel bizModel, string requestMethod);
+
+        /// <summary>
+        /// 手机网站支付
+        /// </summary>
+        /// <param name="bizModel"></param>
+        /// <param name="requestMethod"></param>
+        /// <returns></returns>
+        AlipayTradeWapPayResponse? TradeWapPay(AlipayTradeWapPayModel bizModel, string requestMethod);
+
+        /// <summary>
+        /// 付款码支付
+        /// </summary>
+        /// <param name="bizmodel"></param>
+        /// <returns></returns>
+        AlipayTradePayResponse? TradePay(AlipayTradePayModel bizmodel);
+
+        /// <summary>
+        /// 扫码支付
         /// </summary>
         /// <param name="paramObj"></param>
         /// <returns></returns>
-        ResultModel<TradePageOrder> TradePagePay(TradePageParam paramObj);
+        AlipayTradePrecreateResponse? TradePrecreate(AlipayTradePrecreateModel bizmodel);
     }
 }

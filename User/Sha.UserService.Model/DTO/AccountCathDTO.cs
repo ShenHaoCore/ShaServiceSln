@@ -71,7 +71,7 @@
         /// <sample>3：银联[UnionPay]</sample>
         /// </param>
         /// <param name="method">
-        /// (可选)请求方式，默认POST，仅支持支付宝网页支付
+        /// (可选)请求方式，默认POST，仅支持支付宝
         /// <sample>GET：生成URL链接</sample>
         /// <sample>POST：生成URL链接</sample>
         /// </param>
@@ -96,7 +96,7 @@
         public decimal Amount { get; set; }
 
         /// <summary>
-        /// (可选)请求方式，默认POST，仅支持支付宝网页支付
+        /// (可选)请求方式，默认POST，仅支持支付宝
         /// <sample>GET：生成URL链接</sample>
         /// <sample>POST：生成URL链接</sample>
         /// </summary>

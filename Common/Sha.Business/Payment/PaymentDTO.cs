@@ -54,7 +54,7 @@
         /// <param name="amount">金额</param>
         /// <param name="tradeno">交易单号</param>
         /// <param name="method">
-        /// (可选)请求方式，仅支持支付宝
+        /// (可选)请求方式，默认POST，仅支持支付宝
         /// <sample>GET：生成URL链接</sample>
         /// <sample>POST：生成FORM表单</sample>
         /// </param>
@@ -88,7 +88,7 @@
         public string TradeNo { get; set; }
 
         /// <summary>
-        /// (可选)请求方式，仅支持支付宝
+        /// (可选)请求方式，默认POST，仅支持支付宝
         /// <sample>GET：生成URL链接</sample>
         /// <sample>POST：生成FORM表单</sample>
         /// </summary>

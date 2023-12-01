@@ -16,6 +16,11 @@ namespace Sha.Business.Alipay
     /// </summary>
     public class AlipayClient : IAlipayClient
     {
+        private const string version = "1.0";
+        private const string format = "json";
+        private const string signType = "RSA2";
+        private const string charset = "UTF-8";
+
         private readonly ILogger<AlipayClient> logger;
         private readonly AlipayConfig config;
 
@@ -32,75 +37,135 @@ namespace Sha.Business.Alipay
         }
 
         /// <summary>
-        /// 创建APP订单
+        /// APP支付
         /// </summary>
-        /// <param name="paramObj"></param>
+        /// <param name="bizmodel"></param>
         /// <returns></returns>
-        public ResultModel<TradeAppOrder> TradeAppPay(TradeAppParam paramObj)
+        public AlipayTradeAppPayResponse? TradeAppPay(AlipayTradeAppPayModel bizmodel)
         {
             try
             {
-                logger.LogDebug($"支付宝创建APP订单，参数【{JsonConvert.SerializeObject(paramObj)}】");
-                IAopClient client = new DefaultAopClient(config.ServerUrl, config.AppID, config.MerchantPrivateKey, "json", "1.0", "RSA2", config.AlipayPublicKey, "UTF-8", false);
+                logger.LogDebug($"支付宝创建APP订单，参数【{JsonConvert.SerializeObject(bizmodel)}】");
+                IAopClient client = new DefaultAopClient(config.ServerUrl, config.AppID, config.MerchantPrivateKey, format, version, signType, config.AlipayPublicKey, charset, false);
                 AlipayTradeAppPayRequest request = new AlipayTradeAppPayRequest();
-                AlipayTradeAppPayModel bizmodel = new AlipayTradeAppPayModel()
-                {
-                    Body = paramObj.Body,
-                    Subject = paramObj.Subject,
-                    TotalAmount = paramObj.TotalAmount,
-                    ProductCode = paramObj.ProductCode,
-                    OutTradeNo = paramObj.OutTradeNo,
-                    TimeoutExpress = paramObj.TimeoutExpress
-                };
                 request.SetBizModel(bizmodel);
                 request.SetNotifyUrl(config.NotifyUrl);
                 AlipayTradeAppPayResponse response = client.SdkExecute(request);
                 logger.LogDebug($"支付宝创建APP订单，响应【{JsonConvert.SerializeObject(response)}】");
-                if (response == null) { return new ResultModel<TradeAppOrder>(false, FrameworkEnum.StatusCode.ResponseNull); }
-                return new ResultModel<TradeAppOrder>(true, FrameworkEnum.StatusCode.Success, new TradeAppOrder(response));
+                return response;
             }
             catch (Exception ex)
             {
                 logger.LogError("支付宝创建APP订单异常", ex);
-                return new ResultModel<TradeAppOrder>(false, FrameworkEnum.StatusCode.ServerError);
+                return null;
             }
         }
 
         /// <summary>
-        /// 创建PAGE订单
+        /// 电脑网站支付
         /// </summary>
-        /// <param name="paramObj"></param>
+        /// <param name="bizModel"></param>
+        /// <param name="requestMethod"></param>
         /// <returns></returns>
-        public ResultModel<TradePageOrder> TradePagePay(TradePageParam paramObj)
+        public AlipayTradePagePayResponse? TradePagePay(AlipayTradePagePayModel bizModel, string requestMethod)
         {
             try
             {
-                logger.LogDebug($"支付宝创建PAGE订单，参数【{JsonConvert.SerializeObject(paramObj)}】");
-                IAopClient client = new DefaultAopClient(config.ServerUrl, config.AppID, config.MerchantPrivateKey, "json", "1.0", "RSA2", config.AlipayPublicKey, "UTF-8", false);
+                logger.LogDebug($"支付宝创建PAGE订单，参数【{JsonConvert.SerializeObject(bizModel)}】");
+                IAopClient client = new DefaultAopClient(config.ServerUrl, config.AppID, config.MerchantPrivateKey, format, version, signType, config.AlipayPublicKey, charset, false);
                 AlipayTradePagePayRequest request = new AlipayTradePagePayRequest();
-                AlipayTradePagePayModel bizModel = new AlipayTradePagePayModel()
-                {
-                    Body = paramObj.Body,
-                    Subject = paramObj.Subject,
-                    TotalAmount = paramObj.TotalAmount,
-                    ProductCode = paramObj.ProductCode,
-                    OutTradeNo = paramObj.OutTradeNo,
-                    TimeoutExpress = paramObj.TimeoutExpress
-                };
                 request.SetBizModel(bizModel);
                 request.SetNotifyUrl(config.NotifyUrl);
                 request.SetReturnUrl(config.ReturnUrl);
                 string method = BusinessEnum.RequestMethod.POST.ToString(); // POST方式请求，生成FORM表单
-                if (paramObj.RequestMethod.Equals(BusinessEnum.RequestMethod.GET.ToString(), StringComparison.OrdinalIgnoreCase)) { method = BusinessEnum.RequestMethod.GET.ToString(); } // GET方式请求，即生成URL链接;
+                if (requestMethod.Equals(BusinessEnum.RequestMethod.GET.ToString(), StringComparison.OrdinalIgnoreCase)) { method = BusinessEnum.RequestMethod.GET.ToString(); } // GET方式请求，即生成URL链接;
                 AlipayTradePagePayResponse response = client.pageExecute(request, "", method);
                 logger.LogDebug($"支付宝创建PAGE订单，响应【{JsonConvert.SerializeObject(response)}】");
-                if (response == null) { return new ResultModel<TradePageOrder>(false, FrameworkEnum.StatusCode.ResponseNull); }
-                return new ResultModel<TradePageOrder>(true, FrameworkEnum.StatusCode.Success, new TradePageOrder(response));
+                return response;
             }
             catch (Exception ex)
             {
                 logger.LogError("支付宝创建PAGE订单，异常", ex);
-                return new ResultModel<TradePageOrder>(false, FrameworkEnum.StatusCode.ServerError);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// 手机网站支付
+        /// </summary>
+        /// <param name="bizModel"></param>
+        /// <param name="requestMethod"></param>
+        /// <returns></returns>
+        public AlipayTradeWapPayResponse? TradeWapPay(AlipayTradeWapPayModel bizModel, string requestMethod)
+        {
+            try
+            {
+                logger.LogDebug($"支付宝创建WAP订单，参数【{JsonConvert.SerializeObject(bizModel)}】");
+                IAopClient client = new DefaultAopClient(config.ServerUrl, config.AppID, config.MerchantPrivateKey, format, version, signType, config.AlipayPublicKey, charset, false);
+                AlipayTradeWapPayRequest request = new AlipayTradeWapPayRequest();
+                request.SetBizModel(bizModel);
+                request.SetNotifyUrl(config.NotifyUrl);
+                request.SetReturnUrl(config.ReturnUrl);
+                string method = BusinessEnum.RequestMethod.POST.ToString(); // POST方式请求，生成FORM表单
+                if (requestMethod.Equals(BusinessEnum.RequestMethod.GET.ToString(), StringComparison.OrdinalIgnoreCase)) { method = BusinessEnum.RequestMethod.GET.ToString(); } // GET方式请求，即生成URL链接;
+                AlipayTradeWapPayResponse response = client.pageExecute(request, "", method);
+                logger.LogDebug($"支付宝创建WAP订单，响应【{JsonConvert.SerializeObject(response)}】");
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError("支付宝创建WAP订单，异常", ex);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// 付款码支付
+        /// </summary>
+        /// <param name="bizmodel"></param>
+        /// <returns></returns>
+        public AlipayTradePayResponse? TradePay(AlipayTradePayModel bizmodel)
+        {
+            try
+            {
+                logger.LogDebug($"支付宝创建订单，参数【{JsonConvert.SerializeObject(bizmodel)}】");
+                IAopClient client = new DefaultAopClient(config.ServerUrl, config.AppID, config.MerchantPrivateKey, format, version, signType, config.AlipayPublicKey, charset, false);
+                AlipayTradePayRequest request = new AlipayTradePayRequest();
+                request.SetBizModel(bizmodel);
+                request.SetNotifyUrl(config.NotifyUrl);
+                AlipayTradePayResponse response = client.Execute(request);
+                logger.LogDebug($"支付宝创建订单，响应【{JsonConvert.SerializeObject(response)}】");
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError("支付宝创建订单异常", ex);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// 扫码支付
+        /// </summary>
+        /// <param name="paramObj"></param>
+        /// <returns></returns>
+        public AlipayTradePrecreateResponse? TradePrecreate(AlipayTradePrecreateModel bizmodel)
+        {
+            try
+            {
+                logger.LogDebug($"支付宝创建APP订单，参数【{JsonConvert.SerializeObject(bizmodel)}】");
+                IAopClient client = new DefaultAopClient(config.ServerUrl, config.AppID, config.MerchantPrivateKey, format, version, signType, config.AlipayPublicKey, charset, false);
+                AlipayTradePrecreateRequest request = new AlipayTradePrecreateRequest();
+                request.SetBizModel(bizmodel);
+                request.SetNotifyUrl(config.NotifyUrl);
+                AlipayTradePrecreateResponse response = client.Execute(request);
+                logger.LogDebug($"支付宝创建APP订单，响应【{JsonConvert.SerializeObject(response)}】");
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError("支付宝创建APP订单异常", ex);
+                return null;
             }
         }
     }
