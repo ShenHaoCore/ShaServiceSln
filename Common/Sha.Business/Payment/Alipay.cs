@@ -34,7 +34,7 @@ namespace Sha.Business.Payment
         public string ProductCode { get; set; } = "FAST_INSTANT_TRADE_PAY";
 
         /// <summary>
-        /// 
+        /// APP交易
         /// </summary>
         /// <param name="paramObj"></param>
         /// <returns></returns>
@@ -49,7 +49,7 @@ namespace Sha.Business.Payment
         }
 
         /// <summary>
-        /// 
+        /// 网页交易
         /// </summary>
         /// <param name="paramObj"></param>
         /// <returns></returns>

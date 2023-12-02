@@ -5,12 +5,12 @@ namespace Sha.UserService.Model.Entity
     /// <summary>
     /// 
     /// </summary>
-    public class t_Cus_RechargeTrade
+    public class t_RechargeTrade
     {
         /// <summary>
         /// 
         /// </summary>
-        public t_Cus_RechargeTrade()
+        public t_RechargeTrade()
         {
             this.TradeNo = string.Empty;
         }
@@ -30,6 +30,11 @@ namespace Sha.UserService.Model.Entity
         /// 
         /// </summary>
         public System.Decimal Amount { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public System.Int32 Currency { get; set; }
 
         /// <summary>
         /// 

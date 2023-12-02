@@ -5,12 +5,12 @@ namespace Sha.UserService.Model.Entity
     /// <summary>
     /// 
     /// </summary>
-    public class t_Cus_AccountCath
+    public class t_AccountCath
     {
         /// <summary>
         /// 
         /// </summary>
-        public t_Cus_AccountCath()
+        public t_AccountCath()
         {
         }
 
