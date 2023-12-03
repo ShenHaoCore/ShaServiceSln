@@ -22,10 +22,7 @@ namespace Sha.UserService.Dal
         /// </summary>
         /// <param name="number">公民身份号码</param>
         /// <returns></returns>
-        public t_IdentityCard GetByNumber(string number)
-        {
-            return db.Queryable<t_IdentityCard>().First(P => P.Number == number);
-        }
+        public t_IdentityCard GetByNumber(string number) => db.Queryable<t_IdentityCard>().First(P => P.Number == number);
 
         /// <summary>
         /// 新增

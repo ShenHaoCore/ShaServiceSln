@@ -22,9 +22,6 @@ namespace Sha.UserService.Dal
         /// </summary>
         /// <param name="number">工号</param>
         /// <returns></returns>
-        public t_Employee GetByNumber(string number)
-        {
-            return db.Queryable<t_Employee>().First(P => P.Number == number);
-        }
+        public t_Employee GetByNumber(string number) => db.Queryable<t_Employee>().First(P => P.Number == number);
     }
 }
