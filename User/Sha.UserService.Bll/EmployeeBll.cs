@@ -36,7 +36,7 @@ namespace Sha.UserService.Bll
         {
             EmployeeLoginValidator validator = new EmployeeLoginValidator();
             ValidationResult validResult = validator.Validate(param);
-            if (!validResult.IsValid) { return new ResultModel<LoginModel>(false, FrameworkEnum.StatusCode.Fail); }
+            if (!validResult.IsValid) { return new ResultModel<LoginModel>(false, FrameworkEnum.StatusCode.ValidateFail); }
             t_Employee employee = dal.GetByNumber(param.Number);
             if (employee == null) { return new ResultModel<LoginModel>(false, FrameworkEnum.StatusCode.UserNotFount); }
             JwtUserModel user = new JwtUserModel() { Uid = employee.ID, Role = "Employee" };

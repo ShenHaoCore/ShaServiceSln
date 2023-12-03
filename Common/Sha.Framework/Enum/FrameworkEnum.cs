@@ -73,6 +73,12 @@ namespace Sha.Framework.Enum
             RequestNull = 10002,
 
             /// <summary>
+            /// 数据验证失败
+            /// </summary>
+            [Description("验证失败")]
+            ValidateFail = 10002,
+
+            /// <summary>
             /// 错误的响应
             /// </summary>
             [Description("错误响应")]

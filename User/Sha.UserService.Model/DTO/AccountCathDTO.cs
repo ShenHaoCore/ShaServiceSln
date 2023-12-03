@@ -1,4 +1,10 @@
-﻿namespace Sha.UserService.Model.DTO
+﻿using Aop.Api.Domain;
+using FluentValidation;
+using Sha.Business.Enum;
+using Sha.Framework.Base;
+using Sha.Framework.Enum;
+
+namespace Sha.UserService.Model.DTO
 {
     /// <summary>
     /// 充值交易参数
@@ -58,6 +64,21 @@
     }
 
     /// <summary>
+    /// 充值交易验证
+    /// </summary>
+    public class AppRechargeTradeValidator : AbstractValidator<AppRechargeTradeParam>
+    {
+        /// <summary>
+        /// 充值交易验证
+        /// </summary>
+        public AppRechargeTradeValidator()
+        {
+            RuleFor(it => it.Amount).GreaterThan(0).WithName("金额");
+            RuleFor(it => it.Payment).Custom((payment, context) => { if (!Enum.IsDefined(typeof(BusinessEnum.Payment), payment)) { context.AddFailure("支付平台错误"); } });
+        }
+    }
+
+    /// <summary>
     /// 充值交易参数
     /// </summary>
     public class PageRechargeTradeParam : RechargeTradeParam
@@ -90,6 +111,21 @@
         /// <sample>POST：生成URL链接</sample>
         /// </summary>
         public string Method { get; set; }
+    }
+
+    /// <summary>
+    /// 充值交易验证
+    /// </summary>
+    public class PageRechargeTradeValidator : AbstractValidator<PageRechargeTradeParam>
+    {
+        /// <summary>
+        /// 充值交易验证
+        /// </summary>
+        public PageRechargeTradeValidator()
+        {
+            RuleFor(it => it.Amount).GreaterThan(0).WithName("金额");
+            RuleFor(it => it.Payment).Custom((payment, context) => { if (!Enum.IsDefined(typeof(BusinessEnum.Payment), payment)) { context.AddFailure("支付平台错误"); } });
+        }
     }
 
     /// <summary>

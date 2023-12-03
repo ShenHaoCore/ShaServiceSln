@@ -22,7 +22,7 @@ namespace Sha.Business.Enum
         /// <summary>
         /// 支付平台
         /// </summary>
-        public enum PayPlatform
+        public enum Payment
         {
             /// <summary>
             /// 支付宝
