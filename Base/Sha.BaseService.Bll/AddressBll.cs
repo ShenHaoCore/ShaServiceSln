@@ -19,7 +19,7 @@ namespace Sha.BaseService.Bll
         /// <summary>
         /// 地址
         /// </summary>
-        /// <param name="logger"></param>
+        /// <param name="logger">日志</param>
         /// <param name="dal"></param>
         public AddressBll(ILogger<AddressBll> logger, AddressDal dal) : base(logger)
         {

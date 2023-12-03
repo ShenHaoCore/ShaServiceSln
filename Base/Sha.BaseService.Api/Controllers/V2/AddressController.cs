@@ -20,7 +20,7 @@ namespace Sha.BaseService.Api.Controllers.V2
         /// <summary>
         /// 地址
         /// </summary>
-        /// <param name="logger"></param>
+        /// <param name="logger">日志</param>
         /// <param name="bll">业务逻辑层</param>
         public AddressController(ILogger<AddressController> logger, AddressBll bll) : base(logger)
         {

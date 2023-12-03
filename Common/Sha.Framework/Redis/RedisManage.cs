@@ -16,7 +16,7 @@ namespace Sha.Framework.Redis
         /// <summary>
         /// Redis管理类
         /// </summary>
-        /// <param name="logger"></param>
+        /// <param name="logger">日志</param>
         /// <param name="connection"></param>
         public RedisManage(ILogger<RedisManage> logger, ConnectionMultiplexer connection)
         {

@@ -20,7 +20,7 @@ namespace Sha.UserService.Api.Controllers.V1
         /// <summary>
         /// 现金账户
         /// </summary>
-        /// <param name="logger"></param>
+        /// <param name="logger">日志</param>
         /// <param name="bll">业务逻辑层</param>
         public AccountCathController(ILogger<AccountCathController> logger, AccountCathBll bll) : base(logger)
         {

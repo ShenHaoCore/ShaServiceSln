@@ -13,7 +13,7 @@ namespace Sha.BaseService.Bll.Common
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="logger"></param>
+        /// <param name="logger">日志</param>
         public BaseServiceBll(ILogger<BaseServiceBll> logger)
         {
             this.logger = logger;

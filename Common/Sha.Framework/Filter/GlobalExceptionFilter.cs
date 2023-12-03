@@ -17,7 +17,7 @@ namespace Sha.Framework.Filter
         /// 
         /// </summary>
         /// <param name="environment"></param>
-        /// <param name="logger"></param>
+        /// <param name="logger">日志</param>
         public GlobalExceptionFilter(IWebHostEnvironment environment, ILogger<GlobalExceptionFilter> logger)
         {
             this.environment = environment;

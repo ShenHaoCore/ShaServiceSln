@@ -5,7 +5,6 @@ using Sha.Framework.Base;
 using Sha.Framework.Enum;
 using Sha.UserService.Bll;
 using Sha.UserService.Model.DTO;
-using Sha.UserService.Model.Request;
 
 namespace Sha.UserService.ApiBehand.Controllers.V1
 {
