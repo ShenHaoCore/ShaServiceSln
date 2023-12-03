@@ -14,7 +14,6 @@ namespace Sha.BaseService.Bll
     /// </summary>
     public class AddressBll : BaseServiceBll
     {
-        private readonly ILogger<AddressBll> logger;
         private readonly AddressDal dal;
 
         /// <summary>
@@ -22,9 +21,8 @@ namespace Sha.BaseService.Bll
         /// </summary>
         /// <param name="logger"></param>
         /// <param name="dal"></param>
-        public AddressBll(ILogger<AddressBll> logger, AddressDal dal)
+        public AddressBll(ILogger<AddressBll> logger, AddressDal dal) : base(logger)
         {
-            this.logger = logger;
             this.dal = dal;
         }
 

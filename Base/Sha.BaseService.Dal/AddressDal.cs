@@ -9,15 +9,12 @@ namespace Sha.BaseService.Dal
     /// </summary>
     public class AddressDal : BaseServiceDal
     {
-        private readonly ISqlSugarClient db;
-
         /// <summary>
         /// 地址
         /// </summary>
         /// <param name="db"></param>
-        public AddressDal(ISqlSugarClient db)
+        public AddressDal(ISqlSugarClient db) : base(db)
         {
-            this.db = db;
         }
 
         /// <summary>
@@ -25,20 +22,14 @@ namespace Sha.BaseService.Dal
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public t_Address GetByKey(Guid key)
-        {
-            return db.Queryable<t_Address>().First(it => it.Key == key);
-        }
+        public t_Address GetByKey(Guid key) => db.Queryable<t_Address>().First(it => it.Key == key);
 
         /// <summary>
         /// 获取
         /// </summary>
         /// <param name="code"></param>
         /// <returns></returns>
-        public t_Address GetByCode(string code)
-        {
-            return db.Queryable<t_Address>().First(it => it.Code == code);
-        }
+        public t_Address GetByCode(string code) => db.Queryable<t_Address>().First(it => it.Code == code);
 
         /// <summary>
         /// 新增
