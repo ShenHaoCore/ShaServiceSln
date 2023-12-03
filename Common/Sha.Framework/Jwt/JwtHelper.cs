@@ -14,7 +14,7 @@ namespace Sha.Framework.Jwt
         /// <summary>
         /// 
         /// </summary>
-        public string Type { get; set; } = "Bearer";
+        public static string Type { get; set; } = "Bearer";
 
         /// <summary>
         /// 颁发
