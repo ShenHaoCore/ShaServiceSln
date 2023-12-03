@@ -16,7 +16,6 @@ namespace Sha.UserService.ApiBehand.Controllers.V1
     [ApiVersion(1.0)]
     public class EmployeeController : ShaBaseController
     {
-        private readonly ILogger<EmployeeController> logger;
         private readonly EmployeeBll bll;
 
         /// <summary>
@@ -24,9 +23,8 @@ namespace Sha.UserService.ApiBehand.Controllers.V1
         /// </summary>
         /// <param name="logger">日志</param>
         /// <param name="bll">业务逻辑层</param>
-        public EmployeeController(ILogger<EmployeeController> logger, EmployeeBll bll)
+        public EmployeeController(ILogger<EmployeeController> logger, EmployeeBll bll) : base(logger)
         {
-            this.logger = logger;
             this.bll = bll;
         }
 

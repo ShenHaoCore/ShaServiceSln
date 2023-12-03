@@ -15,7 +15,6 @@ namespace Sha.UserService.Bll
     /// </summary>
     public class EmployeeBll : UserServiceBll
     {
-        private readonly ILogger<EmployeeBll> logger;
         private readonly EmployeeDal dal;
 
         /// <summary>
@@ -23,9 +22,8 @@ namespace Sha.UserService.Bll
         /// </summary>
         /// <param name="logger">日志</param>
         /// <param name="dal">数据访问层</param>
-        public EmployeeBll(ILogger<EmployeeBll> logger, EmployeeDal dal)
+        public EmployeeBll(ILogger<EmployeeBll> logger, EmployeeDal dal) : base(logger)
         {
-            this.logger = logger;
             this.dal = dal;
         }
 

@@ -9,15 +9,12 @@ namespace Sha.UserService.Dal
     /// </summary>
     public class EmployeeDal : UserServiceDal
     {
-        private readonly ISqlSugarClient db;
-
         /// <summary>
-        /// 员工
+        /// 
         /// </summary>
         /// <param name="db"></param>
-        public EmployeeDal(ISqlSugarClient db)
+        public EmployeeDal(ISqlSugarClient db) : base(db)
         {
-            this.db = db;
         }
 
         /// <summary>

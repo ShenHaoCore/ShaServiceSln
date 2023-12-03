@@ -13,7 +13,6 @@ namespace Sha.UserService.Bll
     /// </summary>
     public class IdentityCardBll : UserServiceBll
     {
-        private readonly ILogger<IdentityCardBll> logger;
         private readonly IdentityCardDal dal;
 
         /// <summary>
@@ -21,9 +20,8 @@ namespace Sha.UserService.Bll
         /// </summary>
         /// <param name="logger">日志</param>
         /// <param name="dal">数据访问层</param>
-        public IdentityCardBll(ILogger<IdentityCardBll> logger, IdentityCardDal dal)
+        public IdentityCardBll(ILogger<IdentityCardBll> logger, IdentityCardDal dal) : base(logger)
         {
-            this.logger = logger;
             this.dal = dal;
         }
 
@@ -32,10 +30,7 @@ namespace Sha.UserService.Bll
         /// </summary>
         /// <param name="number">公民身份号码</param>
         /// <returns></returns>
-        public t_IdentityCard GetByNumber(string number)
-        {
-            return dal.GetByNumber(number);
-        }
+        public t_IdentityCard GetByNumber(string number) => dal.GetByNumber(number);
 
         /// <summary>
         /// 

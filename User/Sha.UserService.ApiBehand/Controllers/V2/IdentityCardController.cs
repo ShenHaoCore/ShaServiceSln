@@ -18,7 +18,6 @@ namespace Sha.UserService.ApiBehand.Controllers.V2
     [ApiVersion(2.0)]
     public class IdentityCardController : ShaBaseController
     {
-        private readonly ILogger<IdentityCardController> logger;
         private readonly IdentityCardBll bll;
 
         /// <summary>
@@ -26,9 +25,8 @@ namespace Sha.UserService.ApiBehand.Controllers.V2
         /// </summary>
         /// <param name="logger">日志</param>
         /// <param name="bll">业务逻辑层</param>
-        public IdentityCardController(ILogger<IdentityCardController> logger, IdentityCardBll bll)
+        public IdentityCardController(ILogger<IdentityCardController> logger, IdentityCardBll bll) : base(logger)
         {
-            this.logger = logger;
             this.bll = bll;
         }
 

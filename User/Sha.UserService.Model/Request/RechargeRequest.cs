@@ -3,7 +3,7 @@
     /// <summary>
     /// 充值请求
     /// </summary>
-    public class AppRechargeRequest
+    public class RechargeRequest
     {
         /// <summary>
         /// (必填)金额
@@ -16,14 +16,21 @@
         /// <sample>2：微信[WeChat]</sample>
         /// <sample>3：银联[UnionPay]</sample>
         /// </summary>
-        public int PayPlatform { get; set; }
+        public int Payment { get; set; }
+    }
+
+    /// <summary>
+    /// 充值请求
+    /// </summary>
+    public class AppRechargeRequest : RechargeRequest
+    {
     }
 
 
     /// <summary>
     /// 充值请求
     /// </summary>
-    public class PageRechargeRequest
+    public class PageRechargeRequest : RechargeRequest
     {
         /// <summary>
         /// 充值请求
@@ -32,19 +39,6 @@
         {
             this.Method = string.Empty;
         }
-
-        /// <summary>
-        /// (必填)金额
-        /// </summary>
-        public decimal Amount { get; set; }
-
-        /// <summary>
-        /// (必填)支付平台
-        /// <sample>1：支付宝[Alipay]</sample>
-        /// <sample>2：微信[WeChat]</sample>
-        /// <sample>3：银联[UnionPay]</sample>
-        /// </summary>
-        public int PayPlatform { get; set; }
 
         /// <summary>
         /// (可选)请求方式，默认POST，仅支持支付宝

@@ -15,17 +15,15 @@ namespace Sha.BaseService.Api.Controllers.V1
     [ApiVersion(1.0)]
     public class AddressController : ShaBaseController
     {
-        private readonly ILogger<AddressController> logger;
         private readonly AddressBll bll;
 
         /// <summary>
         /// 地址
         /// </summary>
         /// <param name="logger"></param>
-        /// <param name="bll"></param>
-        public AddressController(ILogger<AddressController> logger, AddressBll bll)
+        /// <param name="bll">业务逻辑层</param>
+        public AddressController(ILogger<AddressController> logger, AddressBll bll) : base(logger)
         {
-            this.logger = logger;
             this.bll = bll;
         }
 

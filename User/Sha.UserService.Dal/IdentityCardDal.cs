@@ -9,15 +9,12 @@ namespace Sha.UserService.Dal
     /// </summary>
     public class IdentityCardDal : UserServiceDal
     {
-        private readonly ISqlSugarClient db;
-
         /// <summary>
         /// 
         /// </summary>
         /// <param name="db"></param>
-        public IdentityCardDal(ISqlSugarClient db)
+        public IdentityCardDal(ISqlSugarClient db) : base(db)
         {
-            this.db = db;
         }
 
         /// <summary>
