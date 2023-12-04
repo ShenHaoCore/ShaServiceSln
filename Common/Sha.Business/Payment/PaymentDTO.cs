@@ -6,18 +6,36 @@
     public class PaymentTrade
     {
         /// <summary>
-        /// 支付交易
+        /// 支付交易参数
         /// </summary>
-        /// <param name="subject"></param>
-        /// <param name="body"></param>
-        /// <param name="amount"></param>
-        /// <param name="tradeno"></param>
-        public PaymentTrade(string subject, string body, decimal amount, string tradeno)
+        /// <param name="subject">标题</param>
+        /// <param name="body">描述信息</param>
+        /// <param name="amount">金额</param>
+        /// <param name="tradeNo">交易单号</param>
+        public PaymentTrade(string subject, string body, decimal amount, string tradeNo)
         {
             this.Subject = subject;
             this.Body = body;
             this.Amount = amount;
-            this.TradeNo = tradeno;
+            this.TradeNo = tradeNo;
+            this.IsGet = false;
+        }
+
+        /// <summary>
+        /// 支付交易参数
+        /// </summary>
+        /// <param name="subject">标题</param>
+        /// <param name="body">描述信息</param>
+        /// <param name="amount">金额</param>
+        /// <param name="tradeNo">交易单号</param>
+        /// <param name="isGet">是否生成GET请求URL</param>
+        public PaymentTrade(string subject, string body, decimal amount, string tradeNo, bool isGet)
+        {
+            this.Subject = subject;
+            this.Body = body;
+            this.Amount = amount;
+            this.TradeNo = tradeNo;
+            this.IsGet = false;
         }
 
         /// <summary>
@@ -39,61 +57,11 @@
         /// 交易单号
         /// </summary>
         public string TradeNo { get; set; }
-    }
-
-    /// <summary>
-    /// APP支付交易参数
-    /// </summary>
-    public class AppPaymentTradeParam : PaymentTrade
-    {
-        /// <summary>
-        /// APP支付交易参数
-        /// </summary>
-        /// <param name="subject"></param>
-        /// <param name="body"></param>
-        /// <param name="amount"></param>
-        /// <param name="tradeno"></param>
-        public AppPaymentTradeParam(string subject, string body, decimal amount, string tradeno) : base(subject, body, amount, tradeno)
-        {
-            this.Subject = subject;
-            this.Body = body;
-            this.Amount = amount;
-            this.TradeNo = tradeno;
-        }
-    }
-
-    /// <summary>
-    /// 支付交易参数
-    /// </summary>
-    public class PagePaymentTradeParam : PaymentTrade
-    {
-        /// <summary>
-        /// 支付交易参数
-        /// </summary>
-        /// <param name="subject">标题</param>
-        /// <param name="body">描述信息</param>
-        /// <param name="amount">金额</param>
-        /// <param name="tradeno">交易单号</param>
-        /// <param name="method">
-        /// (可选)请求方式，默认POST，仅支持支付宝
-        /// <sample>GET：生成URL链接</sample>
-        /// <sample>POST：生成FORM表单</sample>
-        /// </param>
-        public PagePaymentTradeParam(string subject, string body, decimal amount, string tradeno, string method) : base(subject, body, amount, tradeno)
-        {
-            this.Subject = subject;
-            this.Body = body;
-            this.Amount = amount;
-            this.TradeNo = tradeno;
-            this.Method = method;
-        }
 
         /// <summary>
-        /// (可选)请求方式，默认POST，仅支持支付宝
-        /// <sample>GET：生成URL链接</sample>
-        /// <sample>POST：生成FORM表单</sample>
+        /// 是否生成GET请求URL
         /// </summary>
-        public string Method { get; set; }
+        public bool IsGet { get; set; }
     }
 
     /// <summary>
@@ -114,35 +82,5 @@
         /// 描述信息
         /// </summary>
         public string Body { get; set; } = string.Empty;
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public class AppPaymentTradeOrder : PaymentTradeOrder
-    {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="body"></param>
-        public AppPaymentTradeOrder(string body) : base(body)
-        {
-            this.Body = body;
-        }
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public class PagePaymentTradeOrder : PaymentTradeOrder
-    {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="body"></param>
-        public PagePaymentTradeOrder(string body) : base(body)
-        {
-            this.Body = body;
-        }
     }
 }
