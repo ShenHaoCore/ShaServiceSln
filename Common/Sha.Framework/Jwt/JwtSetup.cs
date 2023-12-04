@@ -33,8 +33,8 @@ namespace Sha.Framework.Jwt
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt.SecretKey)),
                 ValidateLifetime = true,
-                RequireExpirationTime = true,
-                ClockSkew = TimeSpan.Zero
+                ClockSkew = TimeSpan.FromSeconds(30),
+                RequireExpirationTime = true
             };
 
             services.AddAuthentication(option =>
@@ -55,7 +55,7 @@ namespace Sha.Framework.Jwt
         }
 
         /// <summary>
-        /// 权限不足
+        /// 如果授权失败并导致禁止响应，则调用
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
@@ -68,7 +68,7 @@ namespace Sha.Framework.Jwt
         }
 
         /// <summary>
-        /// 
+        /// 在安全令牌已通过验证并生成 ClaimsIdentity 后调用
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
@@ -78,7 +78,7 @@ namespace Sha.Framework.Jwt
         }
 
         /// <summary>
-        /// 接收到请时触发
+        /// 首次收到协议消息时调用
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
@@ -88,7 +88,7 @@ namespace Sha.Framework.Jwt
         }
 
         /// <summary>
-        /// 权限验证失败
+        /// 在质询发送回调用方之前调用
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
@@ -102,7 +102,7 @@ namespace Sha.Framework.Jwt
         }
 
         /// <summary>
-        /// 验证JWT数据失败时触发
+        /// 如果在请求处理期间身份验证失败，则调用。 在发生此事件后将重新引发异常，除非已抑制这些异常。
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>

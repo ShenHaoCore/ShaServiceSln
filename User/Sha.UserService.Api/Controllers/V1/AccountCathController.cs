@@ -15,7 +15,9 @@ namespace Sha.UserService.Api.Controllers.V1
     [ApiVersion(1.0)]
     public class AccountCathController : ShaBaseController
     {
-        private readonly AccountCathBll bll;
+        #region 变量
+        private readonly AccountCathBll bll; 
+        #endregion
 
         /// <summary>
         /// 现金账户
@@ -27,6 +29,7 @@ namespace Sha.UserService.Api.Controllers.V1
             this.bll = bll;
         }
 
+        #region 接口
         /// <summary>
         /// APP充值
         /// </summary>
@@ -59,6 +62,7 @@ namespace Sha.UserService.Api.Controllers.V1
             if (!result.IsSuccess) { return new BaseResponseObject<RechargeTradeModel>(false, result.Code, result.Message); }
             if (result.Data == null) { return new BaseResponseObject<RechargeTradeModel>(false, FrameworkEnum.StatusCode.NoData); }
             return new BaseResponseObject<RechargeTradeModel>(true, result.Code, result.Message, result.Data);
-        }
+        } 
+        #endregion
     }
 }
