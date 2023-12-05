@@ -23,15 +23,8 @@ namespace Sha.Business.Payment
             this.client = client;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public string TimeoutExpress { get; set; } = "90m";
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public string ProductCode { get; set; } = "FAST_INSTANT_TRADE_PAY";
+        public readonly string TimeoutExpress = "90m";
+        public readonly string ProductCode = "FAST_INSTANT_TRADE_PAY";
 
         /// <summary>
         /// APP交易

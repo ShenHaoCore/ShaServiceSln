@@ -76,7 +76,7 @@ namespace Sha.Framework.Enum
             /// 数据验证失败
             /// </summary>
             [Description("验证失败")]
-            ValidateFail = 10002,
+            ValidateFail = 10003,
 
             /// <summary>
             /// 错误的响应

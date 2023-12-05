@@ -31,25 +31,10 @@ namespace Sha.Business.Alipay
             this.config = alipayconfig;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public string Version { get; set; } = "1.0";
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public string Format { get; set; } = "json";
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public string SignType { get; set; } = "RSA2";
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public string Charset { get; set; } = "UTF-8";
+        public readonly string Version  = "1.0";
+        public readonly string Format  = "JSON";
+        public readonly string SignType = "RSA2";
+        public readonly string Charset  = "UTF-8";
 
         /// <summary>
         /// APP支付

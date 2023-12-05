@@ -35,7 +35,7 @@
             this.Body = body;
             this.Amount = amount;
             this.TradeNo = tradeNo;
-            this.IsGet = false;
+            this.IsGet = isGet;
         }
 
         /// <summary>
