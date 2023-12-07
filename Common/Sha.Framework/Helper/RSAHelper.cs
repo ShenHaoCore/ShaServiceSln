@@ -8,8 +8,8 @@ namespace Sha.Framework.Common
     /// </summary>
     public class RSAHelper
     {
-        public readonly RSA privateRsa;
-        public readonly RSA publicRsa;
+        public readonly RSA? privateRsa;
+        public readonly RSA? publicRsa;
         private readonly Encoding encoding;
         private readonly HashAlgorithmName hashname;
 
@@ -24,8 +24,8 @@ namespace Sha.Framework.Common
         {
             this.hashname = hashname;
             this.encoding = encoding ?? Encoding.UTF8;
-            privateRsa = CreateRsaProviderFromPrivateKey(privateKey);
-            publicRsa = CreateRsaProviderFromPublicKey(publicKey);
+            if (!string.IsNullOrWhiteSpace(privateKey)) { privateRsa = CreateRsaProviderFromPrivateKey(privateKey); }
+            if (!string.IsNullOrWhiteSpace(publicKey)) { publicRsa = CreateRsaProviderFromPublicKey(publicKey); }
         }
 
         /// <summary>
@@ -35,6 +35,7 @@ namespace Sha.Framework.Common
         /// <returns></returns>
         public string RSAEncrypt(string text)
         {
+            if (publicRsa == null) { throw new ArgumentNullException(nameof(publicRsa)); }
             var size = publicRsa.KeySize / 8 - 11;
             byte[] buffer = new byte[size]; // 待加密块
             using (MemoryStream msInput = new MemoryStream(encoding.GetBytes(text)))
@@ -61,6 +62,7 @@ namespace Sha.Framework.Common
         /// <returns></returns>
         public string Sign(string text)
         {
+            if (privateRsa == null) { throw new ArgumentNullException(nameof(privateRsa)); }
             byte[] textBytes = encoding.GetBytes(text);
             var signBytes = privateRsa.SignData(textBytes, hashname, RSASignaturePadding.Pkcs1);
             return Convert.ToBase64String(signBytes);
@@ -74,6 +76,7 @@ namespace Sha.Framework.Common
         /// <returns></returns>
         public bool Verify(string text, string sign)
         {
+            if (publicRsa == null) { throw new ArgumentNullException(nameof(publicRsa)); }
             byte[] textBytes = encoding.GetBytes(text);
             byte[] signBytes = Convert.FromBase64String(sign);
             var verify = publicRsa.VerifyData(textBytes, signBytes, hashname, RSASignaturePadding.Pkcs1);
@@ -86,6 +89,7 @@ namespace Sha.Framework.Common
         /// <returns></returns>
         public string RSADecrypt(string text)
         {
+            if (privateRsa == null) { throw new ArgumentNullException(nameof(privateRsa)); }
             var size = privateRsa.KeySize / 8;
             byte[] buffer = new byte[size]; // 待解密块
             using (MemoryStream msInput = new MemoryStream(Convert.FromBase64String(text)))
@@ -234,45 +238,44 @@ namespace Sha.Framework.Common
         /// <param name="privateKey"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        private RSA CreateRsaProviderFromPrivateKey(string privateKey)
+        public RSA CreateRsaProviderFromPrivateKey(string privateKey)
         {
             var privateKeyBits = Convert.FromBase64String(privateKey);
 
-            RSA rsa = RSA.Create();
-            RSAParameters rsaParams = new RSAParameters();
+            var rsa = RSA.Create();
+            var rsaParameters = new RSAParameters();
+
             using (BinaryReader binr = new BinaryReader(new MemoryStream(privateKeyBits)))
             {
                 byte bt = 0;
-                ushort twobytes = binr.ReadUInt16();
-                switch (twobytes)
-                {
-                    case 0x8130:
-                        binr.ReadByte();
-                        break;
-                    case 0x8230:
-                        binr.ReadInt16();
-                        break;
-                    default:
-                        throw new Exception("Unexpected Value ");
-                }
+                ushort twobytes = 0;
+                twobytes = binr.ReadUInt16();
+                if (twobytes == 0x8130)
+                    binr.ReadByte();
+                else if (twobytes == 0x8230)
+                    binr.ReadInt16();
+                else
+                    throw new Exception("Unexpected value read binr.ReadUInt16()");
 
                 twobytes = binr.ReadUInt16();
-                if (twobytes != 0x0102) { throw new Exception("Unexpected Value"); }
+                if (twobytes != 0x0102)
+                    throw new Exception("Unexpected version");
 
                 bt = binr.ReadByte();
-                if (bt != 0x00) { throw new Exception("Unexpected Value"); }
+                if (bt != 0x00)
+                    throw new Exception("Unexpected value read binr.ReadByte()");
 
-                rsaParams.Modulus = binr.ReadBytes(GetIntegerSize(binr));
-                rsaParams.Exponent = binr.ReadBytes(GetIntegerSize(binr));
-                rsaParams.D = binr.ReadBytes(GetIntegerSize(binr));
-                rsaParams.P = binr.ReadBytes(GetIntegerSize(binr));
-                rsaParams.Q = binr.ReadBytes(GetIntegerSize(binr));
-                rsaParams.DP = binr.ReadBytes(GetIntegerSize(binr));
-                rsaParams.DQ = binr.ReadBytes(GetIntegerSize(binr));
-                rsaParams.InverseQ = binr.ReadBytes(GetIntegerSize(binr));
+                rsaParameters.Modulus = binr.ReadBytes(GetIntegerSize(binr));
+                rsaParameters.Exponent = binr.ReadBytes(GetIntegerSize(binr));
+                rsaParameters.D = binr.ReadBytes(GetIntegerSize(binr));
+                rsaParameters.P = binr.ReadBytes(GetIntegerSize(binr));
+                rsaParameters.Q = binr.ReadBytes(GetIntegerSize(binr));
+                rsaParameters.DP = binr.ReadBytes(GetIntegerSize(binr));
+                rsaParameters.DQ = binr.ReadBytes(GetIntegerSize(binr));
+                rsaParameters.InverseQ = binr.ReadBytes(GetIntegerSize(binr));
             }
 
-            rsa.ImportParameters(rsaParams);
+            rsa.ImportParameters(rsaParameters);
             return rsa;
         }
 

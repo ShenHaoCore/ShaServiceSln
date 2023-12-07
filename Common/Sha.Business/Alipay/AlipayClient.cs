@@ -5,9 +5,7 @@ using Aop.Api.Response;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Sha.Business.Enum;
-using Sha.Framework.Base;
 using Sha.Framework.Common;
-using Sha.Framework.Enum;
 
 namespace Sha.Business.Alipay
 {

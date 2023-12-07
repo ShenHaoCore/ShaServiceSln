@@ -1,7 +1,6 @@
 ﻿using Aop.Api.Domain;
 using Aop.Api.Response;
 using Sha.Business.Enum;
-using Sha.Framework.Base;
 
 namespace Sha.Business.Alipay
 {
