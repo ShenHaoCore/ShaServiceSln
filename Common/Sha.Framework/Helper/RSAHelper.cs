@@ -240,42 +240,8 @@ namespace Sha.Framework.Common
         /// <exception cref="ArgumentException"></exception>
         public RSA CreateRsaProviderFromPrivateKey(string privateKey)
         {
-            var privateKeyBits = Convert.FromBase64String(privateKey);
-
-            var rsa = RSA.Create();
-            var rsaParameters = new RSAParameters();
-
-            using (BinaryReader binr = new BinaryReader(new MemoryStream(privateKeyBits)))
-            {
-                byte bt = 0;
-                ushort twobytes = 0;
-                twobytes = binr.ReadUInt16();
-                if (twobytes == 0x8130)
-                    binr.ReadByte();
-                else if (twobytes == 0x8230)
-                    binr.ReadInt16();
-                else
-                    throw new Exception("Unexpected value read binr.ReadUInt16()");
-
-                twobytes = binr.ReadUInt16();
-                if (twobytes != 0x0102)
-                    throw new Exception("Unexpected version");
-
-                bt = binr.ReadByte();
-                if (bt != 0x00)
-                    throw new Exception("Unexpected value read binr.ReadByte()");
-
-                rsaParameters.Modulus = binr.ReadBytes(GetIntegerSize(binr));
-                rsaParameters.Exponent = binr.ReadBytes(GetIntegerSize(binr));
-                rsaParameters.D = binr.ReadBytes(GetIntegerSize(binr));
-                rsaParameters.P = binr.ReadBytes(GetIntegerSize(binr));
-                rsaParameters.Q = binr.ReadBytes(GetIntegerSize(binr));
-                rsaParameters.DP = binr.ReadBytes(GetIntegerSize(binr));
-                rsaParameters.DQ = binr.ReadBytes(GetIntegerSize(binr));
-                rsaParameters.InverseQ = binr.ReadBytes(GetIntegerSize(binr));
-            }
-
-            rsa.ImportParameters(rsaParameters);
+            RSA rsa = RSA.Create();
+            rsa.ImportRSAPrivateKey(Convert.FromBase64String(privateKey), out _);
             return rsa;
         }
 

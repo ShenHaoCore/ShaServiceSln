@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using RestSharp;
 using Sha.Framework.Common;
 using System.Net;
@@ -14,7 +15,6 @@ namespace Sha.Business.WeChat
     {
         private readonly ILogger<WeChatClient> logger;
         private readonly WeChatConfig config;
-        private readonly RSAHelper rsa;
 
         /// <summary>
         /// 微信客户端
@@ -26,21 +26,26 @@ namespace Sha.Business.WeChat
             var wechatConfig = AppSettings.GetObject<WeChatConfig>(WeChatConfig.KEY);
             if (wechatConfig == null) { throw new ArgumentNullException(nameof(wechatConfig)); }
             this.config = wechatConfig;
-            this.rsa = new RSAHelper(HashAlgorithmName.SHA256, Encoding.UTF8, config.PrivateKey, "");
         }
 
-        public readonly string Accept = "application/json";
-        public readonly string UserAgent = "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705;)";
+        private readonly string Accept = "application/json";
+        private readonly string UserAgent = "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705;)";
 
         /// <summary>
         /// 
         /// </summary>
-        public string Nonce => Guid.NewGuid().ToString("N");
+        private string GetNonce()
+        {
+            return Guid.NewGuid().ToString("N");
+        }
 
         /// <summary>
         /// 
         /// </summary>
-        public string TimeStamp => DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString();
+        private string GetTimeStamp()
+        {
+            return DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString();
+        }
 
         /// <summary>
         /// 
@@ -51,7 +56,10 @@ namespace Sha.Business.WeChat
         /// <param name="nonce"></param>
         /// <param name="body"></param>
         /// <returns></returns>
-        public string BuildMessage(string uri, string method, string timestamp, string nonce, string body) => $"{method}\n{uri}\n{timestamp}\n{nonce}\n{body}\n";
+        private string BuildMessage(string uri, string method, string timestamp, string nonce, string body)
+        {
+            return $"{method}\n{uri}\n{timestamp}\n{nonce}\n{body}\n";
+        }
 
         /// <summary>
         /// 
@@ -63,9 +71,27 @@ namespace Sha.Business.WeChat
         private string BuildToken(string url, string method, string body)
         {
             string uri = new Uri(url).PathAndQuery;
-            string message = BuildMessage(uri, method, TimeStamp, Nonce, body);
-            string sign = rsa.Sign(message);
-            return $"mchid=\"{config.MchId}\",nonce_str=\"{Nonce}\",timestamp=\"{TimeStamp}\",serial_no=\"{config.MchSerialNo}\",signature=\"{sign}\"";
+            string timeStamp = GetTimeStamp();
+            string nonce = GetNonce();
+            string message = BuildMessage(uri, method, timeStamp, nonce, body);
+            string sign = Sign(message);
+            return $"mchid=\"{config.MchId}\",nonce_str=\"{nonce}\",timestamp=\"{timeStamp}\",serial_no=\"{config.MchSerialNo}\",signature=\"{sign}\"";
+        }
+
+        /// <summary>
+        /// 签名
+        /// </summary>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        private string Sign(string message)
+        {
+            byte[] keyData = Convert.FromBase64String(config.PrivateKey);
+            using (RSA rsa = RSA.Create())
+            {
+                rsa.ImportPkcs8PrivateKey(keyData, bytesRead: out _);
+                var signbytes = rsa.SignData(Encoding.UTF8.GetBytes(message), HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
+                return Convert.ToBase64String(signbytes);
+            }
         }
 
         /// <summary>
@@ -79,15 +105,15 @@ namespace Sha.Business.WeChat
                 RestClient client = new RestClient(url);
                 RestRequest request = new RestRequest();
                 string token = BuildToken(url, "GET", "");
+                logger.LogDebug($"微信V3获取证书 TOKEN：WECHATPAY2-SHA256-RSA2048 {token}");
                 request.AddHeader("Authorization", $"WECHATPAY2-SHA256-RSA2048 {token}");
                 request.AddHeader("Accept", Accept); // 如果缺少这句代码就会导致下单接口请求失败，报400错误（Bad Request）
                 request.AddHeader("User-Agent", UserAgent); // 如果缺少这句代码就会导致下单接口请求失败，报400错误（Bad Request）
                 RestResponse response = client.Get(request);
                 logger.LogDebug($"微信V3获取证书：{response}");
-                if (response != null && response.StatusCode == HttpStatusCode.OK)
-                {
-                    string content = response.Content ?? "";
-                }
+
+                if (response == null || response.StatusCode != HttpStatusCode.OK) { return; }
+                var certResponse = JsonConvert.DeserializeObject<WeChatCertificatesResponse>(response.Content ?? "");
             }
             catch
             {

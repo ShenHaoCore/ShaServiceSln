@@ -17,6 +17,7 @@ namespace Sha.UserService.Api.Controllers.V1
         /// 
         /// </summary>
         /// <param name="logger"></param>
+        /// <param name="client"></param>
         public WeChatController(ILogger<WeChatController> logger, IWeChatClient client) : base(logger)
         {
             this.client = client;
