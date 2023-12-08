@@ -29,7 +29,7 @@ namespace Sha.UserService.Api.Controllers.V1
         [HttpPost]
         public void Notify()
         {
-            client.GetCertificates();
+            client.GetCertificates("724EB39A82961A2582A8BE95C2C8F2347CAA8BEA");
         }
     }
 }

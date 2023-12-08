@@ -2,8 +2,11 @@
 using Newtonsoft.Json;
 using RestSharp;
 using Sha.Framework.Common;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Net;
 using System.Security.Cryptography;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
 namespace Sha.Business.WeChat
@@ -28,27 +31,14 @@ namespace Sha.Business.WeChat
             this.config = wechatConfig;
         }
 
+        private const string URL_CERT = "https://api.mch.weixin.qq.com/v3/certificates";
+
         private readonly string Accept = "application/json";
         private readonly string UserAgent = "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705;)";
+        private readonly ConcurrentDictionary<string, WeChatCertificate> certs = new();
 
         /// <summary>
-        /// 
-        /// </summary>
-        private string GetNonce()
-        {
-            return Guid.NewGuid().ToString("N");
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        private string GetTimeStamp()
-        {
-            return DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString();
-        }
-
-        /// <summary>
-        /// 
+        /// 构建消息
         /// </summary>
         /// <param name="uri"></param>
         /// <param name="method"></param>
@@ -62,7 +52,7 @@ namespace Sha.Business.WeChat
         }
 
         /// <summary>
-        /// 
+        /// 构建TOKEN
         /// </summary>
         /// <param name="url"></param>
         /// <param name="method"></param>
@@ -71,11 +61,11 @@ namespace Sha.Business.WeChat
         private string BuildToken(string url, string method, string body)
         {
             string uri = new Uri(url).PathAndQuery;
-            string timeStamp = GetTimeStamp();
-            string nonce = GetNonce();
+            string timeStamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString();
+            string nonce = Guid.NewGuid().ToString("N");
             string message = BuildMessage(uri, method, timeStamp, nonce, body);
             string sign = Sign(message);
-            return $"mchid=\"{config.MchId}\",nonce_str=\"{nonce}\",timestamp=\"{timeStamp}\",serial_no=\"{config.MchSerialNo}\",signature=\"{sign}\"";
+            return $"mchid=\"{config.MchId}\",nonce_str=\"{nonce}\",timestamp=\"{timeStamp}\",serial_no=\"{config.SerialNo}\",signature=\"{sign}\"";
         }
 
         /// <summary>
@@ -85,9 +75,9 @@ namespace Sha.Business.WeChat
         /// <returns></returns>
         private string Sign(string message)
         {
-            byte[] keyData = Convert.FromBase64String(config.PrivateKey);
             using (RSA rsa = RSA.Create())
             {
+                byte[] keyData = Convert.FromBase64String(config.PrivateKey);
                 rsa.ImportPkcs8PrivateKey(keyData, bytesRead: out _);
                 var signbytes = rsa.SignData(Encoding.UTF8.GetBytes(message), HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
                 return Convert.ToBase64String(signbytes);
@@ -95,16 +85,41 @@ namespace Sha.Business.WeChat
         }
 
         /// <summary>
-        /// 
+        /// 报文解密
         /// </summary>
-        public void GetCertificates()
+        /// <param name="associatedData"></param>
+        /// <param name="nonce"></param>
+        /// <param name="ciphertext"></param>
+        /// <returns></returns>
+        public string AesGcmDecrypt(string associatedData, string nonce, string ciphertext)
         {
+            using (AesGcm cipher = new AesGcm(Encoding.UTF8.GetBytes(config.APIv3Key)))
+            {
+                byte[]? associatedBytes = associatedData == null ? null : Encoding.UTF8.GetBytes(associatedData);
+                var encryptedBytes = Convert.FromBase64String(ciphertext);
+                var cipherBytes = encryptedBytes[..^16];
+                var tag = encryptedBytes[^16..];
+                var decryptedData = new byte[cipherBytes.Length];
+                cipher.Decrypt(Encoding.UTF8.GetBytes(nonce), cipherBytes, tag, decryptedData, associatedBytes);
+                return Encoding.UTF8.GetString(decryptedData);
+            }
+        }
+
+        /// <summary>
+        /// 获取证书
+        /// </summary>
+        /// <param name="serialno"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public WeChatCertificate? GetCertificates(string serialno)
+        {
+            // 如果证书序列号已缓存，则直接使用缓存的证书
+            if (certs.TryGetValue(serialno, out var platformCert)) { return platformCert; }
             try
             {
-                string url = "https://api.mch.weixin.qq.com/v3/certificates";
-                RestClient client = new RestClient(url);
+                RestClient client = new RestClient(URL_CERT);
                 RestRequest request = new RestRequest();
-                string token = BuildToken(url, "GET", "");
+                string token = BuildToken(URL_CERT, "GET", "");
                 logger.LogDebug($"微信V3获取证书 TOKEN：WECHATPAY2-SHA256-RSA2048 {token}");
                 request.AddHeader("Authorization", $"WECHATPAY2-SHA256-RSA2048 {token}");
                 request.AddHeader("Accept", Accept); // 如果缺少这句代码就会导致下单接口请求失败，报400错误（Bad Request）
@@ -112,12 +127,23 @@ namespace Sha.Business.WeChat
                 RestResponse response = client.Get(request);
                 logger.LogDebug($"微信V3获取证书：{response}");
 
-                if (response == null || response.StatusCode != HttpStatusCode.OK) { return; }
+                if (response == null || response.StatusCode != HttpStatusCode.OK) { return null; }
                 var certResponse = JsonConvert.DeserializeObject<WeChatCertificatesResponse>(response.Content ?? "");
+                if (certResponse == null) { throw new ArgumentNullException(nameof(certResponse)); }
+                foreach (var item in certResponse.Certificates)
+                {
+                    string certificate = AesGcmDecrypt(item.EncryptCertificate.AssociatedData, item.EncryptCertificate.Nonce, item.EncryptCertificate.Ciphertext);
+                    X509Certificate2 x509 = new X509Certificate2(Encoding.ASCII.GetBytes(certificate), string.Empty, X509KeyStorageFlags.MachineKeySet | X509KeyStorageFlags.PersistKeySet | X509KeyStorageFlags.Exportable);
+                    WeChatCertificate cert = new WeChatCertificate(config.MchId, item.SerialNo, item.EffectiveTime, item.ExpireTime, x509);
+                    certs.TryAdd(item.SerialNo, cert);
+                }
+                if (certs.TryGetValue(serialno, out platformCert)) { return platformCert; }
+                return null;
             }
-            catch
+            catch (Exception ex)
             {
-
+                logger.LogError("微信V3获取证书异常", ex);
+                return null;
             }
         }
     }

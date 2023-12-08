@@ -21,9 +21,14 @@
         public string MchId { get; set; } = string.Empty;
 
         /// <summary>
-        /// 商户证书序列号
+        /// 商户API密钥
         /// </summary>
-        public string MchSerialNo { get; set; } = string.Empty;
+        public string APIv3Key { get; set; } = string.Empty;
+
+        /// <summary>
+        /// 证书序列号
+        /// </summary>
+        public string SerialNo { get; set; } = string.Empty;
 
         /// <summary>
         /// 私钥
