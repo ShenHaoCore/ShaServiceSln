@@ -21,19 +21,21 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sha.BaseService.Bll", "Base
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sha.BaseService.ApiBehand", "Base\Sha.BaseService.ApiBehand\Sha.BaseService.ApiBehand.csproj", "{F29D284D-7948-45F6-A98A-610EF93463FD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sha.BaseService.Api", "Base\Sha.BaseService.Api\Sha.BaseService.Api.csproj", "{219D546B-A5B2-4D9E-9FAD-308CDEF26A25}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sha.BaseService.Api", "Base\Sha.BaseService.Api\Sha.BaseService.Api.csproj", "{219D546B-A5B2-4D9E-9FAD-308CDEF26A25}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "User", "User", "{C9A48314-9BC8-463F-AFB2-DDA0BE8A9A6E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sha.UserService.Model", "User\Sha.UserService.Model\Sha.UserService.Model.csproj", "{43DF406A-6AF0-4E2B-9215-2B0BCBA88F1B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sha.UserService.Model", "User\Sha.UserService.Model\Sha.UserService.Model.csproj", "{43DF406A-6AF0-4E2B-9215-2B0BCBA88F1B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sha.UserService.Dal", "User\Sha.UserService.Dal\Sha.UserService.Dal.csproj", "{75459818-44ED-450A-A233-2F5BC2E34EC1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sha.UserService.Dal", "User\Sha.UserService.Dal\Sha.UserService.Dal.csproj", "{75459818-44ED-450A-A233-2F5BC2E34EC1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sha.UserService.Bll", "User\Sha.UserService.Bll\Sha.UserService.Bll.csproj", "{892922D9-B4C8-490B-B5AE-9DB10A944FB4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sha.UserService.Bll", "User\Sha.UserService.Bll\Sha.UserService.Bll.csproj", "{892922D9-B4C8-490B-B5AE-9DB10A944FB4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sha.UserService.ApiBehand", "User\Sha.UserService.ApiBehand\Sha.UserService.ApiBehand.csproj", "{AF115BD4-F237-46D4-9D69-6BE85EAF5B8B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sha.UserService.ApiBehand", "User\Sha.UserService.ApiBehand\Sha.UserService.ApiBehand.csproj", "{AF115BD4-F237-46D4-9D69-6BE85EAF5B8B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sha.UserService.Api", "User\Sha.UserService.Api\Sha.UserService.Api.csproj", "{E4E41B0B-E062-4DF1-B117-144F821AF4A0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sha.UserService.Api", "User\Sha.UserService.Api\Sha.UserService.Api.csproj", "{E4E41B0B-E062-4DF1-B117-144F821AF4A0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Identity", "Identity", "{17280F7A-CB95-4357-9960-1142A64928F3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

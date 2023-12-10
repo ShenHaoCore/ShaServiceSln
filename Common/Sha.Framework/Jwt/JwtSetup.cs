@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using Sha.Framework.Base;
 using Sha.Framework.Common;
 using Sha.Framework.Enum;
+using SqlSugar.Extensions;
+using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 
 namespace Sha.Framework.Jwt
@@ -36,6 +39,12 @@ namespace Sha.Framework.Jwt
                 ClockSkew = TimeSpan.FromSeconds(30),
                 RequireExpirationTime = true
             };
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("OnlyEmployee", policy => policy.Requirements.Add(new PermissionRequirement()));
+            }); 
+            services.AddScoped<IAuthorizationHandler, PermissionRequirementHandler>();
 
             services.AddAuthentication(option =>
             {
@@ -102,12 +111,14 @@ namespace Sha.Framework.Jwt
         }
 
         /// <summary>
-        /// 如果在请求处理期间身份验证失败，则调用。 在发生此事件后将重新引发异常，除非已抑制这些异常。
+        /// 如果在请求处理期间身份验证失败，则调用。 在发生此事件后将重新引发异常，除非已抑制这些异常
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
         public static Task AuthenticationFailed(AuthenticationFailedContext context)
         {
+            var jwtHandler = new JwtSecurityTokenHandler();
+            var token = context.Request.Headers["Authorization"].ObjToString().Replace("Bearer ", "");
             context.Response.ContentType = "application/json";
             return Task.CompletedTask;
         }

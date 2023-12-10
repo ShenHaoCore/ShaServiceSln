@@ -31,7 +31,8 @@ namespace Sha.Business.WeChat
             this.config = wechatConfig;
         }
 
-        private const string URL_CERT = "https://api.mch.weixin.qq.com/v3/certificates";
+        private const string WECHAT_V3_URL_CERTIFICATE = "https://api.mch.weixin.qq.com/v3/certificates";
+        private const string WECHATPAY2_RSA_2048_WITH_SHA256 = "WECHATPAY2-SHA256-RSA2048";
 
         private readonly string Accept = "application/json";
         private readonly string UserAgent = "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705;)";
@@ -93,14 +94,14 @@ namespace Sha.Business.WeChat
         /// <returns></returns>
         public string AesGcmDecrypt(string associatedData, string nonce, string ciphertext)
         {
-            using (AesGcm cipher = new AesGcm(Encoding.UTF8.GetBytes(config.APIv3Key)))
+            using (AesGcm aes = new AesGcm(Encoding.UTF8.GetBytes(config.APIv3Key)))
             {
                 byte[]? associatedBytes = associatedData == null ? null : Encoding.UTF8.GetBytes(associatedData);
                 var encryptedBytes = Convert.FromBase64String(ciphertext);
                 var cipherBytes = encryptedBytes[..^16];
                 var tag = encryptedBytes[^16..];
                 var decryptedData = new byte[cipherBytes.Length];
-                cipher.Decrypt(Encoding.UTF8.GetBytes(nonce), cipherBytes, tag, decryptedData, associatedBytes);
+                aes.Decrypt(Encoding.UTF8.GetBytes(nonce), cipherBytes, tag, decryptedData, associatedBytes);
                 return Encoding.UTF8.GetString(decryptedData);
             }
         }
@@ -113,25 +114,25 @@ namespace Sha.Business.WeChat
         /// <exception cref="ArgumentNullException"></exception>
         public WeChatCertificate? GetCertificates(string serialno)
         {
-            // 如果证书序列号已缓存，则直接使用缓存的证书
-            if (certs.TryGetValue(serialno, out var platformCert)) { return platformCert; }
+            WeChatCertificate? platformCert;
+            if (certs.TryGetValue(serialno, out platformCert)) { return platformCert; } // 如果证书序列号已缓存，则直接使用缓存的证书
             try
             {
-                RestClient client = new RestClient(URL_CERT);
+                RestClient client = new RestClient(WECHAT_V3_URL_CERTIFICATE);
                 RestRequest request = new RestRequest();
-                string token = BuildToken(URL_CERT, "GET", "");
-                logger.LogDebug($"微信V3获取证书 TOKEN：WECHATPAY2-SHA256-RSA2048 {token}");
-                request.AddHeader("Authorization", $"WECHATPAY2-SHA256-RSA2048 {token}");
+                string token = BuildToken(WECHAT_V3_URL_CERTIFICATE, "GET", "");
+                logger.LogDebug($"微信V3获取证书 TOKEN：{WECHATPAY2_RSA_2048_WITH_SHA256} {token}");
+                request.AddHeader("Authorization", $"{WECHATPAY2_RSA_2048_WITH_SHA256} {token}");
                 request.AddHeader("Accept", Accept); // 如果缺少这句代码就会导致下单接口请求失败，报400错误（Bad Request）
                 request.AddHeader("User-Agent", UserAgent); // 如果缺少这句代码就会导致下单接口请求失败，报400错误（Bad Request）
                 RestResponse response = client.Get(request);
                 logger.LogDebug($"微信V3获取证书：{response}");
-
                 if (response == null || response.StatusCode != HttpStatusCode.OK) { return null; }
                 var certResponse = JsonConvert.DeserializeObject<WeChatCertificatesResponse>(response.Content ?? "");
                 if (certResponse == null) { throw new ArgumentNullException(nameof(certResponse)); }
                 foreach (var item in certResponse.Certificates)
                 {
+                    if (certs.ContainsKey(item.SerialNo)) { continue; }
                     string certificate = AesGcmDecrypt(item.EncryptCertificate.AssociatedData, item.EncryptCertificate.Nonce, item.EncryptCertificate.Ciphertext);
                     X509Certificate2 x509 = new X509Certificate2(Encoding.ASCII.GetBytes(certificate), string.Empty, X509KeyStorageFlags.MachineKeySet | X509KeyStorageFlags.PersistKeySet | X509KeyStorageFlags.Exportable);
                     WeChatCertificate cert = new WeChatCertificate(config.MchId, item.SerialNo, item.EffectiveTime, item.ExpireTime, x509);

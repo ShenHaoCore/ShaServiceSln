@@ -48,7 +48,7 @@ namespace Sha.Business.WeChat
     public class EncryptCertificate
     {
         /// <summary>
-        /// 加密算法类型，目前只支持：AEAD_AES_256_GCM
+        /// 获取或设置算法类型，目前只支持：AEAD_AES_256_GCM。
         /// </summary>
         [JsonProperty("algorithm")]
         public string Algorithm { get; set; } = string.Empty;

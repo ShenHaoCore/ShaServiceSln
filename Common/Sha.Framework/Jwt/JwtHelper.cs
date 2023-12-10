@@ -1,5 +1,6 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using Sha.Framework.Common;
+using SqlSugar.Extensions;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -46,7 +47,7 @@ namespace Sha.Framework.Jwt
             {
                 JwtSecurityToken jwtoken = handler.ReadJwtToken(token);
                 if (long.TryParse(jwtoken.Id, out long uid)) { user.Uid = uid; }
-                if (jwtoken.Payload.TryGetValue(ClaimTypes.Role, out object? role)) { user.Role = ""; };
+                if (jwtoken.Payload.TryGetValue(ClaimTypes.Role, out object? role)) { user.Role = role != null ? role.ObjToString() : ""; }
             }
             return user;
         }
