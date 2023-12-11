@@ -1,15 +1,27 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Primitives;
 using Microsoft.Net.Http.Headers;
+using Sha.Framework.Redis;
 using System.Security.Claims;
 
 namespace Sha.Framework.Jwt
 {
     /// <summary>
-    /// 
+    /// 员工权限要求处理程序
     /// </summary>
     public class EmployeeRequirementHandler : AuthorizationHandler<EmployeeRequirement>
     {
+        private readonly IRedisManage redis;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="redis"></param>
+        public EmployeeRequirementHandler(IRedisManage redis)
+        {
+            this.redis = redis;
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -26,8 +38,11 @@ namespace Sha.Framework.Jwt
                 if (httpContext.Request == null) { throw new ArgumentNullException(nameof(httpContext.Request)); }
                 if (!httpContext.Request.Headers.TryGetValue(HeaderNames.Authorization, out StringValues authString)) { return Task.CompletedTask; }
                 if (string.IsNullOrWhiteSpace(authString)) { return Task.CompletedTask; }
-                string token = string.Empty;   if (authString.ToString().StartsWith($"Bearer ", StringComparison.OrdinalIgnoreCase)) { token = authString.ToString()["Bearer ".Length..].Trim(); }
-                JwtUserModel user = JwtHelper.SerializeToken(authString.ToString());
+                string token = string.Empty;
+                if (authString.ToString().StartsWith($"Bearer ", StringComparison.OrdinalIgnoreCase)) { token = authString.ToString()["Bearer ".Length..].Trim(); }
+                JwtUserModel user = JwtHelper.SerializeToken(token);
+                var empUser = redis.Get<EmployeeUser>($"EMPLOYEE-{user.Uid}");
+                if (empUser == null) { return Task.CompletedTask; }
                 context.Succeed(requirement);
             }
             return Task.CompletedTask;

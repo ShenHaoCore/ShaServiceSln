@@ -3,7 +3,7 @@
 namespace Sha.Framework.Jwt
 {
     /// <summary>
-    /// 权限要求
+    /// 员工权限要求
     /// </summary>
     public class EmployeeRequirement : IAuthorizationRequirement
     {

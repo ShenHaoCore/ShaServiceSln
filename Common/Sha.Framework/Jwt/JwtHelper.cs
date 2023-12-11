@@ -43,7 +43,7 @@ namespace Sha.Framework.Jwt
         {
             JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();
             JwtUserModel user = new JwtUserModel();
-            if (string.IsNullOrWhiteSpace(token) && handler.CanReadToken(token))
+            if (!string.IsNullOrWhiteSpace(token) && handler.CanReadToken(token))
             {
                 JwtSecurityToken jwtoken = handler.ReadJwtToken(token);
                 if (long.TryParse(jwtoken.Id, out long uid)) { user.Uid = uid; }
