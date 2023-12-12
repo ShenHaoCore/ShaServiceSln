@@ -24,7 +24,7 @@ namespace Sha.Business.Alipay
         public AlipayClient(ILogger<AlipayClient> logger)
         {
             this.logger = logger;
-            var alipayconfig = AppSettings.GetObject<AlipayConfig>(AlipayConfig.KEY);
+            var alipayconfig = AppSettingHelper.GetObject<AlipayConfig>(AlipayConfig.KEY);
             if (alipayconfig == null) { throw new ArgumentNullException(nameof(alipayconfig)); }
             this.config = alipayconfig;
         }

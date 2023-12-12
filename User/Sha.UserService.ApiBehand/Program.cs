@@ -23,7 +23,7 @@ builder.Host.AddSerilogSetup();
 ServiceConfig? service = builder.Configuration.GetSection(ServiceConfig.KEY).Get<ServiceConfig>();
 if (service == null) { throw new ArgumentNullException(nameof(service)); }
 
-builder.Services.AddSingleton(new AppSettings(builder.Configuration));
+builder.Services.AddSingleton(new AppSettingHelper(builder.Configuration));
 builder.Services.AddAutoMapper(cfg => { cfg.AddProfile<AutoMapperProfile>(); });
 builder.Services.AddCacheSetup();
 builder.Services.AddRedisSetup();

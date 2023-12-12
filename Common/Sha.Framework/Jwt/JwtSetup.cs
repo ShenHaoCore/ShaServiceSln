@@ -24,7 +24,7 @@ namespace Sha.Framework.Jwt
         {
             ArgumentNullException.ThrowIfNull(nameof(services));
 
-            JwtConfig? jwt = AppSettings.GetObject<JwtConfig>(JwtConfig.KEY);
+            JwtConfig? jwt = AppSettingHelper.GetObject<JwtConfig>(JwtConfig.KEY);
             if (jwt == null) { throw new ArgumentNullException(nameof(jwt)); }
 
             TokenValidationParameters tokenParam = new TokenValidationParameters
@@ -36,13 +36,14 @@ namespace Sha.Framework.Jwt
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt.SecretKey)),
                 ValidateLifetime = true,
-                ClockSkew = TimeSpan.FromSeconds(30),
+                ClockSkew = JwtHelper.Expiry,
                 RequireExpirationTime = true
             };
 
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("OnlyEmployee", Policy => Policy.Requirements.Add(new EmployeeRequirement()));
+                options.AddPolicy("OnlyCustomer", Policy => Policy.Requirements.Add(new CustomerRequirement()));
             }); 
             services.AddScoped<IAuthorizationHandler, EmployeeRequirementHandler>();
 

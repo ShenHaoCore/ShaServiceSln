@@ -31,8 +31,8 @@ namespace Sha.Framework.SqlSugar
         public static void AddSqlSugarSetup(this IServiceCollection services)
         {
             ArgumentNullException.ThrowIfNull(nameof(services));
-            ArgumentNullException.ThrowIfNull(AppSettings.Configuration);
-            string connString = AppSettings.Configuration.GetConnectionString("ShaService") ?? throw new ArgumentNullException();
+            ArgumentNullException.ThrowIfNull(AppSettingHelper.config);
+            string connString = AppSettingHelper.config.GetConnectionString("ShaService") ?? throw new ArgumentNullException();
             if (string.IsNullOrWhiteSpace(connString)) { throw new ArgumentNullException(nameof(connString)); }
 
             List<ConnectionConfig> connections = new List<ConnectionConfig> { new ConnectionConfig() { ConnectionString = connString, DbType = DbType.SqlServer, IsAutoCloseConnection = true } };

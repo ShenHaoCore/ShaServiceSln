@@ -43,10 +43,10 @@ namespace Sha.UserService.Bll
             if (!validResult.IsValid) { return new ResultModel<LoginModel>(false, FrameworkEnum.StatusCode.ValidateFail); }
             t_Employee employee = dal.GetByNumber(param.Number);
             if (employee == null) { return new ResultModel<LoginModel>(false, FrameworkEnum.StatusCode.UserNotFount); }
-            JwtUserModel user = new JwtUserModel() { Uid = employee.ID, Role = "Employee" };
+            JwtUserModel user = new JwtUserModel() { UserID = employee.ID, Role = "Employee" };
             LoginModel login = new LoginModel(JwtHelper.Type, JwtHelper.IssueToken(user));
-            EmployeeUser empUser = new EmployeeUser() { ID = employee.ID };
-            if (!redis.Set($"EMPLOYEE-{user.Uid}", empUser, new TimeSpan(0, 30, 0))) { return new ResultModel<LoginModel>(false, FrameworkEnum.StatusCode.Fail); }
+            LoginUser empUser = new LoginUser() { ID = employee.ID };
+            if (!redis.Set($"EMPLOYEE-{user.UserID}", empUser, JwtHelper.Expiry)) { return new ResultModel<LoginModel>(false, FrameworkEnum.StatusCode.Fail); }
             return new ResultModel<LoginModel>(true, FrameworkEnum.StatusCode.Success, login);
         }
     }

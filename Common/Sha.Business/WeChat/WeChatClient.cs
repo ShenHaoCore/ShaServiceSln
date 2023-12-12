@@ -26,7 +26,7 @@ namespace Sha.Business.WeChat
         public WeChatClient(ILogger<WeChatClient> logger)
         {
             this.logger = logger;
-            var wechatConfig = AppSettings.GetObject<WeChatConfig>(WeChatConfig.KEY);
+            var wechatConfig = AppSettingHelper.GetObject<WeChatConfig>(WeChatConfig.KEY);
             if (wechatConfig == null) { throw new ArgumentNullException(nameof(wechatConfig)); }
             this.config = wechatConfig;
         }

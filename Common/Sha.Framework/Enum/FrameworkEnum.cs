@@ -26,6 +26,24 @@ namespace Sha.Framework.Enum
         }
 
         /// <summary>
+        /// 用户类型
+        /// </summary>
+        public enum UserType
+        {
+            /// <summary>
+            /// 员工
+            /// </summary>
+            [Description("员工")]
+            Employee = 0,
+
+            /// <summary>
+            /// 客户
+            /// </summary>
+            [Description("客户")]
+            Customer = 1,
+        }
+
+        /// <summary>
         /// 状态代码
         /// </summary>
         public enum StatusCode

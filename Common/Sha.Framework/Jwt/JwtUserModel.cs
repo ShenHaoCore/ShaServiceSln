@@ -6,9 +6,14 @@
     public class JwtUserModel
     {
         /// <summary>
-        /// Id
+        /// 用户ID
         /// </summary>
-        public long Uid { get; set; }
+        public long UserID { get; set; }
+
+        /// <summary>
+        /// 用户类型
+        /// </summary>
+        public string UserType { get; set; } = string.Empty;
 
         /// <summary>
         /// 角色

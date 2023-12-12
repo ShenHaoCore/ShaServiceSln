@@ -12,10 +12,8 @@ namespace Sha.Framework.Jwt
     /// </summary>
     public class JwtHelper
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        public static string Type { get; set; } = "Bearer";
+        public readonly static string Type = "Bearer";
+        public readonly static TimeSpan Expiry = new TimeSpan(0, 30, 0);
 
         /// <summary>
         /// 颁发
@@ -24,9 +22,9 @@ namespace Sha.Framework.Jwt
         /// <returns></returns>
         public static string IssueToken(JwtUserModel user)
         {
-            JwtConfig? jwtConfig = AppSettings.GetObject<JwtConfig>(JwtConfig.KEY);
+            JwtConfig? jwtConfig = AppSettingHelper.GetObject<JwtConfig>(JwtConfig.KEY);
             if (jwtConfig == null) { throw new ArgumentNullException(nameof(jwtConfig)); }
-            IEnumerable<Claim> claims = new Claim[] { new Claim(JwtRegisteredClaimNames.Jti, user.Uid.ToString()), new Claim(ClaimTypes.Role, user.Role) };
+            IEnumerable<Claim> claims = new Claim[] { new Claim(JwtRegisteredClaimNames.Jti, user.UserID.ToString()), new Claim(ClaimTypes.Role, user.Role) };
             SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfig.SecretKey));
             SigningCredentials sign = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
             JwtSecurityToken jwtoken = new JwtSecurityToken(issuer: jwtConfig.Issuer, audience: jwtConfig.Audience, claims: claims, notBefore: DateTime.UtcNow, expires: DateTime.UtcNow.AddSeconds(1000), signingCredentials: sign);
@@ -45,7 +43,7 @@ namespace Sha.Framework.Jwt
             if (!string.IsNullOrWhiteSpace(token) && handler.CanReadToken(token))
             {
                 JwtSecurityToken jwtoken = handler.ReadJwtToken(token);
-                if (long.TryParse(jwtoken.Id, out long uid)) { user.Uid = uid; }
+                if (long.TryParse(jwtoken.Id, out long uid)) { user.UserID = uid; }
                 if (jwtoken.Payload.TryGetValue(ClaimTypes.Role, out object? role)) { user.Role = role != null ? role.ObjToString() : ""; }
             }
             return user;

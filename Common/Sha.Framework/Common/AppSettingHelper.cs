@@ -1,6 +1,6 @@
 ﻿/*************************************************************************************
  * 
- * 文 件 名：AppSettings.cs
+ * 文 件 名：AppSettingHelper.cs
  * 描    述：配置文件 appsettings.json 读取
  * 
  * 版    本：V1.0
@@ -16,20 +16,23 @@
 
 namespace Sha.Framework.Common
 {
-    public class AppSettings
+    /// <summary>
+    /// 配置帮助类
+    /// </summary>
+    public class AppSettingHelper
     {
         /// <summary>
         /// 
         /// </summary>
-        public static IConfiguration? Configuration { get; set; }
+        public static IConfiguration? config { get; set; }
 
         /// <summary>
-        /// 
+        /// 配置帮助类
         /// </summary>
         /// <param name="configuration"></param>
-        public AppSettings(IConfiguration configuration)
+        public AppSettingHelper(IConfiguration configuration)
         {
-            Configuration = configuration;
+            config = configuration;
         }
 
         /// <summary>
@@ -40,8 +43,8 @@ namespace Sha.Framework.Common
         /// <returns></returns>
         public static string GetValue(params string[] key)
         {
-            if (Configuration == null) { throw new ArgumentNullException(nameof(Configuration)); }
-            if (key.Any()) { return Configuration[string.Join(":", key)] ?? ""; }
+            if (config == null) { throw new ArgumentNullException(nameof(config)); }
+            if (key.Any()) { return config[string.Join(":", key)] ?? ""; }
             return "";
         }
 
@@ -53,8 +56,8 @@ namespace Sha.Framework.Common
         /// <returns></returns>
         public static string GetValue(string key)
         {
-            if (Configuration == null) { throw new ArgumentNullException(nameof(Configuration)); }
-            return Configuration[key] ?? "";
+            if (config == null) { throw new ArgumentNullException(nameof(config)); }
+            return config[key] ?? "";
         }
 
         /// <summary>
@@ -65,8 +68,8 @@ namespace Sha.Framework.Common
         /// <returns></returns>
         public static T? GetObject<T>(params string[] key)
         {
-            if (Configuration == null) { throw new ArgumentNullException(nameof(Configuration)); }
-            return Configuration.GetSection(string.Join(":", key)).Get<T>();
+            if (config == null) { throw new ArgumentNullException(nameof(config)); }
+            return config.GetSection(string.Join(":", key)).Get<T>();
         }
 
         /// <summary>
@@ -78,9 +81,9 @@ namespace Sha.Framework.Common
         /// <returns></returns>
         public static List<T> GetList<T>(params string[] key)
         {
-            if (Configuration == null) { throw new ArgumentNullException(nameof(Configuration)); }
+            if (config == null) { throw new ArgumentNullException(nameof(config)); }
             List<T> list = new List<T>();
-            Configuration.Bind(string.Join(":", key), list);
+            config.Bind(string.Join(":", key), list);
             return list;
         }
     }

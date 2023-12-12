@@ -41,7 +41,7 @@ namespace Sha.Framework.Jwt
                 string token = string.Empty;
                 if (authString.ToString().StartsWith($"Bearer ", StringComparison.OrdinalIgnoreCase)) { token = authString.ToString()["Bearer ".Length..].Trim(); }
                 JwtUserModel user = JwtHelper.SerializeToken(token);
-                var empUser = redis.Get<EmployeeUser>($"CUSTOMER-{user.Uid}");
+                var empUser = redis.Get<LoginUser>($"CUSTOMER-{user.UserID}");
                 if (empUser == null) { return Task.CompletedTask; }
                 context.Succeed(requirement);
             }
