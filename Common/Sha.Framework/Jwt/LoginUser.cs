@@ -10,7 +10,18 @@ namespace Sha.Framework.Jwt
         /// <summary>
         /// 
         /// </summary>
-        public int ID { get; set; }
+        /// <param name="userId"></param>
+        /// <param name="userType"></param>
+        public LoginUser(int userId, FrameworkEnum.UserType userType)
+        {
+            this.UserID = userId;
+            this.UserType = userType;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int UserID { get; set; }
 
         /// <summary>
         /// 

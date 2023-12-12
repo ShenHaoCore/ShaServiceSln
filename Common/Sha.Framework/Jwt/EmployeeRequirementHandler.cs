@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Primitives;
 using Microsoft.Net.Http.Headers;
+using Sha.Framework.Enum;
 using Sha.Framework.Redis;
 using System.Security.Claims;
 
@@ -41,7 +42,7 @@ namespace Sha.Framework.Jwt
                 string token = string.Empty;
                 if (authString.ToString().StartsWith($"Bearer ", StringComparison.OrdinalIgnoreCase)) { token = authString.ToString()["Bearer ".Length..].Trim(); }
                 JwtUserModel user = JwtHelper.SerializeToken(token);
-                var empUser = redis.Get<LoginUser>($"EMPLOYEE-{user.UserID}");
+                var empUser = redis.Get<LoginUser>($"{FrameworkEnum.UserType.Employee.ToString().ToUpper()}-{user.UserID}");
                 if (empUser == null) { return Task.CompletedTask; }
                 context.Succeed(requirement);
             }
