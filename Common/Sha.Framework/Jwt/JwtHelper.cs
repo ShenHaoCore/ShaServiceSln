@@ -16,36 +16,35 @@ namespace Sha.Framework.Jwt
         public readonly static TimeSpan Expiry = new TimeSpan(0, 30, 0);
 
         /// <summary>
-        /// 颁发
+        /// 生成令牌
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        public static string IssueToken(JwtUserModel user)
+        public static string GenerateToken(JwtUserModel user)
         {
             JwtConfig? jwtConfig = AppSettingHelper.GetObject<JwtConfig>(JwtConfig.KEY);
             if (jwtConfig == null) { throw new ArgumentNullException(nameof(jwtConfig)); }
             IEnumerable<Claim> claims = new Claim[] { new Claim(JwtRegisteredClaimNames.Jti, user.UserID.ToString()), new Claim(ClaimTypes.Role, user.Role) };
             SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfig.SecretKey));
             SigningCredentials sign = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-            JwtSecurityToken jwtoken = new JwtSecurityToken(issuer: jwtConfig.Issuer, audience: jwtConfig.Audience, claims: claims, notBefore: DateTime.UtcNow, expires: DateTime.UtcNow.AddSeconds(1000), signingCredentials: sign);
+            JwtSecurityToken jwtoken = new JwtSecurityToken(issuer: jwtConfig.Issuer, audience: jwtConfig.Audience, claims: claims, notBefore: DateTime.UtcNow, expires: DateTime.UtcNow.AddSeconds(Expiry.TotalSeconds), signingCredentials: sign);
             return new JwtSecurityTokenHandler().WriteToken(jwtoken);
         }
 
         /// <summary>
-        /// 解析
+        /// 解析令牌
         /// </summary>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static JwtUserModel SerializeToken(string token)
+        public static JwtUserModel DeserializeToken(string token)
         {
             JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();
+            if (string.IsNullOrWhiteSpace(token)) { return new JwtUserModel(); }
+            if (!handler.CanReadToken(token)) { return new JwtUserModel(); }
             JwtUserModel user = new JwtUserModel();
-            if (!string.IsNullOrWhiteSpace(token) && handler.CanReadToken(token))
-            {
-                JwtSecurityToken jwtoken = handler.ReadJwtToken(token);
-                if (long.TryParse(jwtoken.Id, out long uid)) { user.UserID = uid; }
-                if (jwtoken.Payload.TryGetValue(ClaimTypes.Role, out object? role)) { user.Role = role.ObjToString(); }
-            }
+            JwtSecurityToken jwtoken = handler.ReadJwtToken(token);
+            if (long.TryParse(jwtoken.Id, out long uid)) { user.UserID = uid; }
+            if (jwtoken.Payload.TryGetValue(ClaimTypes.Role, out object? role)) { user.Role = role.ObjToString(); }
             return user;
         }
     }

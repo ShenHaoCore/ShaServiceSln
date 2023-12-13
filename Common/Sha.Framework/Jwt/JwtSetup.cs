@@ -36,7 +36,7 @@ namespace Sha.Framework.Jwt
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt.SecretKey)),
                 ValidateLifetime = true,
-                ClockSkew = JwtHelper.Expiry,
+                ClockSkew = TimeSpan.FromSeconds(30), // 时钟偏移
                 RequireExpirationTime = true
             };
 

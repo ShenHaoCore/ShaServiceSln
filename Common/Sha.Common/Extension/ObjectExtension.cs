@@ -8,12 +8,12 @@
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="thisValue"></param>
+        /// <param name="value"></param>
         /// <returns></returns>
-        public static string ObjToString(this object thisValue)
+        public static string ObjToString(this object value)
         {
-            if (thisValue != null) { return thisValue.ToString()!.Trim(); }
-            return "";
+            if (value == null) { return string.Empty; }
+            return value.ToString()!.Trim();
         }
     }
 }
