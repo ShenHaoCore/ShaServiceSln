@@ -45,8 +45,8 @@ namespace Sha.UserService.Bll
             if (employee == null) { return new ResultModel<LoginModel>(false, FrameworkEnum.StatusCode.UserNotFount); }
             JwtUserModel user = new JwtUserModel() { UserID = employee.ID, UserType = FrameworkEnum.UserType.Employee.ToString() };
             LoginModel login = new LoginModel(JwtHelper.Type, JwtHelper.IssueToken(user));
-            LoginUser empUser = new LoginUser(employee.ID, FrameworkEnum.UserType.Employee);
-            if (!redis.Set($"{FrameworkEnum.UserType.Employee.ToString().ToUpper()}-{user.UserID}", empUser, JwtHelper.Expiry)) { return new ResultModel<LoginModel>(false, FrameworkEnum.StatusCode.Fail); }
+            LoginUser empuser = new LoginUser(employee.ID, FrameworkEnum.UserType.Employee);
+            if (!redis.Set($"{FrameworkEnum.UserType.Employee.ToString().ToUpper()}-{user.UserID}", empuser, JwtHelper.Expiry)) { return new ResultModel<LoginModel>(false, FrameworkEnum.StatusCode.Fail); }
             return new ResultModel<LoginModel>(true, FrameworkEnum.StatusCode.Success, login);
         }
     }

@@ -13,7 +13,6 @@ namespace Sha.Framework.Jwt
     public class CustomerRequirementHandler : AuthorizationHandler<CustomerRequirement>
     {
         private readonly IRedisManage redis;
-        private object empUser;
 
         /// <summary>
         /// 
