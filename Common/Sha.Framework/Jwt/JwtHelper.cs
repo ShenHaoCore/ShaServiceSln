@@ -13,7 +13,7 @@ namespace Sha.Framework.Jwt
     public class JwtHelper
     {
         public readonly static string Type = "Bearer";
-        public readonly static TimeSpan Expiry = new TimeSpan(0, 30, 0);
+        public readonly static TimeSpan Expiry = new TimeSpan(0, 30, 0); // 有效期
 
         /// <summary>
         /// 生成令牌
