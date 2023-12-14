@@ -3,7 +3,6 @@ using Newtonsoft.Json;
 using RestSharp;
 using Sha.Framework.Common;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Net;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
@@ -32,11 +31,67 @@ namespace Sha.Business.WeChat
         }
 
         private const string WECHAT_V3_URL_CERTIFICATE = "https://api.mch.weixin.qq.com/v3/certificates";
+        private const string WECHAT_V3_URL_PAY_TRADE_APP = "https://api.mch.weixin.qq.com/v3/pay/transactions/app";
         private const string WECHATPAY2_RSA_2048_WITH_SHA256 = "WECHATPAY2-SHA256-RSA2048";
 
         private readonly string Accept = "application/json";
         private readonly string UserAgent = "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705;)";
         private readonly ConcurrentDictionary<string, WeChatCertificate> certs = new();
+
+        /// <summary>
+        /// 获取证书
+        /// </summary>
+        /// <param name="serialno"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public WeChatCertificate? GetCertificates(string serialno)
+        {
+            WeChatCertificate? platformCert;
+            if (certs.TryGetValue(serialno, out platformCert)) { return platformCert; } // 如果证书序列号已缓存，则直接使用缓存的证书
+            try
+            {
+                RestClient client = new RestClient(WECHAT_V3_URL_CERTIFICATE);
+                RestRequest request = new RestRequest();
+                string token = BuildToken(WECHAT_V3_URL_CERTIFICATE, "GET", "");
+                logger.LogDebug($"微信V3获取证书 TOKEN：{WECHATPAY2_RSA_2048_WITH_SHA256} {token}");
+                request.AddHeader("Authorization", $"{WECHATPAY2_RSA_2048_WITH_SHA256} {token}");
+                request.AddHeader("Accept", Accept); // 如果缺少这句代码就会导致下单接口请求失败，报400错误（Bad Request）
+                request.AddHeader("User-Agent", UserAgent); // 如果缺少这句代码就会导致下单接口请求失败，报400错误（Bad Request）
+                RestResponse response = client.Get(request);
+                logger.LogDebug($"微信V3获取证书：{response}");
+                if (response == null || response.StatusCode != HttpStatusCode.OK) { return null; }
+                var certResponse = JsonConvert.DeserializeObject<WeChatCertificatesResponse>(response.Content ?? "");
+                if (certResponse == null) { throw new ArgumentNullException(nameof(certResponse)); }
+                foreach (var item in certResponse.Certificates)
+                {
+                    if (certs.ContainsKey(item.SerialNo)) { continue; }
+                    string certificate = AesGcmDecrypt(item.EncryptCertificate.AssociatedData, item.EncryptCertificate.Nonce, item.EncryptCertificate.Ciphertext);
+                    X509Certificate2 x509 = new X509Certificate2(Encoding.ASCII.GetBytes(certificate), string.Empty, X509KeyStorageFlags.MachineKeySet | X509KeyStorageFlags.PersistKeySet | X509KeyStorageFlags.Exportable);
+                    WeChatCertificate cert = new WeChatCertificate(config.MchId, item.SerialNo, item.EffectiveTime, item.ExpireTime, x509);
+                    certs.TryAdd(item.SerialNo, cert);
+                }
+                if (certs.TryGetValue(serialno, out platformCert)) { return platformCert; }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError("微信V3获取证书异常", ex);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// APP支付
+        /// </summary>
+        /// <param name="bizmodel"></param>
+        /// <returns></returns>
+        public WeChatTradeAppPayResponse? TradeAppPay(WeChatTradeAppPayModel bizmodel)
+        {
+            RestClient client = new RestClient(WECHAT_V3_URL_PAY_TRADE_APP);
+            RestRequest request = new RestRequest();
+            string token = BuildToken(WECHAT_V3_URL_PAY_TRADE_APP, "POST", "");
+            return null;
+        }
 
         /// <summary>
         /// 构建消息
@@ -103,48 +158,6 @@ namespace Sha.Business.WeChat
                 var decryptedData = new byte[cipherBytes.Length];
                 aes.Decrypt(Encoding.UTF8.GetBytes(nonce), cipherBytes, tag, decryptedData, associatedBytes);
                 return Encoding.UTF8.GetString(decryptedData);
-            }
-        }
-
-        /// <summary>
-        /// 获取证书
-        /// </summary>
-        /// <param name="serialno"></param>
-        /// <returns></returns>
-        /// <exception cref="ArgumentNullException"></exception>
-        public WeChatCertificate? GetCertificates(string serialno)
-        {
-            WeChatCertificate? platformCert;
-            if (certs.TryGetValue(serialno, out platformCert)) { return platformCert; } // 如果证书序列号已缓存，则直接使用缓存的证书
-            try
-            {
-                RestClient client = new RestClient(WECHAT_V3_URL_CERTIFICATE);
-                RestRequest request = new RestRequest();
-                string token = BuildToken(WECHAT_V3_URL_CERTIFICATE, "GET", "");
-                logger.LogDebug($"微信V3获取证书 TOKEN：{WECHATPAY2_RSA_2048_WITH_SHA256} {token}");
-                request.AddHeader("Authorization", $"{WECHATPAY2_RSA_2048_WITH_SHA256} {token}");
-                request.AddHeader("Accept", Accept); // 如果缺少这句代码就会导致下单接口请求失败，报400错误（Bad Request）
-                request.AddHeader("User-Agent", UserAgent); // 如果缺少这句代码就会导致下单接口请求失败，报400错误（Bad Request）
-                RestResponse response = client.Get(request);
-                logger.LogDebug($"微信V3获取证书：{response}");
-                if (response == null || response.StatusCode != HttpStatusCode.OK) { return null; }
-                var certResponse = JsonConvert.DeserializeObject<WeChatCertificatesResponse>(response.Content ?? "");
-                if (certResponse == null) { throw new ArgumentNullException(nameof(certResponse)); }
-                foreach (var item in certResponse.Certificates)
-                {
-                    if (certs.ContainsKey(item.SerialNo)) { continue; }
-                    string certificate = AesGcmDecrypt(item.EncryptCertificate.AssociatedData, item.EncryptCertificate.Nonce, item.EncryptCertificate.Ciphertext);
-                    X509Certificate2 x509 = new X509Certificate2(Encoding.ASCII.GetBytes(certificate), string.Empty, X509KeyStorageFlags.MachineKeySet | X509KeyStorageFlags.PersistKeySet | X509KeyStorageFlags.Exportable);
-                    WeChatCertificate cert = new WeChatCertificate(config.MchId, item.SerialNo, item.EffectiveTime, item.ExpireTime, x509);
-                    certs.TryAdd(item.SerialNo, cert);
-                }
-                if (certs.TryGetValue(serialno, out platformCert)) { return platformCert; }
-                return null;
-            }
-            catch (Exception ex)
-            {
-                logger.LogError("微信V3获取证书异常", ex);
-                return null;
             }
         }
     }

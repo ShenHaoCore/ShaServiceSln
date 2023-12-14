@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using NPOI.OpenXmlFormats.Dml;
 using System.Security.Cryptography.X509Certificates;
 
 namespace Sha.Business.WeChat
@@ -118,5 +119,73 @@ namespace Sha.Business.WeChat
         /// 证书
         /// </summary>
         public X509Certificate2 Certificate;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public class WeChatTradeAppPayModel
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        [JsonProperty("mchid")]
+        public string MchId { get; set; } = string.Empty;
+
+        /// <summary>
+        /// 商户订单号
+        /// </summary>
+        [JsonProperty("out_trade_no")]
+        public string OutTradeNo { get; set; } = string.Empty;
+
+        /// <summary>
+        /// 应用ID
+        /// </summary>
+        [JsonProperty("appid")]
+        public string AppID { get; set; } = string.Empty;
+
+        /// <summary>
+        /// 商品描述
+        /// </summary>
+        [JsonProperty("description")]
+        public string Description { get; set; } = string.Empty;
+
+        /// <summary>
+        /// 通知地址
+        /// </summary>
+        [JsonProperty("notify_url")]
+        public string NotifyUrl { get; set; } = string.Empty;
+
+        /// <summary>
+        /// 金额
+        /// </summary>
+        [JsonProperty("amount")]
+        public WeChatTradeAppAmountModel Amount { get; set; } = new();
+    }
+
+    /// <summary>
+    /// 订单金额请求
+    /// </summary>
+    public class WeChatTradeAppAmountModel
+    {
+        /// <summary>
+        /// 总金额（单位为分）
+        /// </summary>
+        [JsonProperty("total")]
+        public int Total { get; set; }
+
+        /// <summary>
+        /// 货币类型（CNY）
+        /// </summary>
+        [JsonProperty("currency")]
+        public string Currency { get; set; } = string.Empty;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public class WeChatTradeAppPayResponse
+    {
+        
     }
 }

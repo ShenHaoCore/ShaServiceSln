@@ -5,8 +5,6 @@ using Newtonsoft.Json;
 using Sha.Framework.Base;
 using Sha.Framework.Common;
 using Sha.Framework.Enum;
-using SqlSugar.Extensions;
-using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 
 namespace Sha.Framework.Jwt
@@ -118,9 +116,6 @@ namespace Sha.Framework.Jwt
         /// <returns></returns>
         public static Task AuthenticationFailed(AuthenticationFailedContext context)
         {
-            var jwtHandler = new JwtSecurityTokenHandler();
-            var token = context.Request.Headers["Authorization"].ObjToString().Replace("Bearer ", "");
-            context.Response.ContentType = "application/json";
             return Task.CompletedTask;
         }
     }
