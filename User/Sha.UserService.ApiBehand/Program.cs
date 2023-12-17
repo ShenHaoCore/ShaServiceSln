@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Sha.Framework.Cache;
 using Sha.Framework.Common;
+using Sha.Framework.Consul;
 using Sha.Framework.Jwt;
 using Sha.Framework.Redis;
 using Sha.Framework.Serilog;
@@ -34,6 +35,7 @@ builder.Services.AddJwtSetup();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.Replace(ServiceDescriptor.Transient<IControllerActivator, ServiceBasedControllerActivator>()); // 属性注入必须
 builder.Services.AddSwaggerSetup(xmlNames);
+builder.Services.AddConsulSetup();
 
 var app = builder.Build();
 
@@ -43,6 +45,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerMiddle();
 }
 app.UseSerilogMiddle();
+app.UseHealthCheckMiddle();
 app.UseHttpsRedirection();
 app.UseAuthentication(); // 认证中间件
 app.UseAuthorization(); // 授权中间件
