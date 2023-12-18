@@ -15,7 +15,6 @@ using Sha.Framework.Swagger;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
-List<string> xmlNames = new() { $"{Assembly.GetExecutingAssembly().GetName().Name}.XML", $"{ModelHelper.AssemblyName}.XML" };
 
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 builder.Host.ConfigureContainer<ContainerBuilder>(builder => { builder.RegisterModule<AutofacRegisterModule>(); });
@@ -34,7 +33,7 @@ builder.Services.AddApiVersionSetup();
 builder.Services.AddJwtSetup();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.Replace(ServiceDescriptor.Transient<IControllerActivator, ServiceBasedControllerActivator>()); //  Ù–‘◊¢»Î±ÿ–Î
-builder.Services.AddSwaggerSetup(xmlNames);
+builder.Services.AddSwaggerSetup(new List<string>() { $"{Assembly.GetExecutingAssembly().GetName().Name}.XML", $"{ModelHelper.AssemblyName}.XML" });
 builder.Services.AddConsulSetup();
 
 var app = builder.Build();
