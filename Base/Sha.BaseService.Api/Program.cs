@@ -38,11 +38,8 @@ builder.Services.AddConsulSetup();
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseDeveloperExceptionPage();
-    app.UseSwaggerMiddle();
-}
+if (app.Environment.IsDevelopment()) { app.UseDeveloperExceptionPage(); }
+app.UseSwaggerMiddle();
 app.UseSerilogMiddle();
 app.UseHealthCheckMiddle();
 app.UseHttpsRedirection();
