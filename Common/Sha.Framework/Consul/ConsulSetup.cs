@@ -18,23 +18,23 @@ namespace Sha.Framework.Consul
             ConsulConfig? consul = AppSettingHelper.GetObject<ConsulConfig>(ConsulConfig.KEY);
             if (consul == null) { throw new ArgumentNullException(nameof(consul)); }
 
-            var client = new ConsulClient(options => { options.Address = new Uri(consul.Address); });
+            ConsulClient client = new ConsulClient(options => { options.Address = new Uri(consul.Address); });
 
-            var registration = new AgentServiceRegistration
+            AgentServiceRegistration service = new AgentServiceRegistration
             {
-                ID = Guid.NewGuid().ToString(),                                     // 唯一ID
+                ID = $"{consul.Name}-{consul.IP}:{consul.Port}",                    // 唯一ID
                 Name = consul.Name,                                                 // 服务名
                 Address = consul.IP,                                                // 服务绑定IP
                 Port = consul.Port,                                                 // 服务绑定端口
                 Check = new AgentServiceCheck
                 {
-                    DeregisterCriticalServiceAfter = TimeSpan.FromSeconds(5),       // 服务启动多久后注册
+                    DeregisterCriticalServiceAfter = TimeSpan.FromSeconds(5),       // 失败后多久移除
                     Interval = TimeSpan.FromSeconds(10),                            // 健康检查时间间隔
                     HTTP = $"http://{consul.IP}:{consul.Port}{consul.HealthCheck}", // 健康检查地址
                     Timeout = TimeSpan.FromSeconds(5)                               // 超时时间
                 }
             };
-            client.Agent.ServiceRegister(registration);
+            client.Agent.ServiceRegister(service).Wait();
         }
     }
 }
