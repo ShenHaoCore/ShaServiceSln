@@ -1,4 +1,4 @@
-﻿using RabbitMQ.Client;
+﻿using EasyNetQ;
 using Sha.Framework.Common;
 
 namespace Sha.Framework.RabbitMQ
@@ -16,9 +16,10 @@ namespace Sha.Framework.RabbitMQ
         {
             ArgumentNullException.ThrowIfNull(nameof(services));
             var rabbitmq = AppSettingHelper.GetObject<RabbitMQConfig>(RabbitMQConfig.KEY);
+            if (rabbitmq == null) { return; } // 暂时禁用
             if (rabbitmq == null) { throw new ArgumentNullException(nameof(rabbitmq)); }
-
-            ConnectionFactory factory = new ConnectionFactory() { HostName = rabbitmq.HostName, Port = rabbitmq.Port, UserName = rabbitmq.UserName, Password = rabbitmq.Password };
+            string connectionString = $"host={rabbitmq.HostName};virtualHost=/;username={rabbitmq.UserName};password={rabbitmq.Password}";
+            services.AddSingleton(RabbitHutch.CreateBus(connectionString));
         }
     }
 }
