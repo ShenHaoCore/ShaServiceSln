@@ -36,7 +36,7 @@ namespace Sha.Common.Helper
         {
             using (HSSFWorkbook workbook = new HSSFWorkbook(stream))
             {
-                return ReadDataTableFromSheet(stream, workbook.GetSheetAt(workbook.ActiveSheetIndex));
+                return SheetToDataTable(workbook.GetSheetAt(workbook.ActiveSheetIndex));
             }
         }
 
@@ -81,7 +81,7 @@ namespace Sha.Common.Helper
         {
             using (XSSFWorkbook workbook = new XSSFWorkbook(stream))
             {
-                return ReadDataTableFromSheet(stream, workbook.GetSheetAt(workbook.ActiveSheetIndex));
+                return SheetToDataTable(workbook.GetSheetAt(workbook.ActiveSheetIndex));
             }
         }
 
@@ -120,10 +120,9 @@ namespace Sha.Common.Helper
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="stream"></param>
         /// <param name="sheet"></param>
         /// <returns></returns>
-        private static DataTable ReadDataTableFromSheet(Stream stream, ISheet sheet)
+        private static DataTable SheetToDataTable(ISheet sheet)
         {
             DataTable table = new DataTable();
 
