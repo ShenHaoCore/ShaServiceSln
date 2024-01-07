@@ -1,7 +1,9 @@
-﻿namespace Sha.UserService.Model.DTO
+﻿using Sha.Framework.Base;
+
+namespace Sha.UserService.Model.DTO
 {
     /// <summary>
-    /// 
+    /// 身份证创建
     /// </summary>
     public class IdcardCreateParam
     {
@@ -54,5 +56,21 @@
         /// 
         /// </summary>
         public DateTime EndDate { get; set; }
+    }
+
+    /// <summary>
+    /// 身份证分页查询
+    /// </summary>
+    public class IdcardQueryPageParam : PageParam
+    {
+        /// <summary>
+        /// 姓名
+        /// </summary>
+        public string Name { get; set; } = string.Empty;
+
+        /// <summary>
+        /// 性别
+        /// </summary>
+        public int? Sex { get; set; }
     }
 }

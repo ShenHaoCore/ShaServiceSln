@@ -1,4 +1,5 @@
 ﻿using Sha.UserService.Dal.Common;
+using Sha.UserService.Model.DTO;
 using Sha.UserService.Model.Entity;
 using SqlSugar;
 
@@ -33,6 +34,23 @@ namespace Sha.UserService.Dal
         {
             db.Insertable<t_IdentityCard>(idcard).ExecuteCommand();
             return true;
+        }
+
+        /// <summary>
+        /// 分页查询
+        /// </summary>
+        /// <param name="qryParam"></param>
+        /// <returns></returns>
+        public List<t_IdentityCard> QueryPage(IdcardQueryPageParam qryParam)
+        {
+            int totalNumber = 0;
+            List<t_IdentityCard> cards = db.Queryable<t_IdentityCard>()
+                .WhereIF(!string.IsNullOrWhiteSpace(qryParam.Name), it => it.Name == qryParam.Name)
+                .WhereIF(qryParam.Sex.HasValue, it => it.Sex == qryParam.Sex)
+                .OrderByDescending(it => it.ID)
+                .ToPageList(qryParam.PageIndex, qryParam.PageSize, ref totalNumber);
+            qryParam.TotalNumber = totalNumber;
+            return cards;
         }
     }
 }

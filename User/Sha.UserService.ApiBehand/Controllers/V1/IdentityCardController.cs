@@ -8,6 +8,7 @@ using Sha.UserService.Bll;
 using Sha.UserService.Model.DTO;
 using Sha.UserService.Model.Entity;
 using Sha.UserService.Model.Request;
+using System.Collections.Generic;
 
 namespace Sha.UserService.ApiBehand.Controllers.V1
 {
@@ -53,6 +54,18 @@ namespace Sha.UserService.ApiBehand.Controllers.V1
             ResultModel<bool> result = bll.Create(param);
             if (!result.IsSuccess) { return new BaseResponse(false, result.Code, result.Message); }
             return new BaseResponse(true, FrameworkEnum.StatusCode.Success);
+        }
+
+        /// <summary>
+        /// 分页查询
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public BaseResponseList<t_IdentityCard> QueryPage([FromBody] IdcardQueryPageParam request)
+        {
+            List<t_IdentityCard> cards = bll.QueryPage(request);
+            return new BaseResponseList<t_IdentityCard>(true, FrameworkEnum.StatusCode.Success, cards);
         }
 
         #region 转型
