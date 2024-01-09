@@ -15,7 +15,7 @@ namespace Sha.Framework.Redis
         public static void AddRedisSetup(this IServiceCollection services)
         {
             ArgumentNullException.ThrowIfNull(nameof(services));
-            RedisConfig? redis = AppSettingHelper.GetObject<RedisConfig>(RedisConfig.KEY);
+            var redis = AppSettingHelper.GetObject<RedisConfig>(RedisConfig.KEY);
             if (redis == null) { throw new ArgumentNullException(nameof(redis)); }
 
             ConfigurationOptions config = new ConfigurationOptions { ClientName = redis.Name, Password = redis.Password, ConnectTimeout = redis.Timeout };

@@ -28,7 +28,7 @@ namespace Sha.Framework.Swagger
         /// <param name="options"></param>
         public void Configure(SwaggerGenOptions options)
         {
-            ServiceConfig? serveiceConfig = AppSettingHelper.GetObject<ServiceConfig>(ServiceConfig.KEY);
+            var serveiceConfig = AppSettingHelper.GetObject<ServiceConfig>(ServiceConfig.KEY);
             if (serveiceConfig == null) { throw new ArgumentNullException(nameof(serveiceConfig)); }
 
             foreach (var description in provider.ApiVersionDescriptions)

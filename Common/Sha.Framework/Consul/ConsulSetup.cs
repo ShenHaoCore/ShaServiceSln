@@ -15,8 +15,11 @@ namespace Sha.Framework.Consul
         public static void AddConsulSetup(this IServiceCollection services)
         {
             ArgumentNullException.ThrowIfNull(nameof(services));
-            ConsulConfig? consul = AppSettingHelper.GetObject<ConsulConfig>(ConsulConfig.KEY);
+            var consul = AppSettingHelper.GetObject<ConsulConfig>(ConsulConfig.KEY);
             if (consul == null) { throw new ArgumentNullException(nameof(consul)); }
+
+            bool isEnable = false; // 是否启用
+            if (!isEnable) { return; }
 
             ConsulClient client = new ConsulClient(options => { options.Address = new Uri(consul.Address); });
 

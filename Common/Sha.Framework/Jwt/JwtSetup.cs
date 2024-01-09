@@ -22,7 +22,7 @@ namespace Sha.Framework.Jwt
         {
             ArgumentNullException.ThrowIfNull(nameof(services));
 
-            JwtConfig? jwt = AppSettingHelper.GetObject<JwtConfig>(JwtConfig.KEY);
+            var jwt = AppSettingHelper.GetObject<JwtConfig>(JwtConfig.KEY);
             if (jwt == null) { throw new ArgumentNullException(nameof(jwt)); }
 
             TokenValidationParameters tokenParam = new TokenValidationParameters

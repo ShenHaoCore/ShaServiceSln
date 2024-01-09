@@ -22,7 +22,7 @@ namespace Sha.Framework.Jwt
         /// <returns></returns>
         public static string GenerateToken(JwtUserModel user)
         {
-            JwtConfig? jwtConfig = AppSettingHelper.GetObject<JwtConfig>(JwtConfig.KEY);
+            var jwtConfig = AppSettingHelper.GetObject<JwtConfig>(JwtConfig.KEY);
             if (jwtConfig == null) { throw new ArgumentNullException(nameof(jwtConfig)); }
             IEnumerable<Claim> claims = new Claim[] { new Claim(JwtRegisteredClaimNames.Jti, user.UserID.ToString()), new Claim(ClaimTypes.Role, user.Role) };
             SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfig.SecretKey));

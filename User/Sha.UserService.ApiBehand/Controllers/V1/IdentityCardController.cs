@@ -62,10 +62,11 @@ namespace Sha.UserService.ApiBehand.Controllers.V1
         /// <param name="request"></param>
         /// <returns></returns>
         [HttpPost]
-        public BaseResponseList<t_IdentityCard> QueryPage([FromBody] IdcardQueryPageParam request)
+        [AllowAnonymous]
+        public BaseResponsePage<t_IdentityCard> QueryPage([FromBody] IdcardQueryPageParam request)
         {
             List<t_IdentityCard> cards = bll.QueryPage(request);
-            return new BaseResponseList<t_IdentityCard>(true, FrameworkEnum.StatusCode.Success, cards);
+            return new BaseResponsePage<t_IdentityCard>(true, FrameworkEnum.StatusCode.Success, cards, request.TotalNumber);
         }
 
         #region 转型
