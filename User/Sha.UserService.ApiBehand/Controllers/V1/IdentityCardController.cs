@@ -8,7 +8,6 @@ using Sha.UserService.Bll;
 using Sha.UserService.Model.DTO;
 using Sha.UserService.Model.Entity;
 using Sha.UserService.Model.Request;
-using System.Collections.Generic;
 
 namespace Sha.UserService.ApiBehand.Controllers.V1
 {
