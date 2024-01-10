@@ -49,12 +49,6 @@ namespace Sha.Framework.Enum
         public enum StatusCode
         {
             /// <summary>
-            /// 这里应该有数据，但是现在是空的
-            /// </summary>
-            [Description("无数据")]
-            NoData = 206,
-
-            /// <summary>
             /// 未授权
             /// </summary>
             [Description("未授权")]
@@ -107,6 +101,12 @@ namespace Sha.Framework.Enum
             /// </summary>
             [Description("无服务")]
             NoService = 10006,
+
+            /// <summary>
+            /// 这里应该有数据，但是现在是空的
+            /// </summary>
+            [Description("无数据")]
+            NotFountData = 10007,
 
             /// <summary>
             /// 用户不存在

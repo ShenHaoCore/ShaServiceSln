@@ -43,7 +43,7 @@ namespace Sha.UserService.Api.Controllers.V1
             RechargeTradeParam paramObj = new RechargeTradeParam(request.Amount, request.Payment);
             ResultModel<RechargeTradeModel> result = bll.AppRecharge(paramObj);
             if (!result.IsSuccess) { return new BaseResponseObject<RechargeTradeModel>(false, result.Code, result.Message); }
-            if (result.Data == null) { return new BaseResponseObject<RechargeTradeModel>(false, FrameworkEnum.StatusCode.NoData); }
+            if (result.Data == null) { return new BaseResponseObject<RechargeTradeModel>(false, FrameworkEnum.StatusCode.NotFountData); }
             return new BaseResponseObject<RechargeTradeModel>(true, result.Code, result.Message, result.Data);
         }
 
@@ -60,7 +60,7 @@ namespace Sha.UserService.Api.Controllers.V1
             RechargeTradeParam paramObj = new RechargeTradeParam(request.Amount, request.Payment, request.IsGet ?? false);
             ResultModel<RechargeTradeModel> result = bll.PageRecharge(paramObj);
             if (!result.IsSuccess) { return new BaseResponseObject<RechargeTradeModel>(false, result.Code, result.Message); }
-            if (result.Data == null) { return new BaseResponseObject<RechargeTradeModel>(false, FrameworkEnum.StatusCode.NoData); }
+            if (result.Data == null) { return new BaseResponseObject<RechargeTradeModel>(false, FrameworkEnum.StatusCode.NotFountData); }
             return new BaseResponseObject<RechargeTradeModel>(true, result.Code, result.Message, result.Data);
         } 
         #endregion
