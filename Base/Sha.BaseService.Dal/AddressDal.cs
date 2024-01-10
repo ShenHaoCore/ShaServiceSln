@@ -1,4 +1,5 @@
-﻿using Sha.BaseService.Dal.Common;
+﻿using Microsoft.Extensions.Logging;
+using Sha.BaseService.Dal.Common;
 using Sha.BaseService.Model.Entity;
 using SqlSugar;
 
@@ -13,7 +14,8 @@ namespace Sha.BaseService.Dal
         /// 地址
         /// </summary>
         /// <param name="db"></param>
-        public AddressDal(ISqlSugarClient db) : base(db)
+        /// <param name="logger"></param>
+        public AddressDal(ISqlSugarClient db, ILogger<AddressDal> logger) : base(db, logger)
         {
         }
 

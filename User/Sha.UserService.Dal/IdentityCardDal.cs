@@ -1,4 +1,5 @@
-﻿using Sha.UserService.Dal.Common;
+﻿using Microsoft.Extensions.Logging;
+using Sha.UserService.Dal.Common;
 using Sha.UserService.Model.DTO;
 using Sha.UserService.Model.Entity;
 using SqlSugar;
@@ -11,10 +12,11 @@ namespace Sha.UserService.Dal
     public class IdentityCardDal : UserServiceDal
     {
         /// <summary>
-        /// 
+        /// 身份证
         /// </summary>
         /// <param name="db"></param>
-        public IdentityCardDal(ISqlSugarClient db) : base(db)
+        /// <param name="logger"></param>
+        public IdentityCardDal(ISqlSugarClient db, ILogger<IdentityCardDal> logger) : base(db, logger)
         {
         }
 

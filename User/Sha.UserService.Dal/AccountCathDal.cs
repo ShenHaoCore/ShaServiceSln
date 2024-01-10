@@ -1,4 +1,5 @@
-﻿using Sha.UserService.Dal.Common;
+﻿using Microsoft.Extensions.Logging;
+using Sha.UserService.Dal.Common;
 using Sha.UserService.Model.Entity;
 using SqlSugar;
 
@@ -13,7 +14,8 @@ namespace Sha.UserService.Dal
         /// 现金账户
         /// </summary>
         /// <param name="db"></param>
-        public AccountCathDal(ISqlSugarClient db) : base(db)
+        /// <param name="logger"></param>
+        public AccountCathDal(ISqlSugarClient db, ILogger<AccountCathDal> logger) : base(db, logger)
         {
         }
 

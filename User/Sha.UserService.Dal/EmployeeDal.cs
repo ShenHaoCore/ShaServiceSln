@@ -1,4 +1,5 @@
-﻿using Sha.UserService.Dal.Common;
+﻿using Microsoft.Extensions.Logging;
+using Sha.UserService.Dal.Common;
 using Sha.UserService.Model.Entity;
 using SqlSugar;
 
@@ -10,10 +11,11 @@ namespace Sha.UserService.Dal
     public class EmployeeDal : UserServiceDal
     {
         /// <summary>
-        /// 
+        /// 员工
         /// </summary>
         /// <param name="db"></param>
-        public EmployeeDal(ISqlSugarClient db) : base(db)
+        /// <param name="logger"></param>
+        public EmployeeDal(ISqlSugarClient db, ILogger<EmployeeDal> logger) : base(db, logger)
         {
         }
 

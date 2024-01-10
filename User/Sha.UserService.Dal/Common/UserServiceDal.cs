@@ -1,4 +1,5 @@
-﻿using Sha.Framework.Base;
+﻿using Microsoft.Extensions.Logging;
+using Sha.Framework.Base;
 using SqlSugar;
 
 namespace Sha.UserService.Dal.Common
@@ -8,14 +9,13 @@ namespace Sha.UserService.Dal.Common
     /// </summary>
     public class UserServiceDal : ShaServiceDal
     {
-        public readonly ISqlSugarClient db;
-
         /// <summary>
         /// 
         /// </summary>
-        public UserServiceDal(ISqlSugarClient db)
+        /// <param name="db"></param>
+        /// <param name="logger"></param>
+        public UserServiceDal(ISqlSugarClient db, ILogger<UserServiceDal> logger) : base(db, logger)
         {
-            this.db = db;
         }
     }
 }
