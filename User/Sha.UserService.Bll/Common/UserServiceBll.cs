@@ -8,15 +8,12 @@ namespace Sha.UserService.Bll.Common
     /// </summary>
     public class UserServiceBll : ShaServiceBll
     {
-        public readonly ILogger<UserServiceBll> logger;
-
         /// <summary>
         /// 
         /// </summary>
         /// <param name="logger">日志</param>
-        public UserServiceBll(ILogger<UserServiceBll> logger)
+        public UserServiceBll(ILogger<UserServiceBll> logger) : base(logger)
         {
-            this.logger = logger;
         }
     }
 }
