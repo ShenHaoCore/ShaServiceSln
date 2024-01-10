@@ -8,6 +8,13 @@ using System.Security.Claims;
 namespace Sha.Framework.Jwt
 {
     /// <summary>
+    /// 员工权限要求
+    /// </summary>
+    public class EmployeeRequirement : IAuthorizationRequirement
+    {
+    }
+
+    /// <summary>
     /// 员工权限要求处理程序
     /// </summary>
     public class EmployeeRequirementHandler : AuthorizationHandler<EmployeeRequirement>

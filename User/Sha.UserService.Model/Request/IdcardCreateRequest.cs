@@ -17,5 +17,10 @@
         /// 姓名
         /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// 民族
+        /// </summary>
+        public int Nation { get; set; }
     }
 }

@@ -5,12 +5,12 @@ namespace Sha.UserService.Model.DTO
     /// <summary>
     /// 身份证创建
     /// </summary>
-    public class IdcardCreateParam
+    public class IdcardCreate
     {
         /// <summary>
         /// 
         /// </summary>
-        public IdcardCreateParam()
+        public IdcardCreate()
         {
             this.Name = string.Empty;
             this.Address = string.Empty;
@@ -61,7 +61,7 @@ namespace Sha.UserService.Model.DTO
     /// <summary>
     /// 身份证分页查询
     /// </summary>
-    public class IdcardQueryPageParam : PageParam
+    public class IdcardPageQuery : PageParam
     {
         /// <summary>
         /// 姓名
@@ -70,6 +70,8 @@ namespace Sha.UserService.Model.DTO
 
         /// <summary>
         /// 性别
+        /// <sample>1：男</sample>
+        /// <sample>0：女</sample>
         /// </summary>
         public int? Sex { get; set; }
     }

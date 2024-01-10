@@ -18,12 +18,14 @@ namespace Sha.UserService.Dal
         }
 
         /// <summary>
-        /// 创建交易
+        /// 创建充值交易
         /// </summary>
-        /// <param name="recharge">充值</param>
-        public void CreateTrade(t_RechargeTrade recharge)
+        /// <param name="recharge"></param>
+        /// <returns></returns>
+        public bool CreateTrade(t_RechargeTrade recharge)
         {
             db.Insertable<t_RechargeTrade>(recharge).ExecuteCommand();
+            return true;
         }
     }
 }

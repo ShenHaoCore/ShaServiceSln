@@ -36,7 +36,7 @@ namespace Sha.UserService.Bll
         /// 创建
         /// </summary>
         /// <param name="craParam"></param>
-        public ResultModel<bool> Create(IdcardCreateParam craParam)
+        public ResultModel<bool> Create(IdcardCreate craParam)
         {
             t_IdentityCard idcard = new t_IdentityCard();
             if (!dal.Create(idcard)) { return new ResultModel<bool>(false, FrameworkEnum.StatusCode.Fail); }
@@ -48,7 +48,7 @@ namespace Sha.UserService.Bll
         /// </summary>
         /// <param name="qryParam"></param>
         /// <returns></returns>
-        public List<t_IdentityCard> QueryPage(IdcardQueryPageParam qryParam)
+        public List<t_IdentityCard> QueryPage(IdcardPageQuery qryParam)
         {
             return dal.QueryPage(qryParam);
         }

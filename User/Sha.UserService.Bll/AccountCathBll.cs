@@ -49,8 +49,8 @@ namespace Sha.UserService.Bll
             ValidationResult validResult = validator.Validate(paramObj);
             if (!validResult.IsValid) { return new ResultModel<RechargeTradeModel>(false, FrameworkEnum.StatusCode.ValidateFail); }
             IPayment iPay = context.ResolveKeyed<IPayment>((BusinessEnum.Payment)paramObj.Payment);
-            t_RechargeTrade recharge = new t_RechargeTrade(OrderHelper.GetOrderNo(BusinessEnum.BusinessType.RE), paramObj.Amount, (int)BusinessEnum.Currency.CNY, paramObj.Payment);
-            CreateTrade(recharge);
+            t_RechargeTrade? recharge = CreateTrade(paramObj);
+            if (recharge == null) { return new ResultModel<RechargeTradeModel>(false, FrameworkEnum.StatusCode.ValidateFail); }
             PaymentTrade trade = new PaymentTrade("支付充值", $"账户充值{recharge.Amount.ToString("f2")}元", recharge.Amount, recharge.TradeNo);
             ResultModel<PaymentTradeOrder> payResult = iPay.AppTrade(trade);
             if (!payResult.IsSuccess) { return new ResultModel<RechargeTradeModel>(false, payResult.Code, payResult.Message); }
@@ -70,8 +70,8 @@ namespace Sha.UserService.Bll
             ValidationResult validResult = validator.Validate(paramObj);
             if (!validResult.IsValid) { return new ResultModel<RechargeTradeModel>(false, FrameworkEnum.StatusCode.ValidateFail); }
             IPayment iPay = context.ResolveKeyed<IPayment>((BusinessEnum.Payment)paramObj.Payment);
-            t_RechargeTrade recharge = new t_RechargeTrade(OrderHelper.GetOrderNo(BusinessEnum.BusinessType.RE), paramObj.Amount, (int)BusinessEnum.Currency.CNY, paramObj.Payment);
-            CreateTrade(recharge);
+            t_RechargeTrade? recharge = CreateTrade(paramObj);
+            if (recharge == null) { return new ResultModel<RechargeTradeModel>(false, FrameworkEnum.StatusCode.Fail); }
             PaymentTrade trade = new PaymentTrade("支付充值", $"账户充值{recharge.Amount.ToString("f2")}元", recharge.Amount, recharge.TradeNo, paramObj.IsGet);
             ResultModel<PaymentTradeOrder> payResult = iPay.PageTrade(trade);
             if (!payResult.IsSuccess) { return new ResultModel<RechargeTradeModel>(false, payResult.Code, payResult.Message); }
@@ -82,11 +82,13 @@ namespace Sha.UserService.Bll
         /// <summary>
         /// 创建交易
         /// </summary>
-        /// <param name="recharge">充值</param>
+        /// <param name="paramObj">參數</param>
         /// <returns></returns>
-        public void CreateTrade(t_RechargeTrade recharge)
+        public t_RechargeTrade? CreateTrade(RechargeTradeParam paramObj)
         {
-            dal.CreateTrade(recharge);
+            t_RechargeTrade recharge = new t_RechargeTrade(OrderHelper.GetOrderNo(BusinessEnum.BusinessType.RE), paramObj.Amount, (int)BusinessEnum.Currency.CNY, paramObj.Payment);
+            if (!dal.CreateTrade(recharge)) { return null; }
+            return recharge;
         }
         #endregion
     }

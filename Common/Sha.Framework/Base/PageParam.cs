@@ -6,6 +6,15 @@
     public class PageParam
     {
         /// <summary>
+        /// 分页参数
+        /// </summary>
+        public PageParam()
+        {
+            this.PageIndex = 1;
+            this.PageSize = 10;
+        }
+
+        /// <summary>
         /// 页数
         /// </summary>
         public int PageIndex { get; set; }

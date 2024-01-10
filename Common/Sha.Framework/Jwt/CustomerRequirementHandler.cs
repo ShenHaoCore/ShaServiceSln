@@ -8,7 +8,14 @@ using System.Security.Claims;
 namespace Sha.Framework.Jwt
 {
     /// <summary>
-    /// 
+    /// 客户权限要求
+    /// </summary>
+    public class CustomerRequirement : IAuthorizationRequirement
+    {
+    }
+
+    /// <summary>
+    /// 员工权限要求处理程序
     /// </summary>
     public class CustomerRequirementHandler : AuthorizationHandler<CustomerRequirement>
     {

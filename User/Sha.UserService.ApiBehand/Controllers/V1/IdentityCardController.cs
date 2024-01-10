@@ -50,7 +50,7 @@ namespace Sha.UserService.ApiBehand.Controllers.V1
         public BaseResponse Create([FromBody] IdcardCreateRequest request)
         {
             logger.LogDebug($"身份证新增请求{JsonConvert.SerializeObject(request)}");
-            IdcardCreateParam param = ConvertTo(request);
+            IdcardCreate param = ConvertTo(request);
             ResultModel<bool> result = bll.Create(param);
             if (!result.IsSuccess) { return new BaseResponse(false, result.Code, result.Message); }
             return new BaseResponse(true, FrameworkEnum.StatusCode.Success);
@@ -63,7 +63,7 @@ namespace Sha.UserService.ApiBehand.Controllers.V1
         /// <returns></returns>
         [HttpPost]
         [AllowAnonymous]
-        public BaseResponsePage<t_IdentityCard> QueryPage([FromBody] IdcardQueryPageParam request)
+        public BaseResponsePage<t_IdentityCard> QueryPage([FromBody] IdcardPageQuery request)
         {
             List<t_IdentityCard> cards = bll.QueryPage(request);
             return new BaseResponsePage<t_IdentityCard>(true, FrameworkEnum.StatusCode.Success, cards, request.TotalNumber);
@@ -75,11 +75,12 @@ namespace Sha.UserService.ApiBehand.Controllers.V1
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        private IdcardCreateParam ConvertTo(IdcardCreateRequest request)
+        private IdcardCreate ConvertTo(IdcardCreateRequest request)
         {
-            IdcardCreateParam param = new IdcardCreateParam()
+            IdcardCreate param = new IdcardCreate()
             {
-                Name = request.Name
+                Name = request.Name,
+                Nation= request.Nation
             };
             return param;
         }
