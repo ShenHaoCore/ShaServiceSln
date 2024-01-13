@@ -61,7 +61,7 @@ namespace Sha.UserService.Model.DTO
     /// <summary>
     /// 身份证分页查询
     /// </summary>
-    public class IdcardPageQuery : PageParam
+    public class IdcardPageQuery : BasePage
     {
         /// <summary>
         /// 姓名

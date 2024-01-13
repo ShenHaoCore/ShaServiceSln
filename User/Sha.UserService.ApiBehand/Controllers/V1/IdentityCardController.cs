@@ -60,6 +60,7 @@ namespace Sha.UserService.ApiBehand.Controllers.V1
         /// <param name="request"></param>
         /// <returns></returns>
         [HttpPost]
+        [AllowAnonymous]
         public BaseResponsePage<t_IdentityCard> QueryPage([FromBody] IdcardPageQuery request)
         {
             List<t_IdentityCard> cards = bll.QueryPage(request);

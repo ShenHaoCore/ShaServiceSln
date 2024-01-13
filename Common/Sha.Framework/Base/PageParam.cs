@@ -3,12 +3,12 @@
     /// <summary>
     /// 分页参数
     /// </summary>
-    public class PageParam
+    public class BasePage
     {
         /// <summary>
         /// 分页参数
         /// </summary>
-        public PageParam()
+        public BasePage()
         {
             this.PageIndex = 1;
             this.PageSize = 10;
