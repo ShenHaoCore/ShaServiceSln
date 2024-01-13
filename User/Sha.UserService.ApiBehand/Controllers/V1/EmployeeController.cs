@@ -42,7 +42,7 @@ namespace Sha.UserService.ApiBehand.Controllers.V1
         }
 
         /// <summary>
-        /// 
+        /// 创建
         /// </summary>
         /// <returns></returns>
         [HttpPost]
