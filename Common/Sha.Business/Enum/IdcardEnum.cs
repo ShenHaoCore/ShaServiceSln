@@ -5,7 +5,7 @@ namespace Sha.Business.Enum
     /// <summary>
     /// 
     /// </summary>
-    public class UserEnum
+    public class IdcardEnum
     {
         /// <summary>
         /// 民族

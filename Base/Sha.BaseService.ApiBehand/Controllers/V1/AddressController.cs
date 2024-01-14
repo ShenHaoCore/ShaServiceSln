@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Sha.BaseService.Bll;
 using Sha.BaseService.Model.DTO;
+using Sha.BaseService.Model.Entity;
 using Sha.BaseService.Model.Request;
 using Sha.Framework.Base;
 using Sha.Framework.Enum;
@@ -26,6 +27,14 @@ namespace Sha.BaseService.ApiBehand.Controllers.V1
         {
             this.bll = bll;
         }
+
+        /// <summary>
+        /// 获取
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public BaseResponseList<t_Address> GetByParentKey([FromQuery] Guid key) => new BaseResponseList<t_Address>(true, FrameworkEnum.StatusCode.Success, bll.GetByParentKey(key));
 
         /// <summary>
         /// 新增

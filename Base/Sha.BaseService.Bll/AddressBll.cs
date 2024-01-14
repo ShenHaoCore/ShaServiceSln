@@ -28,6 +28,13 @@ namespace Sha.BaseService.Bll
 
         #region 方法
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public List<t_Address> GetByParentKey(Guid key) => dal.GetByParentKey(key);
+
+        /// <summary>
         /// 新增
         /// </summary>
         /// <param name="address"></param>

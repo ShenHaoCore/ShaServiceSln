@@ -23,6 +23,7 @@ builder.Host.AddSerilogSetup();
 
 ServiceConfig? service = builder.Configuration.GetSection(ServiceConfig.KEY).Get<ServiceConfig>();
 if (service == null) { throw new ArgumentNullException(nameof(service)); }
+List<string> xmlNames = new List<string>() { $"{Assembly.GetExecutingAssembly().GetName().Name}.XML", $"{ModelHelper.AssemblyName}.XML", $"{FrameworkHelper.AssemblyName}.XML" };
 
 builder.Services.AddSingleton(new AppSettingHelper(builder.Configuration));
 builder.Services.AddAutoMapper(cfg => { cfg.AddProfile<AutoMapperProfile>(); });
@@ -35,7 +36,7 @@ builder.Services.AddApiVersionSetup();
 builder.Services.AddJwtSetup();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.Replace(ServiceDescriptor.Transient<IControllerActivator, ServiceBasedControllerActivator>()); //  Ù–‘◊¢»Î±ÿ–Î
-builder.Services.AddSwaggerSetup(new List<string>() { $"{Assembly.GetExecutingAssembly().GetName().Name}.XML", $"{ModelHelper.AssemblyName}.XML" });
+builder.Services.AddSwaggerSetup(xmlNames);
 builder.Services.AddConsulSetup();
 
 var app = builder.Build();

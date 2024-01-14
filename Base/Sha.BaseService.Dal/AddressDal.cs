@@ -34,6 +34,13 @@ namespace Sha.BaseService.Dal
         public t_Address GetByCode(string code) => db.Queryable<t_Address>().First(it => it.Code == code);
 
         /// <summary>
+        /// 获取
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public List<t_Address> GetByParentKey(Guid key) => db.Queryable<t_Address>().Where(it => it.ParentKey == key).ToList();
+
+        /// <summary>
         /// 新增
         /// </summary>
         /// <param name="address"></param>
