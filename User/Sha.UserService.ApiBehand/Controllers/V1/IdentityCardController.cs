@@ -36,10 +36,16 @@ namespace Sha.UserService.ApiBehand.Controllers.V1
         /// <param name="number">公民身份号码</param>
         /// <returns></returns>
         [HttpGet]
-        public BaseResponseObject<t_IdentityCard> GetByNumber([FromQuery] string number)
-        {
-            return new BaseResponseObject<t_IdentityCard>(true, FrameworkEnum.StatusCode.Success, bll.GetByNumber(number));
-        }
+        public BaseResponseObject<t_IdentityCard> GetByNumber([FromQuery] string number) => new BaseResponseObject<t_IdentityCard>(true, FrameworkEnum.StatusCode.Success, bll.GetByNumber(number));
+
+        /// <summary>
+        /// 分页查询
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [AllowAnonymous]
+        public BaseResponsePage<t_IdentityCard> QueryPage([FromBody] IdcardPageQuery request) => new BaseResponsePage<t_IdentityCard>(true, FrameworkEnum.StatusCode.Success, bll.QueryPage(request), request.TotalNumber);
 
         /// <summary>
         /// 新增
@@ -52,19 +58,6 @@ namespace Sha.UserService.ApiBehand.Controllers.V1
             ResultModel<bool> result = bll.Create(request);
             if (!result.IsSuccess) { return new BaseResponse(false, result.Code, result.Message); }
             return new BaseResponse(true, FrameworkEnum.StatusCode.Success);
-        }
-
-        /// <summary>
-        /// 分页查询
-        /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
-        [HttpPost]
-        [AllowAnonymous]
-        public BaseResponsePage<t_IdentityCard> QueryPage([FromBody] IdcardPageQuery request)
-        {
-            List<t_IdentityCard> cards = bll.QueryPage(request);
-            return new BaseResponsePage<t_IdentityCard>(true, FrameworkEnum.StatusCode.Success, cards, request.TotalNumber);
         }
     }
 }
