@@ -1,5 +1,5 @@
-﻿using Serilog.Events;
-using Serilog;
+﻿using Serilog;
+using Serilog.Events;
 using Sha.Framework.Http;
 
 namespace Sha.Framework.Serilog

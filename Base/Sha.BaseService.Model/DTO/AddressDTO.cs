@@ -3,12 +3,12 @@
     /// <summary>
     /// 
     /// </summary>
-    public class AddressCreateParam
+    public class AddressCreateModel
     {
         /// <summary>
         /// 
         /// </summary>
-        public AddressCreateParam()
+        public AddressCreateModel()
         {
             this.Code = string.Empty;
             this.Number = string.Empty;

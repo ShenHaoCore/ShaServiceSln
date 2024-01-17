@@ -34,6 +34,22 @@ namespace Sha.BaseService.ApiBehand.Controllers.V1
         /// <param name="key"></param>
         /// <returns></returns>
         [HttpGet]
+        public BaseResponseObject<t_Address> GetByKey([FromQuery] Guid key) => new BaseResponseObject<t_Address>(true, FrameworkEnum.StatusCode.Success, bll.GetByKey(key));
+
+        /// <summary>
+        /// 获取
+        /// </summary>
+        /// <param name="code"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public BaseResponseObject<t_Address> GetByCode([FromQuery] string code) => new BaseResponseObject<t_Address>(true, FrameworkEnum.StatusCode.Success, bll.GetByCode(code));
+
+        /// <summary>
+        /// 获取
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        [HttpGet]
         public BaseResponseList<t_Address> GetByParentKey([FromQuery] Guid key) => new BaseResponseList<t_Address>(true, FrameworkEnum.StatusCode.Success, bll.GetByParentKey(key));
 
         /// <summary>
@@ -44,7 +60,7 @@ namespace Sha.BaseService.ApiBehand.Controllers.V1
         public BaseResponse Create([FromBody] AddressCreateRequest request)
         {
             logger.LogDebug($"地址新增请求【{JsonConvert.SerializeObject(request)}】");
-            AddressCreateParam param = new AddressCreateParam();
+            AddressCreateModel param = new AddressCreateModel();
             ResultModel<bool> result = bll.Create(param);
             if (!result.IsSuccess) { return new BaseResponse(false, result.Code, result.Message); }
             return new BaseResponse(true, FrameworkEnum.StatusCode.Success);

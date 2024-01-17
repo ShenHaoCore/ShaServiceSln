@@ -38,7 +38,7 @@ namespace Sha.BaseService.Dal
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public List<t_Address> GetByParentKey(Guid key) => db.Queryable<t_Address>().Where(it => it.ParentKey == key).ToList();
+        public List<t_Address> GetByParentKey(Guid key) => db.Queryable<t_Address>().Where(it => it.ParentKey == key).OrderBy(it => it.Sort).ToList();
 
         /// <summary>
         /// 新增
@@ -58,18 +58,7 @@ namespace Sha.BaseService.Dal
         /// <returns></returns>
         public bool Update(t_Address address)
         {
-            db.Updateable<t_Address>(address).UpdateColumns(it => new
-            {
-                it.Code,
-                it.Number,
-                it.NameCn,
-                it.NameEn,
-                it.ShortName,
-                it.ParentKey,
-                it.Type,
-                it.Sort,
-                it.IsDelete
-            }).ExecuteCommand();
+            db.Updateable<t_Address>(address).UpdateColumns(it => new { it.Code, it.Number, it.NameCn, it.NameEn, it.ShortName, it.ParentKey, it.Type, it.Sort, it.IsDelete }).ExecuteCommand();
             return true;
         }
 

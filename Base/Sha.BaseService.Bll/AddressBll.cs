@@ -28,7 +28,21 @@ namespace Sha.BaseService.Bll
 
         #region 方法
         /// <summary>
-        /// 
+        /// 获取
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public t_Address GetByKey(Guid key) => dal.GetByKey(key);
+
+        /// <summary>
+        /// 获取
+        /// </summary>
+        /// <param name="code"></param>
+        /// <returns></returns>
+        public t_Address GetByCode(string code) => dal.GetByCode(code);
+
+        /// <summary>
+        /// 获取
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
@@ -39,11 +53,10 @@ namespace Sha.BaseService.Bll
         /// </summary>
         /// <param name="address"></param>
         /// <returns></returns>
-        public ResultModel<bool> Create(AddressCreateParam param)
+        public ResultModel<bool> Create(AddressCreateModel param)
         {
             logger.LogDebug($"地址新增参数【{JsonConvert.SerializeObject(param)}】");
-            t_Address address = ConvertTo(param);
-            if (!this.dal.Create(address)) { return new ResultModel<bool>(false, FrameworkEnum.StatusCode.Fail); }
+            if (!this.dal.Create(ConvertTo(param))) { return new ResultModel<bool>(false, FrameworkEnum.StatusCode.Fail); }
             return new ResultModel<bool>(true, FrameworkEnum.StatusCode.Success);
         }
 
@@ -55,8 +68,7 @@ namespace Sha.BaseService.Bll
         public ResultModel<bool> Update(AddressUpdateParam param)
         {
             logger.LogDebug($"地址更新参数【{JsonConvert.SerializeObject(param)}】");
-            t_Address address = ConvertTo(param);
-            if (!this.dal.Update(address)) { return new ResultModel<bool>(false, FrameworkEnum.StatusCode.Fail); }
+            if (!this.dal.Update(ConvertTo(param))) { return new ResultModel<bool>(false, FrameworkEnum.StatusCode.Fail); }
             return new ResultModel<bool>(true, FrameworkEnum.StatusCode.Success);
         }
 
@@ -78,7 +90,7 @@ namespace Sha.BaseService.Bll
         /// </summary>
         /// <param name="param"></param>
         /// <returns></returns>
-        private t_Address ConvertTo(AddressCreateParam param)
+        private t_Address ConvertTo(AddressCreateModel param)
         {
             t_Address address = new t_Address()
             {

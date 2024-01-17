@@ -43,6 +43,21 @@ namespace Sha.Framework.Http
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public static async Task<string> GetRequestBodyAsync(this HttpRequest request)
+        {
+            string bodyString = string.Empty;
+            request.EnableBuffering();
+            request.Body.Seek(0, SeekOrigin.Begin);
+            if (!request.Body.CanRead || !request.Body.CanSeek || request.Body.Length < 1) { return string.Empty; }
+            using (StreamReader reader = new StreamReader(request.Body, Encoding.UTF8, true, 1024, true)) { bodyString = await reader.ReadToEndAsync(); }
+            return bodyString;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="context"></param>
         /// <param name="headerName"></param>
