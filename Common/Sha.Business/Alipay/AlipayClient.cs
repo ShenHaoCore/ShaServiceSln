@@ -54,7 +54,7 @@ namespace Sha.Business.Alipay
             }
             catch (Exception ex)
             {
-                logger.LogError("APP支付异常", ex);
+                logger.LogError(ex, "APP支付异常");
                 return null;
             }
         }
@@ -81,7 +81,7 @@ namespace Sha.Business.Alipay
             }
             catch (Exception ex)
             {
-                logger.LogError("电脑网站支付异常", ex);
+                logger.LogError(ex, "电脑网站支付异常");
                 return null;
             }
         }
@@ -108,7 +108,7 @@ namespace Sha.Business.Alipay
             }
             catch (Exception ex)
             {
-                logger.LogError("手机网站支付异常", ex);
+                logger.LogError(ex, "手机网站支付异常");
                 return null;
             }
         }
@@ -133,7 +133,7 @@ namespace Sha.Business.Alipay
             }
             catch (Exception ex)
             {
-                logger.LogError("付款码支付异常", ex);
+                logger.LogError(ex, "付款码支付异常");
                 return null;
             }
         }
@@ -158,7 +158,7 @@ namespace Sha.Business.Alipay
             }
             catch (Exception ex)
             {
-                logger.LogError("扫码支付异常", ex);
+                logger.LogError(ex, "扫码支付异常");
                 return null;
             }
         }

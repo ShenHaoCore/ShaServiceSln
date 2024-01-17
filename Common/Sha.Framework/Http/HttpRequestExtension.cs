@@ -1,5 +1,4 @@
-﻿using System.IO;
-using System.Text;
+﻿using System.Text;
 
 namespace Sha.Framework.Http
 {
@@ -37,21 +36,6 @@ namespace Sha.Framework.Http
             using (StreamReader reader = new StreamReader(request.Body, Encoding.UTF8, true, 1024, true)) { bodyString = reader.ReadToEndAsync().GetAwaiter().GetResult(); }
             request.Body.Seek(0, SeekOrigin.Begin); // 自己填坑
             request.Body.Position = 0;
-            return bodyString;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
-        public static async Task<string> GetRequestBodyAsync(this HttpRequest request)
-        {
-            string bodyString = string.Empty;
-            request.EnableBuffering();
-            request.Body.Seek(0, SeekOrigin.Begin);
-            if (!request.Body.CanRead || !request.Body.CanSeek || request.Body.Length < 1) { return string.Empty; }
-            using (StreamReader reader = new StreamReader(request.Body, Encoding.UTF8, true, 1024, true)) { bodyString = await reader.ReadToEndAsync(); }
             return bodyString;
         }
 
