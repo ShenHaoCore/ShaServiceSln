@@ -75,7 +75,7 @@ namespace Sha.Business.WeChat
             }
             catch (Exception ex)
             {
-                logger.LogError("微信V3获取证书异常", ex);
+                logger.LogError(ex, "微信V3获取证书异常");
                 return null;
             }
         }
