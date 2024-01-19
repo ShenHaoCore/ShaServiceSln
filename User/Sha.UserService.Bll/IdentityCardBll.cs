@@ -48,7 +48,7 @@ namespace Sha.UserService.Bll
         /// </summary>
         /// <param name="qryParam"></param>
         /// <returns></returns>
-        public List<t_IdentityCard> QueryPage(IdcardPageQuery qryParam)
+        public List<t_IdentityCard> QueryPage(IdcardQueryPage qryParam)
         {
             return dal.QueryPage(qryParam);
         }

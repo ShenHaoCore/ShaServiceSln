@@ -26,15 +26,11 @@ namespace Sha.Framework.Http
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public static string GetRequestBody(this HttpRequest request)
+        public static async Task<string> GetRequestBodyAsync(this HttpRequest request)
         {
             string bodyString = string.Empty;
             request.EnableBuffering();
-            request.Body.Position = 0;
-            request.Body.Seek(0, SeekOrigin.Begin); // 启用倒带功能，就可以让 Request.Body 可以再次读取
-            if (!request.Body.CanRead || !request.Body.CanSeek || request.Body.Length < 1) { return string.Empty; }
-            using (StreamReader reader = new StreamReader(request.Body, Encoding.UTF8, true, 1024, true)) { bodyString = reader.ReadToEndAsync().GetAwaiter().GetResult(); }
-            request.Body.Seek(0, SeekOrigin.Begin); // 自己填坑
+            using (StreamReader reader = new StreamReader(request.Body, Encoding.UTF8, true, 1024, true)) { bodyString = await reader.ReadToEndAsync(); }
             request.Body.Position = 0;
             return bodyString;
         }

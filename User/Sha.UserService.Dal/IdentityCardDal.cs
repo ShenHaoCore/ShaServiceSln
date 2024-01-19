@@ -43,7 +43,7 @@ namespace Sha.UserService.Dal
         /// </summary>
         /// <param name="qryParam"></param>
         /// <returns></returns>
-        public List<t_IdentityCard> QueryPage(IdcardPageQuery qryParam)
+        public List<t_IdentityCard> QueryPage(IdcardQueryPage qryParam)
         {
             int totalNumber = 0;
             List<t_IdentityCard> cards = db.Queryable<t_IdentityCard>()

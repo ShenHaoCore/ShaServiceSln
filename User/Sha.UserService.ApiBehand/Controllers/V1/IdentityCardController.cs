@@ -45,7 +45,7 @@ namespace Sha.UserService.ApiBehand.Controllers.V1
         /// <returns></returns>
         [HttpPost]
         [AllowAnonymous]
-        public BaseResponsePage<t_IdentityCard> QueryPage([FromBody] IdcardPageQuery request) => new BaseResponsePage<t_IdentityCard>(true, FrameworkEnum.StatusCode.Success, bll.QueryPage(request), request.TotalNumber);
+        public BaseResponsePage<t_IdentityCard> QueryPage([FromBody] IdcardQueryPage request) => new BaseResponsePage<t_IdentityCard>(true, FrameworkEnum.StatusCode.Success, bll.QueryPage(request), request.TotalNumber);
 
         /// <summary>
         /// 新增
