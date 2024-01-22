@@ -13,7 +13,7 @@ namespace Sha.Framework.Swagger
         /// <param name="app"></param>
         public static void UseSwaggerMiddle(this WebApplication app)
         {
-            if (app == null) { throw new ArgumentNullException(nameof(app)); }
+            ArgumentNullException.ThrowIfNull(app);
 
             app.UseSwagger();
             app.UseSwaggerUI(options =>
