@@ -39,9 +39,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Identity", "Identity", "{17
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Gateway", "Gateway", "{54F19A1B-61A9-4515-A85E-2CF68075FAA5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sha.Gateway", "Gateway\Sha.Gateway\Sha.Gateway.csproj", "{C967C0DC-8887-418B-AE17-8B3133011F2D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sha.Gateway", "Gateway\Sha.Gateway\Sha.Gateway.csproj", "{C967C0DC-8887-418B-AE17-8B3133011F2D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sha.Identity", "Identity\Sha.Identity\Sha.Identity.csproj", "{EFBDB0AF-4DFD-4C9D-9978-D0C204A8C225}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sha.Identity", "Identity\Sha.Identity\Sha.Identity.csproj", "{EFBDB0AF-4DFD-4C9D-9978-D0C204A8C225}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
