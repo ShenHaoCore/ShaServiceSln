@@ -149,7 +149,7 @@ namespace Sha.Business.WeChat
         /// <returns></returns>
         public string AesGcmDecrypt(string associatedData, string nonce, string ciphertext)
         {
-            using (AesGcm aes = new AesGcm(Encoding.UTF8.GetBytes(config.APIv3Key)))
+            using (AesGcm aes = new AesGcm(Encoding.UTF8.GetBytes(config.APIv3Key), 1024))
             {
                 byte[]? associatedBytes = associatedData == null ? null : Encoding.UTF8.GetBytes(associatedData);
                 var encryptedBytes = Convert.FromBase64String(ciphertext);
