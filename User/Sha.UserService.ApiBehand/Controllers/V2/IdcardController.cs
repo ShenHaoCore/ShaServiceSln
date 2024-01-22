@@ -7,7 +7,6 @@ using Sha.Framework.Enum;
 using Sha.UserService.Bll;
 using Sha.UserService.Model.DTO;
 using Sha.UserService.Model.Entity;
-using Sha.UserService.Model.Request;
 
 namespace Sha.UserService.ApiBehand.Controllers.V2
 {
@@ -16,16 +15,16 @@ namespace Sha.UserService.ApiBehand.Controllers.V2
     /// </summary>
     [Authorize]
     [ApiVersion(2.0)]
-    public class IdentityCardController : ShaBaseController
+    public class IdcardController : ShaBaseController
     {
-        private readonly IdentityCardBll bll;
+        private readonly IdcardBll bll;
 
         /// <summary>
         /// 身份证
         /// </summary>
         /// <param name="logger">日志</param>
         /// <param name="bll">业务逻辑层</param>
-        public IdentityCardController(ILogger<IdentityCardController> logger, IdentityCardBll bll) : base(logger)
+        public IdcardController(ILogger<IdcardController> logger, IdcardBll bll) : base(logger)
         {
             this.bll = bll;
         }
@@ -36,10 +35,16 @@ namespace Sha.UserService.ApiBehand.Controllers.V2
         /// <param name="number">公民身份号码</param>
         /// <returns></returns>
         [HttpGet]
-        public BaseResponseObject<t_IdentityCard> GetByNumber([FromQuery] string number)
-        {
-            return new BaseResponseObject<t_IdentityCard>(true, FrameworkEnum.StatusCode.Success, bll.GetByNumber(number));
-        }
+        public BaseResponseObject<t_IdentityCard> GetByNumber([FromQuery] string number) => new BaseResponseObject<t_IdentityCard>(true, FrameworkEnum.StatusCode.Success, bll.GetByNumber(number));
+
+        /// <summary>
+        /// 分页查询
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [AllowAnonymous]
+        public BaseResponsePage<t_IdentityCard> QueryPage([FromBody] IdcardQueryPage request) => new BaseResponsePage<t_IdentityCard>(true, FrameworkEnum.StatusCode.Success, bll.QueryPage(request), request.TotalNumber);
 
         /// <summary>
         /// 新增

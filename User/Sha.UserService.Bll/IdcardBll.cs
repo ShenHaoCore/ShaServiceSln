@@ -11,16 +11,16 @@ namespace Sha.UserService.Bll
     /// <summary>
     /// 身份证
     /// </summary>
-    public class IdentityCardBll : UserServiceBll
+    public class IdcardBll : UserServiceBll
     {
-        private readonly IdentityCardDal dal;
+        private readonly IdcardDal dal;
 
         /// <summary>
         /// 身份证
         /// </summary>
         /// <param name="logger">日志</param>
         /// <param name="dal">数据访问层</param>
-        public IdentityCardBll(ILogger<IdentityCardBll> logger, IdentityCardDal dal) : base(logger)
+        public IdcardBll(ILogger<IdcardBll> logger, IdcardDal dal) : base(logger)
         {
             this.dal = dal;
         }

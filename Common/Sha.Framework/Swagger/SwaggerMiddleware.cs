@@ -19,8 +19,9 @@ namespace Sha.Framework.Swagger
             app.UseSwaggerUI(options =>
             {
                 app.DescribeApiVersions().ToList().ForEach(description => { options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", description.GroupName.ToUpperInvariant()); });
-                options.DocExpansion(DocExpansion.None); // 设置为None可折叠所有方法
-                options.DefaultModelsExpandDepth(0); // 设置为-1 可不显示Models
+                options.DocExpansion(DocExpansion.None);    // 设置为 None 可折叠所有方法
+                options.DefaultModelsExpandDepth(0);        // 设置为 -1 可不显示Models
+                options.DisplayRequestDuration();           // 设置持续时间的显示（以毫秒为单位）
             });
         }
     }

@@ -30,7 +30,7 @@ namespace Sha.UserService.Bll
         /// <param name="logger">日志</param>
         /// <param name="dal">数据访问层</param>
         /// <param name="context"></param>
-        public AccountCathBll(ILogger<IdentityCardBll> logger, AccountCathDal dal, IComponentContext context) : base(logger)
+        public AccountCathBll(ILogger<IdcardBll> logger, AccountCathDal dal, IComponentContext context) : base(logger)
         {
             this.dal = dal;
             this.context = context;

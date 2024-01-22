@@ -7,24 +7,24 @@ using Sha.Framework.Enum;
 using Sha.UserService.Bll;
 using Sha.UserService.Model.DTO;
 using Sha.UserService.Model.Entity;
+using Sha.UserService.Model.Request;
 
-namespace Sha.UserService.ApiBehand.Controllers.V1
+namespace Sha.UserService.Api.Controllers.V2
 {
     /// <summary>
     /// 身份证
     /// </summary>
-    [Authorize(Policy = "OnlyEmployee")]
-    [ApiVersion(1.0)]
-    public class IdentityCardController : ShaBaseController
+    [ApiVersion(2.0)]
+    public class IdcardController : ShaBaseController
     {
-        private readonly IdentityCardBll bll;
+        private readonly IdcardBll bll;
 
         /// <summary>
         /// 身份证
         /// </summary>
         /// <param name="logger">日志</param>
         /// <param name="bll">业务逻辑层</param>
-        public IdentityCardController(ILogger<IdentityCardController> logger, IdentityCardBll bll) : base(logger)
+        public IdcardController(ILogger<IdcardController> logger, IdcardBll bll) : base(logger)
         {
             this.bll = bll;
         }

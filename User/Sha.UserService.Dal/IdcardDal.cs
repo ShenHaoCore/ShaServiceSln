@@ -9,14 +9,14 @@ namespace Sha.UserService.Dal
     /// <summary>
     /// 身份证
     /// </summary>
-    public class IdentityCardDal : UserServiceDal
+    public class IdcardDal : UserServiceDal
     {
         /// <summary>
         /// 身份证
         /// </summary>
         /// <param name="db"></param>
         /// <param name="logger"></param>
-        public IdentityCardDal(ISqlSugarClient db, ILogger<IdentityCardDal> logger) : base(db, logger)
+        public IdcardDal(ISqlSugarClient db, ILogger<IdcardDal> logger) : base(db, logger)
         {
         }
 
