@@ -33,6 +33,13 @@ namespace Sha.UserService.Bll
         public t_IdentityCard GetByNumber(string number) => dal.GetByNumber(number);
 
         /// <summary>
+        /// 分页查询
+        /// </summary>
+        /// <param name="qryParam"></param>
+        /// <returns></returns>
+        public List<t_IdentityCard> QueryPage(IdcardQueryPage qryParam) => dal.QueryPage(qryParam);
+
+        /// <summary>
         /// 创建
         /// </summary>
         /// <param name="craParam"></param>
@@ -41,16 +48,6 @@ namespace Sha.UserService.Bll
             t_IdentityCard idcard = new t_IdentityCard();
             if (!dal.Create(idcard)) { return new ResultModel<bool>(false, FrameworkEnum.StatusCode.Fail); }
             return new ResultModel<bool>(true, FrameworkEnum.StatusCode.Success);
-        }
-
-        /// <summary>
-        /// 分页查询
-        /// </summary>
-        /// <param name="qryParam"></param>
-        /// <returns></returns>
-        public List<t_IdentityCard> QueryPage(IdcardQueryPage qryParam)
-        {
-            return dal.QueryPage(qryParam);
         }
     }
 }
