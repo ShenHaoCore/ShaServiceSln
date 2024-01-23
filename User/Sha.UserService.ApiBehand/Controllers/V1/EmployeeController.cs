@@ -1,4 +1,5 @@
-﻿using Asp.Versioning;
+﻿using Aop.Api.Domain;
+using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Sha.Framework.Base;
@@ -44,10 +45,14 @@ namespace Sha.UserService.ApiBehand.Controllers.V1
         /// <summary>
         /// 创建
         /// </summary>
+        /// <param name="request"></param>
         /// <returns></returns>
+        [AllowAnonymous]
         [HttpPost]
-        public BaseResponse Create()
+        public BaseResponse Create([FromBody] EmployeeCreate request)
         {
+            ResultModel<bool> result = bll.Create(request);
+            if (!result.IsSuccess) { return new BaseResponse(false, result.Code, result.Message); }
             return new BaseResponse(true, FrameworkEnum.StatusCode.Success);
         }
     }

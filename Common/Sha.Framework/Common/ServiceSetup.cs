@@ -15,7 +15,7 @@ namespace Sha.Framework.Common
         /// 
         /// </summary>
         /// <param name="services"></param>
-        /// <param name="prefixName"></param>
+        /// <param name="prefixName">前缀</param>
         public static void AddControllerSetup(this IServiceCollection services, string prefixName)
         {
             services.AddControllers(option =>
@@ -32,7 +32,7 @@ namespace Sha.Framework.Common
         }
 
         /// <summary>
-        /// 
+        /// 接口版本
         /// </summary>
         /// <param name="services"></param>
         public static void AddApiVersionSetup(this IServiceCollection services)

@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace Sha.UserService.Model.DTO
@@ -41,7 +42,7 @@ namespace Sha.UserService.Model.DTO
         public EmployeeLoginValidator()
         {
             RuleFor(it => it.Number).NotEmpty().WithName("工号");
-            RuleFor(it => it.Password).NotEmpty().WithName("密码");
+            RuleFor(it => it.Password).NotEmpty().MinimumLength(6).WithName("密码");
         }
     }
 
@@ -70,5 +71,45 @@ namespace Sha.UserService.Model.DTO
         /// 
         /// </summary>
         public string Token { get; set; }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public class EmployeeCreate
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        public EmployeeCreate(string number, string password)
+        {
+            this.Number = number;
+            this.Password = password;
+        }
+
+        /// <summary>
+        /// 工号
+        /// </summary>
+        public string Number { get; set; }
+
+        /// <summary>
+        /// 密码
+        /// </summary>
+        public string Password { get; set; }
+    }
+
+    /// <summary>
+    /// 员工新建验证
+    /// </summary>
+    public class EmployeeCreateValidator : AbstractValidator<EmployeeCreate>
+    {
+        /// <summary>
+        /// 员工登录验证
+        /// </summary>
+        public EmployeeCreateValidator()
+        {
+            RuleFor(it => it.Number).NotEmpty().WithName("工号").WithMessage("{PropertyName}不能为空");
+            RuleFor(it => it.Password).Cascade(CascadeMode.Stop).NotEmpty().WithMessage("{PropertyName}不能为空").MinimumLength(6).WithName("密码").WithMessage("{PropertyName}长度小于{MinLength}");
+        }
     }
 }

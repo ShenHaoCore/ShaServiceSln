@@ -72,7 +72,17 @@ namespace Sha.UserService.Model.DTO
         public RechargeTradeValidator()
         {
             RuleFor(it => it.Amount).GreaterThan(0).WithName("金额");
-            RuleFor(it => it.Payment).Custom((payment, context) => { if (!Enum.IsDefined(typeof(BusinessEnum.Payment), payment)) { context.AddFailure("支付平台错误"); } });
+            RuleFor(it => it.Payment).Must(IsPayment).WithMessage("支付平台错误");
+        }
+
+        /// <summary>
+        /// 是否支付平台
+        /// </summary>
+        /// <param name="payment"></param>
+        /// <returns></returns>
+        private bool IsPayment(int payment)
+        {
+            return Enum.IsDefined(typeof(BusinessEnum.Payment), payment);
         }
     }
 

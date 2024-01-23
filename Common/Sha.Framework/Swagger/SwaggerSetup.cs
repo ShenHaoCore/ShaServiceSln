@@ -17,7 +17,7 @@ namespace Sha.Framework.Swagger
         /// <exception cref="ArgumentNullException"></exception>
         public static void AddSwaggerSetup(this IServiceCollection services, List<string> xmlNames)
         {
-            if (services == null) { throw new ArgumentNullException(nameof(services)); }
+            ArgumentNullException.ThrowIfNull(services);
             services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
             services.AddSwaggerGen(options =>
             {
