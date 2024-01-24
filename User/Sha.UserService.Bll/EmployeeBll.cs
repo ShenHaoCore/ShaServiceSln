@@ -44,7 +44,7 @@ namespace Sha.UserService.Bll
             ValidationResult validResult = validator.Validate(paramObj);
             if (!validResult.IsValid) { return new ResultModel<LoginResult>(false, FrameworkEnum.StatusCode.ValidateFail); }
             t_Employee employee = dal.GetByNumber(paramObj.Number);
-            if (employee == null) { return new ResultModel<LoginResult>(false, FrameworkEnum.StatusCode.UserNotFount); }
+            if (employee == null) { return new ResultModel<LoginResult>(false, FrameworkEnum.StatusCode.UserNotExists); }
             AuthenInfoModel info = new AuthenInfoModel() { UserID = employee.ID, UserType = FrameworkEnum.UserType.Employee.ToString() };
             LoginResult login = new LoginResult(JwtHelper.Type, JwtHelper.GenerateToken(info));
             LoginModel empuser = new LoginModel(employee.ID, FrameworkEnum.UserType.Employee);

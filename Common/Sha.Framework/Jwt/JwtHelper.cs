@@ -18,16 +18,16 @@ namespace Sha.Framework.Jwt
         /// <summary>
         /// 生成令牌
         /// </summary>
-        /// <param name="user"></param>
+        /// <param name="info"></param>
         /// <returns></returns>
-        public static string GenerateToken(AuthenInfoModel user)
+        public static string GenerateToken(AuthenInfoModel info)
         {
-            var jwtConfig = AppSettingHelper.GetObject<JwtConfig>(JwtConfig.KEY);
-            if (jwtConfig == null) { throw new ArgumentNullException(nameof(jwtConfig)); }
-            IEnumerable<Claim> claims = new Claim[] { new Claim(JwtRegisteredClaimNames.Jti, user.UserID.ToString()), new Claim(ClaimTypes.Role, user.Role) };
-            SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfig.SecretKey));
+            var jwt = AppSettingHelper.GetObject<JwtConfig>(JwtConfig.KEY);
+            if (jwt == null) { throw new ArgumentNullException(nameof(jwt)); }
+            IEnumerable<Claim> claims = new Claim[] { new Claim(JwtRegisteredClaimNames.Jti, info.UserID.ToString()), new Claim(ClaimTypes.Role, info.Role) };
+            SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt.SecretKey));
             SigningCredentials sign = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-            JwtSecurityToken jwtoken = new JwtSecurityToken(issuer: jwtConfig.Issuer, audience: jwtConfig.Audience, claims: claims, notBefore: DateTime.UtcNow, expires: DateTime.UtcNow.AddSeconds(Expiry.TotalSeconds), signingCredentials: sign);
+            JwtSecurityToken jwtoken = new JwtSecurityToken(issuer: jwt.Issuer, audience: jwt.Audience, claims: claims, notBefore: DateTime.UtcNow, expires: DateTime.UtcNow.AddSeconds(Expiry.TotalSeconds), signingCredentials: sign);
             return new JwtSecurityTokenHandler().WriteToken(jwtoken);
         }
 

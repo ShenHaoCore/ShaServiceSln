@@ -112,7 +112,13 @@ namespace Sha.Framework.Enum
             /// 用户不存在
             /// </summary>
             [Description("用户不存在")]
-            UserNotFount = 20000,
+            UserNotExists = 20000,
+
+            /// <summary>
+            /// 密码错误
+            /// </summary>
+            [Description("密码错误")]
+            PasswordError = 20001,
         }
     }
 }
