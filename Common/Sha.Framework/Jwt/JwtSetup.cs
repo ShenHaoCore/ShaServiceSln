@@ -43,7 +43,7 @@ namespace Sha.Framework.Jwt
                 options.AddPolicy("OnlyEmployee", Policy => Policy.Requirements.Add(new EmployeeRequirement()));
                 options.AddPolicy("OnlyCustomer", Policy => Policy.Requirements.Add(new CustomerRequirement()));
             }); 
-            services.AddScoped<IAuthorizationHandler, EmployeeRequirementHandler>();
+            services.AddScoped<IAuthorizationHandler, EmployeeHandler>();
 
             services.AddAuthentication(option =>
             {

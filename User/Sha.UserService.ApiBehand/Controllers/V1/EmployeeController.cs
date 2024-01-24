@@ -1,5 +1,4 @@
-﻿using Aop.Api.Domain;
-using Asp.Versioning;
+﻿using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Sha.Framework.Base;

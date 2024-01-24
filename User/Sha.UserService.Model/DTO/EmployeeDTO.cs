@@ -1,6 +1,4 @@
 ﻿using FluentValidation;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 
 namespace Sha.UserService.Model.DTO
 {
@@ -41,8 +39,8 @@ namespace Sha.UserService.Model.DTO
         /// </summary>
         public EmployeeLoginValidator()
         {
-            RuleFor(it => it.Number).NotEmpty().WithName("工号");
-            RuleFor(it => it.Password).NotEmpty().MinimumLength(6).WithName("密码");
+            RuleFor(it => it.Number).NotEmpty().WithMessage("{PropertyName}不能为空").WithName("工号");
+            RuleFor(it => it.Password).NotEmpty().WithMessage("{PropertyName}不能为空").WithName("密码");
         }
     }
 
@@ -108,8 +106,8 @@ namespace Sha.UserService.Model.DTO
         /// </summary>
         public EmployeeCreateValidator()
         {
-            RuleFor(it => it.Number).NotEmpty().WithName("工号").WithMessage("{PropertyName}不能为空");
-            RuleFor(it => it.Password).Cascade(CascadeMode.Stop).NotEmpty().WithMessage("{PropertyName}不能为空").MinimumLength(6).WithName("密码").WithMessage("{PropertyName}长度小于{MinLength}");
+            RuleFor(it => it.Number).NotEmpty().WithMessage("{PropertyName}不能为空").WithName("工号");
+            RuleFor(it => it.Password).Cascade(CascadeMode.Stop).NotEmpty().WithMessage("{PropertyName}不能为空").MinimumLength(6).WithMessage("{PropertyName}长度小于{MinLength}").WithName("密码");
         }
     }
 }

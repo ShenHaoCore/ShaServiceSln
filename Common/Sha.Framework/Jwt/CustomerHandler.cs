@@ -8,16 +8,16 @@ using System.Security.Claims;
 namespace Sha.Framework.Jwt
 {
     /// <summary>
-    /// 员工权限要求
+    /// 客户权限要求
     /// </summary>
-    public class EmployeeRequirement : IAuthorizationRequirement
+    public class CustomerRequirement : IAuthorizationRequirement
     {
     }
 
     /// <summary>
     /// 员工权限要求处理程序
     /// </summary>
-    public class EmployeeRequirementHandler : AuthorizationHandler<EmployeeRequirement>
+    public class CustomerHandler : AuthorizationHandler<CustomerRequirement>
     {
         private readonly IRedisManage redis;
 
@@ -25,7 +25,7 @@ namespace Sha.Framework.Jwt
         /// 
         /// </summary>
         /// <param name="redis"></param>
-        public EmployeeRequirementHandler(IRedisManage redis)
+        public CustomerHandler(IRedisManage redis)
         {
             this.redis = redis;
         }
@@ -36,7 +36,7 @@ namespace Sha.Framework.Jwt
         /// <param name="context"></param>
         /// <param name="requirement"></param>
         /// <returns></returns>
-        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, EmployeeRequirement requirement)
+        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, CustomerRequirement requirement)
         {
             var role = context.User.FindFirst(c => c.Type == ClaimTypes.Role);
             if (context.Resource is DefaultHttpContext)
@@ -49,8 +49,8 @@ namespace Sha.Framework.Jwt
                 string token = string.Empty;
                 if (authString.ToString().StartsWith($"{JwtHelper.Type} ", StringComparison.OrdinalIgnoreCase)) { token = authString.ToString()[$"{JwtHelper.Type} ".Length..].Trim(); }
                 JwtUserModel user = JwtHelper.DeserializeToken(token);
-                var empUser = redis.Get<LoginUser>($"{FrameworkEnum.UserType.Employee.ToString().ToUpper()}-{user.UserID}");
-                if (empUser == null) { return Task.CompletedTask; }
+                var cusUser = redis.Get<LoginUser>($"{FrameworkEnum.UserType.Customer.ToString().ToUpper()}-{user.UserID}");
+                if (cusUser == null) { return Task.CompletedTask; }
                 context.Succeed(requirement);
             }
             return Task.CompletedTask;
