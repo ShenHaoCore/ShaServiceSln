@@ -74,7 +74,7 @@ namespace Sha.BaseService.Api.Controllers.V1
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public AddressCreateModel ConvertTo(AddressCreateRequest request)
+        private AddressCreateModel ConvertTo(AddressCreateRequest request)
         {
             AddressCreateModel param = new AddressCreateModel()
             {
@@ -87,7 +87,7 @@ namespace Sha.BaseService.Api.Controllers.V1
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public AddressUpdateParam ConvertTo(AddressUpdateRequest request)
+        private AddressUpdateParam ConvertTo(AddressUpdateRequest request)
         {
             AddressUpdateParam param = new AddressUpdateParam()
             {
