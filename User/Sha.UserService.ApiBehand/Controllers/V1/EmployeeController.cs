@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Sha.Framework.Base;
 using Sha.Framework.Enum;
+using Sha.Framework.Jwt;
 using Sha.UserService.Bll;
 using Sha.UserService.Model.DTO;
 
@@ -34,11 +35,11 @@ namespace Sha.UserService.ApiBehand.Controllers.V1
         /// <returns></returns>
         [AllowAnonymous]
         [HttpPost]
-        public BaseResponseObject<LoginModel> Login([FromBody] EmployeeLogin request)
+        public BaseResponseObject<LoginResultModel> Login([FromBody] EmployeeLogin request)
         {
-            ResultModel<LoginModel> result = bll.Login(request);
-            if (!result.IsSuccess) { return new BaseResponseObject<LoginModel>(false, result.Code, result.Message); }
-            return new BaseResponseObject<LoginModel>(true, FrameworkEnum.StatusCode.Success, result.Data);
+            ResultModel<LoginResultModel> result = bll.Login(request);
+            if (!result.IsSuccess) { return new BaseResponseObject<LoginResultModel>(false, result.Code, result.Message); }
+            return new BaseResponseObject<LoginResultModel>(true, FrameworkEnum.StatusCode.Success, result.Data);
         }
 
         /// <summary>

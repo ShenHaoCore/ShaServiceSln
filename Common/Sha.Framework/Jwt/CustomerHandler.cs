@@ -48,8 +48,8 @@ namespace Sha.Framework.Jwt
                 if (string.IsNullOrWhiteSpace(authString)) { return Task.CompletedTask; }
                 string token = string.Empty;
                 if (authString.ToString().StartsWith($"{JwtHelper.Type} ", StringComparison.OrdinalIgnoreCase)) { token = authString.ToString()[$"{JwtHelper.Type} ".Length..].Trim(); }
-                JwtUserModel user = JwtHelper.DeserializeToken(token);
-                var cusUser = redis.Get<LoginUser>($"{FrameworkEnum.UserType.Customer.ToString().ToUpper()}-{user.UserID}");
+                LoginUserModel user = JwtHelper.DeserializeToken(token);
+                var cusUser = redis.Get<LoginModel>($"{FrameworkEnum.UserType.Customer.ToString().ToUpper()}-{user.UserID}");
                 if (cusUser == null) { return Task.CompletedTask; }
                 context.Succeed(requirement);
             }

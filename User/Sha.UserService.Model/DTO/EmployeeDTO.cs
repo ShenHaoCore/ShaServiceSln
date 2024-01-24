@@ -47,33 +47,6 @@ namespace Sha.UserService.Model.DTO
     /// <summary>
     /// 
     /// </summary>
-    public class LoginModel
-    {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="type"></param>
-        /// <param name="token"></param>
-        public LoginModel(string type, string token)
-        {
-            this.Type = type;
-            this.Token = token;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public string Type { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public string Token { get; set; }
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
     public class EmployeeCreate
     {
         /// <summary>

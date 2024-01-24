@@ -38,18 +38,18 @@ namespace Sha.UserService.Bll
         /// </summary>
         /// <param name="paramObj">参数</param>
         /// <returns></returns>
-        public ResultModel<LoginModel> Login(EmployeeLogin paramObj)
+        public ResultModel<LoginResultModel> Login(EmployeeLogin paramObj)
         {
             EmployeeLoginValidator validator = new EmployeeLoginValidator();
             ValidationResult validResult = validator.Validate(paramObj);
-            if (!validResult.IsValid) { return new ResultModel<LoginModel>(false, FrameworkEnum.StatusCode.ValidateFail); }
+            if (!validResult.IsValid) { return new ResultModel<LoginResultModel>(false, FrameworkEnum.StatusCode.ValidateFail); }
             t_Employee employee = dal.GetByNumber(paramObj.Number);
-            if (employee == null) { return new ResultModel<LoginModel>(false, FrameworkEnum.StatusCode.UserNotFount); }
-            JwtUserModel user = new JwtUserModel() { UserID = employee.ID, UserType = FrameworkEnum.UserType.Employee.ToString() };
-            LoginModel login = new LoginModel(JwtHelper.Type, JwtHelper.GenerateToken(user));
-            LoginUser empuser = new LoginUser(employee.ID, FrameworkEnum.UserType.Employee);
-            if (!redis.Set($"{FrameworkEnum.UserType.Employee.ToString().ToUpper()}-{user.UserID}", empuser, JwtHelper.Expiry)) { return new ResultModel<LoginModel>(false, FrameworkEnum.StatusCode.Fail); }
-            return new ResultModel<LoginModel>(true, FrameworkEnum.StatusCode.Success, login);
+            if (employee == null) { return new ResultModel<LoginResultModel>(false, FrameworkEnum.StatusCode.UserNotFount); }
+            LoginUserModel user = new LoginUserModel() { UserID = employee.ID, UserType = FrameworkEnum.UserType.Employee.ToString() };
+            LoginResultModel login = new LoginResultModel(JwtHelper.Type, JwtHelper.GenerateToken(user));
+            Framework.Jwt.LoginModel empuser = new Framework.Jwt.LoginModel(employee.ID, FrameworkEnum.UserType.Employee);
+            if (!redis.Set($"{FrameworkEnum.UserType.Employee.ToString().ToUpper()}-{user.UserID}", empuser, JwtHelper.Expiry)) { return new ResultModel<LoginResultModel>(false, FrameworkEnum.StatusCode.Fail); }
+            return new ResultModel<LoginResultModel>(true, FrameworkEnum.StatusCode.Success, login);
         }
 
         /// <summary>
