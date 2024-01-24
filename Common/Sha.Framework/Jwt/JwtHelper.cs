@@ -20,7 +20,7 @@ namespace Sha.Framework.Jwt
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        public static string GenerateToken(LoginUserModel user)
+        public static string GenerateToken(AuthenInfoModel user)
         {
             var jwtConfig = AppSettingHelper.GetObject<JwtConfig>(JwtConfig.KEY);
             if (jwtConfig == null) { throw new ArgumentNullException(nameof(jwtConfig)); }
@@ -36,12 +36,12 @@ namespace Sha.Framework.Jwt
         /// </summary>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static LoginUserModel DeserializeToken(string token)
+        public static AuthenInfoModel DeserializeToken(string token)
         {
             JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();
-            if (string.IsNullOrWhiteSpace(token)) { return new LoginUserModel(); }
-            if (!handler.CanReadToken(token)) { return new LoginUserModel(); }
-            LoginUserModel user = new LoginUserModel();
+            if (string.IsNullOrWhiteSpace(token)) { return new AuthenInfoModel(); }
+            if (!handler.CanReadToken(token)) { return new AuthenInfoModel(); }
+            AuthenInfoModel user = new AuthenInfoModel();
             JwtSecurityToken jwtoken = handler.ReadJwtToken(token);
             if (long.TryParse(jwtoken.Id, out long uid)) { user.UserID = uid; }
             if (jwtoken.Payload.TryGetValue(ClaimTypes.Role, out object? role)) { user.Role = role.ObjToString(); }
