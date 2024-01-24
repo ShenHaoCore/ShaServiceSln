@@ -44,6 +44,7 @@ namespace Sha.Framework.Jwt
                 options.AddPolicy("OnlyCustomer", Policy => Policy.Requirements.Add(new CustomerRequirement()));
             }); 
             services.AddScoped<IAuthorizationHandler, EmployeeHandler>();
+            services.AddScoped<IAuthorizationHandler, CustomerHandler>();
 
             services.AddAuthentication(option =>
             {
