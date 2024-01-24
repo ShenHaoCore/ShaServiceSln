@@ -19,7 +19,6 @@ namespace Sha.Framework.Serilog
         public static IHostBuilder AddSerilogSetup(this IHostBuilder host)
         {
             ArgumentNullException.ThrowIfNull(nameof(host));
-            ArgumentNullException.ThrowIfNull(nameof(AppSettingHelper.config));
 
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
