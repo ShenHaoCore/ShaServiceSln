@@ -56,8 +56,8 @@ namespace Sha.Framework.Jwt
                 string token = string.Empty;
                 if (authString.ToString().StartsWith($"{JwtHelper.Type} ", StringComparison.OrdinalIgnoreCase)) { token = authString.ToString()[$"{JwtHelper.Type} ".Length..].Trim(); }
                 TokenInfoModel info = JwtHelper.DeserializeToken(token);
-                var cusUser = redis.Get<LoginInfoModel>($"{FrameworkEnum.UserType.Customer.ToString().ToUpper()}-{info.UserID}");
-                if (cusUser == null) { return Task.CompletedTask; }
+                var loginInfo = redis.Get<LoginInfoModel>($"{FrameworkEnum.UserType.Customer.ToString().ToUpper()}-{info.UserID}");
+                if (loginInfo == null) { return Task.CompletedTask; }
                 context.Succeed(requirement);
             }
             return Task.CompletedTask;
@@ -99,8 +99,8 @@ namespace Sha.Framework.Jwt
                 string token = string.Empty;
                 if (authString.ToString().StartsWith($"{JwtHelper.Type} ", StringComparison.OrdinalIgnoreCase)) { token = authString.ToString()[$"{JwtHelper.Type} ".Length..].Trim(); }
                 TokenInfoModel info = JwtHelper.DeserializeToken(token);
-                var empUser = redis.Get<LoginInfoModel>($"{FrameworkEnum.UserType.Employee.ToString().ToUpper()}-{info.UserID}");
-                if (empUser == null) { return Task.CompletedTask; }
+                var loginInfo = redis.Get<LoginInfoModel>($"{FrameworkEnum.UserType.Employee.ToString().ToUpper()}-{info.UserID}");
+                if (loginInfo == null) { return Task.CompletedTask; }
                 context.Succeed(requirement);
             }
             return Task.CompletedTask;
