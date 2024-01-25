@@ -60,18 +60,6 @@ namespace Sha.Framework.Common
         }
 
         /// <summary>
-        /// 根据路径
-        /// <sample>例：GetValue("App:Name")</sample>
-        /// </summary>
-        /// <param name="key">节点</param>
-        /// <returns></returns>
-        public static string GetValue(string key)
-        {
-            ArgumentNullException.ThrowIfNull(config);
-            return config[key] ?? string.Empty;
-        }
-
-        /// <summary>
         /// 获取对象
         /// </summary>
         /// <typeparam name="T"></typeparam>
