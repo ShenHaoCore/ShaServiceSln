@@ -44,11 +44,11 @@ namespace Sha.Framework.Jwt
             JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();
             if (string.IsNullOrWhiteSpace(token)) { return new TokenInfoModel(); }
             if (!handler.CanReadToken(token)) { return new TokenInfoModel(); }
-            TokenInfoModel user = new TokenInfoModel();
+            TokenInfoModel info = new TokenInfoModel();
             JwtSecurityToken jwtoken = handler.ReadJwtToken(token);
-            if (long.TryParse(jwtoken.Id, out long uid)) { user.UserID = uid; }
-            if (jwtoken.Payload.TryGetValue(ClaimTypes.Role, out object? role)) { user.Role = role.ObjToString(); }
-            return user;
+            if (long.TryParse(jwtoken.Id, out long uid)) { info.UserID = uid; }
+            if (jwtoken.Payload.TryGetValue(ClaimTypes.Role, out object? role)) { info.Role = role.ObjToString(); }
+            return info;
         }
     }
 }
