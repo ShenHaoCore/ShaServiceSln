@@ -39,12 +39,12 @@ namespace Sha.Framework.Common
         /// 封装要操作的字符
         /// <sample>例：GetValue("App", "Name")</sample>
         /// </summary>
-        /// <param name="key">节点</param>
+        /// <param name="keys">节点</param>
         /// <returns></returns>
-        public static string GetValue(params string[] key)
+        public static string GetValue(params string[] keys)
         {
-            if (config == null) { throw new ArgumentNullException(nameof(config)); }
-            if (key.Any()) { return config[string.Join(":", key)] ?? ""; }
+            ArgumentNullException.ThrowIfNull(config);
+            if (keys.Any()) { return config[string.Join(":", keys)] ?? ""; }
             return "";
         }
 
@@ -56,7 +56,7 @@ namespace Sha.Framework.Common
         /// <returns></returns>
         public static string GetValue(string key)
         {
-            if (config == null) { throw new ArgumentNullException(nameof(config)); }
+            ArgumentNullException.ThrowIfNull(config);
             return config[key] ?? "";
         }
 
@@ -68,7 +68,7 @@ namespace Sha.Framework.Common
         /// <returns></returns>
         public static T? GetObject<T>(params string[] key)
         {
-            if (config == null) { throw new ArgumentNullException(nameof(config)); }
+            ArgumentNullException.ThrowIfNull(config);
             return config.GetSection(string.Join(":", key)).Get<T>();
         }
 
@@ -81,7 +81,7 @@ namespace Sha.Framework.Common
         /// <returns></returns>
         public static List<T> GetList<T>(params string[] key)
         {
-            if (config == null) { throw new ArgumentNullException(nameof(config)); }
+            ArgumentNullException.ThrowIfNull(config);
             List<T> list = new List<T>();
             config.Bind(string.Join(":", key), list);
             return list;

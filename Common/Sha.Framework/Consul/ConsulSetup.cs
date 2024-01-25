@@ -14,7 +14,7 @@ namespace Sha.Framework.Consul
         /// <param name="services"></param>
         public static void AddConsulSetup(this IServiceCollection services)
         {
-            ArgumentNullException.ThrowIfNull(nameof(services));
+            ArgumentNullException.ThrowIfNull(services);
             var consul = AppSettingHelper.GetObject<ConsulConfig>(ConsulConfig.KEY);
             if (consul == null) { throw new ArgumentNullException(nameof(consul)); }
 

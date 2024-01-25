@@ -18,6 +18,7 @@ namespace Sha.Framework.Common
         /// <param name="prefixName">前缀</param>
         public static void AddControllerSetup(this IServiceCollection services, string prefixName)
         {
+            ArgumentNullException.ThrowIfNull(services);
             services.AddControllers(option =>
             {
                 option.Filters.Add<GlobalExceptionFilter>();
@@ -37,6 +38,7 @@ namespace Sha.Framework.Common
         /// <param name="services"></param>
         public static void AddApiVersionSetup(this IServiceCollection services)
         {
+            ArgumentNullException.ThrowIfNull(services);
             services.AddApiVersioning(options =>
             {
                 options.DefaultApiVersion = new ApiVersion(1, 0);
@@ -48,6 +50,17 @@ namespace Sha.Framework.Common
                 options.GroupNameFormat = "'v'VVV";
                 options.SubstituteApiVersionInUrl = true;
             });
+        }
+
+        /// <summary>
+        /// 跨域
+        /// </summary>
+        /// <param name="services"></param>
+        public static void AddCorsSetup(this IServiceCollection services)
+        {
+            ArgumentNullException.ThrowIfNull(services);
+            string[] urls = new[] { "http://localhost:5173" };
+            services.AddCors(options => options.AddDefaultPolicy(builder => builder.WithOrigins(urls).AllowAnyMethod().AllowAnyHeader().AllowCredentials()));
         }
     }
 }
