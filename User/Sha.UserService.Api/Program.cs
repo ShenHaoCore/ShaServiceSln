@@ -22,7 +22,7 @@ builder.Host.ConfigureContainer<ContainerBuilder>(builder => { builder.RegisterM
 builder.Host.AddSerilogSetup();
 
 var service = builder.Configuration.GetSection(ServiceConfig.KEY).Get<ServiceConfig>();
-if (service == null) { throw new ArgumentNullException(nameof(service)); }
+ArgumentNullException.ThrowIfNull(service);
 List<string> xmlNames = [$"{Assembly.GetExecutingAssembly().GetName().Name}.XML", $"{ModelHelper.AssemblyName}.XML", $"{FrameworkHelper.AssemblyName}.XML"];
 
 builder.Services.AddSingleton(new AppSettingHelper(builder.Configuration));

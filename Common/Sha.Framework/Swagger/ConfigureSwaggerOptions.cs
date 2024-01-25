@@ -1,4 +1,5 @@
 ﻿using Asp.Versioning.ApiExplorer;
+using Autofac.Core;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Sha.Framework.Common;
@@ -29,7 +30,7 @@ namespace Sha.Framework.Swagger
         public void Configure(SwaggerGenOptions options)
         {
             var config = AppSettingHelper.GetObject<ServiceConfig>(ServiceConfig.KEY);
-            if (config == null) { throw new ArgumentNullException(nameof(config)); }
+            ArgumentNullException.ThrowIfNull(config);
 
             foreach (var description in provider.ApiVersionDescriptions)
             {
