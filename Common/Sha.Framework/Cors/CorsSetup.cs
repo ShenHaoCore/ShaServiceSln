@@ -9,10 +9,10 @@
  * 版    本：V1.0
  * 创 建 者：Shenhao
  * 创建时间：2024/1/25
- * ======================================
+ * ===================================================================================
  * 历史更新记录
  * 版本：V1.0  修改时间：2024/1/25  修改人：Shenhao    修改内容：新建文件
- * ======================================
+ * ===================================================================================
  * 引入NuGet包：
  * 
 *************************************************************************************/
@@ -35,15 +35,18 @@ namespace Sha.Framework.Cors
             bool isEnable = false; // 是否启用
             if (!isEnable) { return; }
 
-            string[] origins = new[] { "http://localhost:5173" };
-            services.AddCors(options => options.AddPolicy("ShaSite", builder =>
+            string[] origins = ["http://localhost:5173"];
+            services.AddCors(options =>
             {
-                builder.WithOrigins(origins); // 允许指定站点
-                builder.SetIsOriginAllowed((host) => true); // 允许所有站点
-                builder.AllowAnyMethod();
-                builder.AllowAnyHeader();
-                builder.AllowCredentials();
-            }));
+                options.AddPolicy("ShaSite", builder =>
+                {
+                    builder.WithOrigins(origins); // 允许指定站点
+                    builder.SetIsOriginAllowed((host) => true); // 允许所有站点
+                    builder.AllowAnyMethod();
+                    builder.AllowAnyHeader();
+                    builder.AllowCredentials();
+                });
+            });
         }
     }
 }

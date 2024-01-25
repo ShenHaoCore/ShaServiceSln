@@ -36,6 +36,17 @@ namespace Sha.Framework.Common
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public static string GetConnectionString(string key)
+        {
+            ArgumentNullException.ThrowIfNull(config);
+            return config.GetConnectionString(key) ?? string.Empty;
+        }
+
+        /// <summary>
         /// 封装要操作的字符
         /// <sample>例：GetValue("App", "Name")</sample>
         /// </summary>
@@ -44,8 +55,8 @@ namespace Sha.Framework.Common
         public static string GetValue(params string[] keys)
         {
             ArgumentNullException.ThrowIfNull(config);
-            if (keys.Any()) { return config[string.Join(":", keys)] ?? ""; }
-            return "";
+            if (keys.Any()) { return config[string.Join(":", keys)] ?? string.Empty; }
+            return string.Empty;
         }
 
         /// <summary>
@@ -57,7 +68,7 @@ namespace Sha.Framework.Common
         public static string GetValue(string key)
         {
             ArgumentNullException.ThrowIfNull(config);
-            return config[key] ?? "";
+            return config[key] ?? string.Empty;
         }
 
         /// <summary>
