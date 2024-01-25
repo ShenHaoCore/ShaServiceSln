@@ -5,7 +5,7 @@ namespace Sha.Framework.Jwt
     /// <summary>
     /// 
     /// </summary>
-    public class AuthenInfoModel
+    public class TokenInfoModel
     {
         /// <summary>
         /// 用户ID
@@ -31,14 +31,14 @@ namespace Sha.Framework.Jwt
     /// <summary>
     /// 
     /// </summary>
-    public class LoginModel
+    public class LoginInfoModel
     {
         /// <summary>
         /// 
         /// </summary>
         /// <param name="userId"></param>
         /// <param name="userType"></param>
-        public LoginModel(int userId, FrameworkEnum.UserType userType)
+        public LoginInfoModel(int userId, FrameworkEnum.UserType userType)
         {
             this.UserID = userId;
             this.UserType = userType;

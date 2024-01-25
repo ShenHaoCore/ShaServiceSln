@@ -17,12 +17,12 @@ namespace Sha.Common.Extension
         public static string GetDescription(this Enum obj)
         {
             string name = obj.ToString();
-            FieldInfo? field = obj.GetType().GetField(name);
-            if (field == null) { throw new ArgumentNullException(nameof(field)); }
+            var field = obj.GetType().GetField(name);
+            if (field is null) { return string.Empty; }
             object[] attris = field.GetCustomAttributes(typeof(DescriptionAttribute), false);
             if (!attris.Any()) { return string.Empty; }
-            DescriptionAttribute da = (DescriptionAttribute)attris.First();
-            return da.Description;
+            DescriptionAttribute desc = (DescriptionAttribute)attris.First();
+            return desc.Description;
         }
 
         /// <summary>
@@ -33,15 +33,14 @@ namespace Sha.Common.Extension
         /// <returns></returns>
         public static string GetDescription(this Type type, object value)
         {
-            string? name = Enum.GetName(type, value);
-            ArgumentNullException.ThrowIfNull(nameof(name));
+            var name = Enum.GetName(type, value);
             if (string.IsNullOrWhiteSpace(name)) { return string.Empty; }
-            FieldInfo? field = type.GetField(name);
-            if (field == null) { return string.Empty; }
+            var field = type.GetField(name);
+            if (field is null) { return string.Empty; }
             object[] attris = field.GetCustomAttributes(typeof(DescriptionAttribute), true);
             if (!attris.Any()) { return string.Empty; }
-            DescriptionAttribute da = (DescriptionAttribute)attris.First();
-            return da.Description; ;
+            DescriptionAttribute desc = (DescriptionAttribute)attris.First();
+            return desc.Description; ;
         }
 
         /// <summary>
