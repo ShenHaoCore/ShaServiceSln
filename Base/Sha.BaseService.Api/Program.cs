@@ -7,6 +7,7 @@ using Sha.BaseService.Model.Common;
 using Sha.Framework.Cache;
 using Sha.Framework.Common;
 using Sha.Framework.Consul;
+using Sha.Framework.Cors;
 using Sha.Framework.Jwt;
 using Sha.Framework.RabbitMQ;
 using Sha.Framework.Redis;
@@ -33,6 +34,7 @@ builder.Services.AddRabbitMQSetup();
 builder.Services.AddSqlSugarSetup();
 builder.Services.AddControllerSetup(service.PrefixName);
 builder.Services.AddApiVersionSetup();
+builder.Services.AddCorsSetup();
 builder.Services.AddJwtSetup();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.Replace(ServiceDescriptor.Transient<IControllerActivator, ServiceBasedControllerActivator>()); //  Ù–‘◊¢»Î±ÿ–Î

@@ -51,16 +51,5 @@ namespace Sha.Framework.Common
                 options.SubstituteApiVersionInUrl = true;
             });
         }
-
-        /// <summary>
-        /// 跨域
-        /// </summary>
-        /// <param name="services"></param>
-        public static void AddCorsSetup(this IServiceCollection services)
-        {
-            ArgumentNullException.ThrowIfNull(services);
-            string[] urls = new[] { "http://localhost:5173" };
-            services.AddCors(options => options.AddDefaultPolicy(builder => builder.WithOrigins(urls).AllowAnyMethod().AllowAnyHeader().AllowCredentials()));
-        }
     }
 }

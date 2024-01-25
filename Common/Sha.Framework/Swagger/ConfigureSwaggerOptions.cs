@@ -1,5 +1,4 @@
 ﻿using Asp.Versioning.ApiExplorer;
-using Autofac.Core;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Sha.Framework.Common;

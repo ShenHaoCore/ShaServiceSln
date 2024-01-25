@@ -16,7 +16,7 @@ namespace Sha.Framework.Consul
         {
             ArgumentNullException.ThrowIfNull(services);
             var consul = AppSettingHelper.GetObject<ConsulConfig>(ConsulConfig.KEY);
-            if (consul == null) { throw new ArgumentNullException(nameof(consul)); }
+            ArgumentNullException.ThrowIfNull(consul);
 
             bool isEnable = false; // 是否启用
             if (!isEnable) { return; }
