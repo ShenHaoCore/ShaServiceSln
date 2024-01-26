@@ -1,6 +1,6 @@
 ﻿namespace Sha.Framework.RabbitMQ
 {
-    public class RabbitMQConfig
+    public class RabbitMQSetting
     {
         /// <summary>
         /// KEY

@@ -16,7 +16,7 @@ namespace Sha.Business.WeChat
     public class WeChatClient : IWeChatClient
     {
         private readonly ILogger<WeChatClient> logger;
-        private readonly WeChatConfig config;
+        private readonly WeChatSetting setting;
 
         /// <summary>
         /// 微信客户端
@@ -25,9 +25,7 @@ namespace Sha.Business.WeChat
         public WeChatClient(ILogger<WeChatClient> logger)
         {
             this.logger = logger;
-            var wechatConfig = AppSettingHelper.GetObject<WeChatConfig>(WeChatConfig.KEY);
-            if (wechatConfig == null) { throw new ArgumentNullException(nameof(wechatConfig)); }
-            this.config = wechatConfig;
+            this.setting = AppSettingHelper.GetObject<WeChatSetting>(WeChatSetting.KEY) ?? throw new ArgumentNullException();
         }
 
         private const string WECHAT_V3_URL_CERTIFICATE = "https://api.mch.weixin.qq.com/v3/certificates";
@@ -67,7 +65,7 @@ namespace Sha.Business.WeChat
                     if (certs.ContainsKey(item.SerialNo)) { continue; }
                     string certificate = AesGcmDecrypt(item.EncryptCertificate.AssociatedData, item.EncryptCertificate.Nonce, item.EncryptCertificate.Ciphertext);
                     X509Certificate2 x509 = new X509Certificate2(Encoding.ASCII.GetBytes(certificate), string.Empty, X509KeyStorageFlags.MachineKeySet | X509KeyStorageFlags.PersistKeySet | X509KeyStorageFlags.Exportable);
-                    WeChatCertificate cert = new WeChatCertificate(config.MchId, item.SerialNo, item.EffectiveTime, item.ExpireTime, x509);
+                    WeChatCertificate cert = new WeChatCertificate(setting.MchId, item.SerialNo, item.EffectiveTime, item.ExpireTime, x509);
                     certs.TryAdd(item.SerialNo, cert);
                 }
                 if (certs.TryGetValue(serialno, out platformCert)) { return platformCert; }
@@ -121,7 +119,7 @@ namespace Sha.Business.WeChat
             string nonce = Guid.NewGuid().ToString("N");
             string message = BuildMessage(uri, method, timeStamp, nonce, body);
             string sign = Sign(message);
-            return $"mchid=\"{config.MchId}\",nonce_str=\"{nonce}\",timestamp=\"{timeStamp}\",serial_no=\"{config.SerialNo}\",signature=\"{sign}\"";
+            return $"mchid=\"{setting.MchId}\",nonce_str=\"{nonce}\",timestamp=\"{timeStamp}\",serial_no=\"{setting.SerialNo}\",signature=\"{sign}\"";
         }
 
         /// <summary>
@@ -133,7 +131,7 @@ namespace Sha.Business.WeChat
         {
             using (RSA rsa = RSA.Create())
             {
-                byte[] keyData = Convert.FromBase64String(config.PrivateKey);
+                byte[] keyData = Convert.FromBase64String(setting.PrivateKey);
                 rsa.ImportPkcs8PrivateKey(keyData, bytesRead: out _);
                 var signbytes = rsa.SignData(Encoding.UTF8.GetBytes(message), HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
                 return Convert.ToBase64String(signbytes);
@@ -149,7 +147,7 @@ namespace Sha.Business.WeChat
         /// <returns></returns>
         public string AesGcmDecrypt(string associatedData, string nonce, string ciphertext)
         {
-            using (AesGcm aes = new AesGcm(Encoding.UTF8.GetBytes(config.APIv3Key), 1024))
+            using (AesGcm aes = new AesGcm(Encoding.UTF8.GetBytes(setting.APIv3Key), 1024))
             {
                 byte[]? associatedBytes = associatedData == null ? null : Encoding.UTF8.GetBytes(associatedData);
                 var encryptedBytes = Convert.FromBase64String(ciphertext);

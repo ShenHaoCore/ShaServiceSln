@@ -22,7 +22,7 @@ builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 builder.Host.ConfigureContainer<ContainerBuilder>(builder => { builder.RegisterModule<AutofacRegisterModule>(); });
 builder.Host.AddSerilogSetup();
 
-var service = builder.Configuration.GetSection(ServiceConfig.KEY).Get<ServiceConfig>();
+var service = builder.Configuration.GetSection(ServiceSetting.KEY).Get<ServiceSetting>();
 ArgumentNullException.ThrowIfNull(service);
 List<string> xmlNames = [$"{Assembly.GetExecutingAssembly().GetName().Name}.XML", $"{ModelHelper.AssemblyName}.XML", $"{FrameworkHelper.AssemblyName}.XML"];
 

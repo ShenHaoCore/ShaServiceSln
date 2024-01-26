@@ -28,16 +28,16 @@ namespace Sha.Framework.Swagger
         /// <param name="options"></param>
         public void Configure(SwaggerGenOptions options)
         {
-            var config = AppSettingHelper.GetObject<ServiceConfig>(ServiceConfig.KEY);
-            ArgumentNullException.ThrowIfNull(config);
+            var setting = AppSettingHelper.GetObject<ServiceSetting>(ServiceSetting.KEY);
+            ArgumentNullException.ThrowIfNull(setting);
 
             foreach (var description in provider.ApiVersionDescriptions)
             {
                 options.SwaggerDoc(description.GroupName, new OpenApiInfo()
                 {
-                    Title = $"{config.PrefixName} API",
+                    Title = $"{setting.PrefixName} API",
                     Version = description.ApiVersion.ToString(),
-                    Description = $"{config.PrefixName} {description.ApiVersion} 版本"
+                    Description = $"{setting.PrefixName} {description.ApiVersion} 版本"
                 });
             }
         }

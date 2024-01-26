@@ -3,7 +3,7 @@
     /// <summary>
     /// Redis 配置
     /// </summary>
-    public class RedisConfig
+    public class RedisSetting
     {
         /// <summary>
         /// KEY

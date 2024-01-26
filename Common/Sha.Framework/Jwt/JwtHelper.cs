@@ -22,15 +22,15 @@ namespace Sha.Framework.Jwt
         /// <returns></returns>
         public static string GenerateToken(TokenInfoModel info)
         {
-            var jwt = AppSettingHelper.GetObject<JwtConfig>(JwtConfig.KEY);
-            if (jwt == null) { throw new ArgumentNullException(nameof(jwt)); }
+            var setting = AppSettingHelper.GetObject<JwtSetting>(JwtSetting.KEY);
+            ArgumentNullException.ThrowIfNull(setting);
             IEnumerable<Claim> claims = new Claim[] { 
                 new Claim(JwtRegisteredClaimNames.Jti, info.UserID.ToString()), 
                 new Claim(ClaimTypes.Role, info.Role) 
             };
-            SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt.SecretKey));
+            SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(setting.SecretKey));
             SigningCredentials sign = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-            JwtSecurityToken jwtoken = new JwtSecurityToken(issuer: jwt.Issuer, audience: jwt.Audience, claims: claims, notBefore: DateTime.UtcNow, expires: DateTime.UtcNow.AddSeconds(Expiry.TotalSeconds), signingCredentials: sign);
+            JwtSecurityToken jwtoken = new JwtSecurityToken(issuer: setting.Issuer, audience: setting.Audience, claims: claims, notBefore: DateTime.UtcNow, expires: DateTime.UtcNow.AddSeconds(Expiry.TotalSeconds), signingCredentials: sign);
             return new JwtSecurityTokenHandler().WriteToken(jwtoken);
         }
 

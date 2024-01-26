@@ -8,6 +8,24 @@ namespace Sha.Business.Enum
     public class IdcardEnum
     {
         /// <summary>
+        /// 性別
+        /// </summary>
+        public enum Sex
+        {
+            /// <summary>
+            /// 男
+            /// </summary>
+            [Description("男")]
+            Man = 1,
+
+            /// <summary>
+            /// 女
+            /// </summary>
+            [Description("女")]
+            Woman = 0,
+        }
+
+        /// <summary>
         /// 民族
         /// </summary>
         public enum Nation

@@ -3,7 +3,7 @@
     /// <summary>
     /// 
     /// </summary>
-    public class WeChatConfig
+    public class WeChatSetting
     {
         /// <summary>
         /// KEY

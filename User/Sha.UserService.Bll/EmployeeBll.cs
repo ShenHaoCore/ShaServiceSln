@@ -1,7 +1,5 @@
-﻿using FluentValidation;
-using FluentValidation.Results;
+﻿using FluentValidation.Results;
 using Microsoft.Extensions.Logging;
-using Microsoft.Win32;
 using Sha.Framework.Base;
 using Sha.Framework.Enum;
 using Sha.Framework.Jwt;

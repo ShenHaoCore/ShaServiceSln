@@ -15,26 +15,23 @@ namespace Sha.Framework.Consul
         public static void AddConsulSetup(this IServiceCollection services)
         {
             ArgumentNullException.ThrowIfNull(services);
-            var consul = AppSettingHelper.GetObject<ConsulConfig>(ConsulConfig.KEY);
-            ArgumentNullException.ThrowIfNull(consul);
+            var setting = AppSettingHelper.GetObject<ConsulSetting>(ConsulSetting.KEY);
+            if (setting is null) { return; }
+            if (!setting.Enable) { return; }
 
-            bool isEnable = false; // 是否启用
-            if (!isEnable) { return; }
-
-            ConsulClient client = new ConsulClient(options => { options.Address = new Uri(consul.Address); });
-
+            ConsulClient client = new ConsulClient(options => { options.Address = new Uri(setting.Address); });
             AgentServiceRegistration service = new AgentServiceRegistration
             {
-                ID = $"{consul.Name}-{consul.IP}:{consul.Port}",                    // 唯一ID
-                Name = consul.Name,                                                 // 服务名
-                Address = consul.IP,                                                // 服务绑定IP
-                Port = consul.Port,                                                 // 服务绑定端口
+                ID = $"{setting.Name}-{setting.IP}:{setting.Port}", // 唯一ID
+                Name = setting.Name, // 服务名
+                Address = setting.IP, // 服务绑定IP
+                Port = setting.Port, // 服务绑定端口
                 Check = new AgentServiceCheck
                 {
-                    DeregisterCriticalServiceAfter = TimeSpan.FromSeconds(5),       // 失败后多久移除
-                    Interval = TimeSpan.FromSeconds(10),                            // 健康检查时间间隔
-                    HTTP = $"http://{consul.IP}:{consul.Port}{consul.HealthCheck}", // 健康检查地址
-                    Timeout = TimeSpan.FromSeconds(5)                               // 超时时间
+                    DeregisterCriticalServiceAfter = TimeSpan.FromSeconds(5), // 失败后多久移除
+                    Interval = TimeSpan.FromSeconds(10), // 健康检查时间间隔
+                    HTTP = $"http://{setting.IP}:{setting.Port}{setting.HealthCheck}", // 健康检查地址
+                    Timeout = TimeSpan.FromSeconds(5) // 超时时间
                 }
             };
             client.Agent.ServiceRegister(service).Wait();

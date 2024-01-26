@@ -1,4 +1,6 @@
-﻿using Sha.Framework.Base;
+﻿using Aop.Api.Domain;
+using Sha.Business.Enum;
+using Sha.Framework.Base;
 using System.ComponentModel;
 
 namespace Sha.UserService.Model.DTO

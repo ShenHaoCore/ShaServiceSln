@@ -3,7 +3,7 @@
     /// <summary>
     /// 服务配置
     /// </summary>
-    public class ServiceConfig
+    public class ServiceSetting
     {
         /// <summary>
         /// KEY

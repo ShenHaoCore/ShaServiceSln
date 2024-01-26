@@ -14,12 +14,12 @@ namespace Sha.Framework.Redis
         /// <param name="services"></param>
         public static void AddRedisSetup(this IServiceCollection services)
         {
-            ArgumentNullException.ThrowIfNull(nameof(services));
-            var redis = AppSettingHelper.GetObject<RedisConfig>(RedisConfig.KEY);
-            if (redis == null) { throw new ArgumentNullException(nameof(redis)); }
+            ArgumentNullException.ThrowIfNull(services);
+            var seting = AppSettingHelper.GetObject<RedisSetting>(RedisSetting.KEY);
+            if (seting == null) { return; }
 
-            ConfigurationOptions config = new ConfigurationOptions { ClientName = redis.Name, Password = redis.Password, ConnectTimeout = redis.Timeout };
-            redis.EndPoints.ForEach(P => { config.EndPoints.Add(P.Host, P.Port); });
+            ConfigurationOptions config = new ConfigurationOptions { ClientName = seting.Name, Password = seting.Password, ConnectTimeout = seting.Timeout };
+            seting.EndPoints.ForEach(P => { config.EndPoints.Add(P.Host, P.Port); });
             config.ResolveDns = true;
 
             services.AddSingleton<IConnectionMultiplexer>(P => ConnectionMultiplexer.Connect(config));

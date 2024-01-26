@@ -3,7 +3,7 @@
     /// <summary>
     /// 
     /// </summary>
-    public class AlipayConfig
+    public class AlipaySetting
     {
         /// <summary>
         /// KEY

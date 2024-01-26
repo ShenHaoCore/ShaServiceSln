@@ -3,7 +3,7 @@
     /// <summary>
     /// 
     /// </summary>
-    public class JwtConfig
+    public class JwtSetting
     {
         /// <summary>
         /// KEY

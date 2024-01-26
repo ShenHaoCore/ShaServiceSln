@@ -20,19 +20,19 @@ namespace Sha.Framework.Jwt
         /// <param name="services"></param>
         public static void AddJwtSetup(this IServiceCollection services)
         {
-            ArgumentNullException.ThrowIfNull(nameof(services));
+            ArgumentNullException.ThrowIfNull(services);
 
-            var jwt = AppSettingHelper.GetObject<JwtConfig>(JwtConfig.KEY);
-            if (jwt == null) { throw new ArgumentNullException(nameof(jwt)); }
+            var setting = AppSettingHelper.GetObject<JwtSetting>(JwtSetting.KEY);
+            ArgumentNullException.ThrowIfNull(setting);
 
             TokenValidationParameters tokenParam = new TokenValidationParameters
             {
                 ValidateIssuer = true,
-                ValidIssuer = jwt.Issuer,
+                ValidIssuer = setting.Issuer,
                 ValidateAudience = true,
-                ValidAudience = jwt.Audience,
+                ValidAudience = setting.Audience,
                 ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt.SecretKey)),
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(setting.SecretKey)),
                 ValidateLifetime = true,
                 ClockSkew = TimeSpan.FromSeconds(30), // 时钟偏移
                 RequireExpirationTime = true

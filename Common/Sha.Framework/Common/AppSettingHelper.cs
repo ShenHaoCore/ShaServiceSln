@@ -48,7 +48,7 @@ namespace Sha.Framework.Common
 
         /// <summary>
         /// 封装要操作的字符
-        /// <sample>例：GetValue("App", "Name")</sample>
+        /// <example>例：<c>GetValue("App", "Name")</c></example>
         /// </summary>
         /// <param name="keys">节点</param>
         /// <returns></returns>
@@ -65,7 +65,7 @@ namespace Sha.Framework.Common
         /// <typeparam name="T"></typeparam>
         /// <param name="key"></param>
         /// <returns></returns>
-        public static T? GetObject<T>(params string[] key)
+        public static T? GetObject<T>(params string[] key) where T : class
         {
             ArgumentNullException.ThrowIfNull(config);
             return config.GetSection(string.Join(":", key)).Get<T>();
@@ -73,12 +73,12 @@ namespace Sha.Framework.Common
 
         /// <summary>
         /// 递归获取配置信息数组
-        /// 引用 Microsoft.Extensions.Configuration.Binder 包
+        /// <para>引用 Microsoft.Extensions.Configuration.Binder 包</para>
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="key">节点</param>
         /// <returns></returns>
-        public static List<T> GetList<T>(params string[] key)
+        public static List<T> GetList<T>(params string[] key) where T : class
         {
             ArgumentNullException.ThrowIfNull(config);
             List<T> list = new List<T>();

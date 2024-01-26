@@ -3,12 +3,17 @@
     /// <summary>
     /// 
     /// </summary>
-    public class ConsulConfig
+    public class ConsulSetting
     {
         /// <summary>
         /// KEY
         /// </summary>
         public const string KEY = "Consul";
+
+        /// <summary>
+        /// 是否启用
+        /// </summary>
+        public bool Enable { get; set; }
 
         /// <summary>
         /// Consul 客户端地址

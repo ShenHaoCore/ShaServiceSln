@@ -1,6 +1,5 @@
 ﻿using Serilog;
 using Serilog.Events;
-using Sha.Framework.Common;
 
 namespace Sha.Framework.Serilog
 {
@@ -18,7 +17,7 @@ namespace Sha.Framework.Serilog
         /// <param name="host"></param>
         public static IHostBuilder AddSerilogSetup(this IHostBuilder host)
         {
-            ArgumentNullException.ThrowIfNull(nameof(host));
+            ArgumentNullException.ThrowIfNull(host);
 
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
