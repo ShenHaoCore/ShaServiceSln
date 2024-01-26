@@ -17,6 +17,8 @@
  * 
 *************************************************************************************/
 
+using Sha.Framework.Common;
+
 namespace Sha.Framework.Cors
 {
     /// <summary>
@@ -31,17 +33,23 @@ namespace Sha.Framework.Cors
         public static void AddCorsSetup(this IServiceCollection services)
         {
             ArgumentNullException.ThrowIfNull(services);
+            var setting = AppSettingHelper.GetObject<CorsSetting>(CorsSetting.KEY);
+            if (setting is null) { return; }
+            if (!setting.Enable) { return; }
 
-            bool isEnable = false; // 是否启用
-            if (!isEnable) { return; }
-
-            string[] origins = ["http://localhost:5173"];
             services.AddCors(options =>
             {
                 options.AddPolicy("ShaSite", builder =>
                 {
-                    builder.WithOrigins(origins); // 允许指定站点
-                    builder.SetIsOriginAllowed((host) => true); // 允许所有站点
+                    if (setting.AllowAnyone)
+                    {
+                        builder.SetIsOriginAllowed((host) => true); // 允许所有来源
+                    }
+                    else
+                    {
+                        string[] origins = setting.Origins is null ? [] : [.. setting.Origins];
+                        builder.WithOrigins(origins); // 允许指定来源
+                    }
                     builder.AllowAnyMethod();
                     builder.AllowAnyHeader();
                     builder.AllowCredentials();
