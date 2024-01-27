@@ -15,6 +15,7 @@ namespace Sha.Framework.Cors
         {
             bool enable = false;
             if (!enable) { return; }
+
             string policyName = CorsConst.ORIGINS;
             var setting = AppSettingHelper.GetObject<CorsSetting>(CorsSetting.KEY);
             ArgumentNullException.ThrowIfNull(setting);
