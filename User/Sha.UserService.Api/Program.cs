@@ -21,8 +21,8 @@ builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 builder.Host.ConfigureContainer<ContainerBuilder>(builder => { builder.RegisterModule<AutofacRegisterModule>(); });
 builder.Host.AddSerilogSetup();
 
-var service = builder.Configuration.GetSection(ServiceSetting.KEY).Get<ServiceSetting>();
-ArgumentNullException.ThrowIfNull(service);
+var setting = builder.Configuration.GetSection(ServiceSetting.KEY).Get<ServiceSetting>();
+ArgumentNullException.ThrowIfNull(setting);
 List<string> xmlNames = [$"{ServiceHelper.AssemblyName}.XML", $"{ModelHelper.AssemblyName}.XML", $"{FrameworkHelper.AssemblyName}.XML"];
 
 builder.Services.AddSingleton(new AppSettingHelper(builder.Configuration));
@@ -31,7 +31,7 @@ builder.Services.AddCacheSetup();
 builder.Services.AddRedisSetup();
 builder.Services.AddRabbitMQSetup();
 builder.Services.AddSqlSugarSetup();
-builder.Services.AddControllerSetup(service.PrefixName);
+builder.Services.AddControllerSetup(setting.PrefixName);
 builder.Services.AddApiVersionSetup();
 builder.Services.AddCorsSetup();
 builder.Services.AddJwtSetup();
