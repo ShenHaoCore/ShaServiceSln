@@ -38,7 +38,6 @@ namespace Sha.Framework.Http
         /// <summary>
         /// 
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         /// <param name="context"></param>
         /// <param name="headerName"></param>
         /// <returns></returns>

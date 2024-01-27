@@ -5,6 +5,9 @@
     /// </summary>
     public class ShaServiceBll : IShaServiceBll
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public readonly ILogger<ShaServiceBll> logger;
 
         /// <summary>

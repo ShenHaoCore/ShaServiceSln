@@ -1,5 +1,8 @@
 ﻿namespace Sha.Framework.RabbitMQ
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class RabbitMQSetting
     {
         /// <summary>

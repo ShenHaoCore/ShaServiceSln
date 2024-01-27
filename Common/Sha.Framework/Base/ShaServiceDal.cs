@@ -7,7 +7,14 @@ namespace Sha.Framework.Base
     /// </summary>
     public class ShaServiceDal : IShaServiceDal
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public readonly ISqlSugarClient db;
+
+        /// <summary>
+        /// 
+        /// </summary>
         public readonly ILogger<ShaServiceDal> logger;
 
         /// <summary>

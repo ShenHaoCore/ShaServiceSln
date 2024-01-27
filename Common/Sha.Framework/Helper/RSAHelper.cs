@@ -8,7 +8,14 @@ namespace Sha.Framework.Common
     /// </summary>
     public class RSAHelper
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public readonly RSA? privateRsa;
+
+        /// <summary>
+        /// 
+        /// </summary>
         public readonly RSA? publicRsa;
         private readonly Encoding encoding;
         private readonly HashAlgorithmName hashname;

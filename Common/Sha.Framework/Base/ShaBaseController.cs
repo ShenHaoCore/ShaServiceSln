@@ -10,6 +10,9 @@ namespace Sha.Framework.Base
     [Route("api/v{version:apiVersion}/[controller]/[action]")]
     public class ShaBaseController : ControllerBase
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public readonly ILogger<ShaBaseController> logger;
 
         /// <summary>
