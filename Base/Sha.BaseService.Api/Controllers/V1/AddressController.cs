@@ -60,7 +60,7 @@ namespace Sha.BaseService.Api.Controllers.V1
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        /// <response code="200">接口调用成功</response>
+        /// <response code="200">接口响应成功</response>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public BaseResponse Delete([FromQuery] Guid key)

@@ -1,4 +1,6 @@
-﻿namespace Sha.BaseService.Model.Request
+﻿using System.ComponentModel;
+
+namespace Sha.BaseService.Model.Request
 {
     /// <summary>
     /// 
@@ -16,6 +18,7 @@
         /// <summary>
         /// 中文名
         /// </summary>
+        [DefaultValue("")]
         public string NameCn { get; set; }
     }
 }
