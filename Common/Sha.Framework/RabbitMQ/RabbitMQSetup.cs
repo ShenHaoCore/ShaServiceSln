@@ -14,9 +14,13 @@ namespace Sha.Framework.RabbitMQ
         /// <param name="services"></param>
         public static void AddRabbitMQSetup(this IServiceCollection services)
         {
+            bool enable = false;
+            if (!enable) { return; }
+
             ArgumentNullException.ThrowIfNull(services);
             var setting = AppSettingHelper.GetObject<RabbitMQSetting>(RabbitMQSetting.KEY);
-            if (setting == null) { return; }
+            ArgumentNullException.ThrowIfNull(setting);
+
             string connectionString = $"host={setting.HostName};virtualHost=/;username={setting.UserName};password={setting.Password}";
             services.AddSingleton(RabbitHutch.CreateBus(connectionString));
         }

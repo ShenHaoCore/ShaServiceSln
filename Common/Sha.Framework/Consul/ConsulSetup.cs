@@ -16,7 +16,7 @@ namespace Sha.Framework.Consul
         {
             ArgumentNullException.ThrowIfNull(services);
             var setting = AppSettingHelper.GetObject<ConsulSetting>(ConsulSetting.KEY);
-            if (setting is null) { return; }
+            ArgumentNullException.ThrowIfNull(setting);
             if (!setting.Enable) { return; }
 
             ConsulClient client = new ConsulClient(options => { options.Address = new Uri(setting.Address); });

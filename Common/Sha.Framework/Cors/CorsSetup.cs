@@ -32,28 +32,18 @@ namespace Sha.Framework.Cors
         /// <param name="services"></param>
         public static void AddCorsSetup(this IServiceCollection services)
         {
+            bool enable = false;
+            if (!enable) { return; }
+
             ArgumentNullException.ThrowIfNull(services);
             var setting = AppSettingHelper.GetObject<CorsSetting>(CorsSetting.KEY);
-            if (setting is null) { return; }
-            if (!setting.Enable) { return; }
+            ArgumentNullException.ThrowIfNull(setting);
 
+            string[] origins = setting.Origins is null ? [] : [.. setting.Origins];
             services.AddCors(options =>
             {
-                options.AddPolicy("ShaSite", builder =>
-                {
-                    if (setting.AllowAnyone)
-                    {
-                        builder.SetIsOriginAllowed((host) => true); // 允许所有来源
-                    }
-                    else
-                    {
-                        string[] origins = setting.Origins is null ? [] : [.. setting.Origins];
-                        builder.WithOrigins(origins); // 允许指定来源
-                    }
-                    builder.AllowAnyMethod();
-                    builder.AllowAnyHeader();
-                    builder.AllowCredentials();
-                });
+                options.AddPolicy(CorsConst.ALLOWANY, builder => builder.AllowAnyMethod().AllowAnyHeader().AllowCredentials().SetIsOriginAllowed((host) => true));
+                options.AddPolicy(CorsConst.ORIGINS, builder => builder.AllowAnyMethod().AllowAnyHeader().AllowCredentials().WithOrigins(origins));
             });
         }
     }

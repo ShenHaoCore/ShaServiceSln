@@ -24,7 +24,7 @@ builder.Host.AddSerilogSetup();
 
 var service = builder.Configuration.GetSection(ServiceSetting.KEY).Get<ServiceSetting>();
 ArgumentNullException.ThrowIfNull(service);
-List<string> xmlNames = [$"{Assembly.GetExecutingAssembly().GetName().Name}.XML", $"{ModelHelper.AssemblyName}.XML", $"{FrameworkHelper.AssemblyName}.XML"];
+List<string> xmlNames = [$"{ServiceHelper.AssemblyName}.XML", $"{ModelHelper.AssemblyName}.XML", $"{FrameworkHelper.AssemblyName}.XML"];
 
 builder.Services.AddSingleton(new AppSettingHelper(builder.Configuration));
 builder.Services.AddAutoMapper(cfg => { cfg.AddProfile<AutoMapperProfile>(); });
@@ -47,6 +47,7 @@ if (app.Environment.IsDevelopment()) { app.UseDeveloperExceptionPage(); }
 app.UseSwaggerMiddle();
 app.UseSerilogMiddle();
 app.UseHealthCheckMiddle();
+app.UseCorsMiddle();
 app.UseHttpsRedirection();
 app.UseAuthentication(); // 认证中间件
 app.UseAuthorization(); // 授权中间件

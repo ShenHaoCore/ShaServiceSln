@@ -25,4 +25,20 @@
         /// </summary>
         public List<string> Origins { get; set; } = new List<string>();
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public class CorsConst
+    {
+        /// <summary>
+        /// 允许所有来源
+        /// </summary>
+        public const string ALLOWANY = "CORS_ALLOWANY";
+
+        /// <summary>
+        /// 限制来源
+        /// </summary>
+        public const string ORIGINS = "CORS_ORIGINS";
+    }
 }
