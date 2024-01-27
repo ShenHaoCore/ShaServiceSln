@@ -38,6 +38,7 @@ namespace Sha.Framework.Cors
             ArgumentNullException.ThrowIfNull(services);
             var setting = AppSettingHelper.GetObject<CorsSetting>(CorsSetting.KEY);
             ArgumentNullException.ThrowIfNull(setting);
+            if (!setting.Enable) { return; }
 
             string[] origins = setting.Origins is null ? [] : [.. setting.Origins];
             services.AddCors(options =>

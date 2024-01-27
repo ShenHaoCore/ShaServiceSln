@@ -101,7 +101,7 @@ namespace Sha.Framework.Redis
         /// <summary>
         /// 获取
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TEntity"></typeparam>
         /// <param name="key"></param>
         /// <returns></returns>
         public TEntity? Get<TEntity>(string key) where TEntity : class

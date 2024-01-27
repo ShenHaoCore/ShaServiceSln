@@ -13,9 +13,12 @@ namespace Sha.Framework.Cors
         /// <param name="app"></param>
         public static void UseCorsMiddle(this IApplicationBuilder app)
         {
+            bool enable = false;
+            if (!enable) { return; }
             string policyName = CorsConst.ORIGINS;
             var setting = AppSettingHelper.GetObject<CorsSetting>(CorsSetting.KEY);
             ArgumentNullException.ThrowIfNull(setting);
+            if (!setting.Enable) { return; }
             if (setting.AllowAnyone) { policyName = CorsConst.ALLOWANY; }
             app.UseCors(policyName);
         }

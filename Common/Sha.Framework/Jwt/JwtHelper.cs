@@ -12,8 +12,15 @@ namespace Sha.Framework.Jwt
     /// </summary>
     public class JwtHelper
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public readonly static string Type = "Bearer";
-        public readonly static TimeSpan Expiry = new TimeSpan(0, 30, 0); // 有效期
+
+        /// <summary>
+        /// 有效期
+        /// </summary>
+        public readonly static TimeSpan Expiry = new TimeSpan(0, 30, 0);
 
         /// <summary>
         /// 生成令牌
