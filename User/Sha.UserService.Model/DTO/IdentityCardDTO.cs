@@ -73,12 +73,6 @@ namespace Sha.UserService.Model.DTO
         public string Name { get; set; } = string.Empty;
 
         /// <summary>
-        /// 身份证号
-        /// </summary>
-        [DefaultValue("")]
-        public string Number { get; set; } = string.Empty;
-
-        /// <summary>
         /// 性别
         /// <sample>1：男</sample>
         /// <sample>0：女</sample>
@@ -95,5 +89,17 @@ namespace Sha.UserService.Model.DTO
         /// 生日
         /// </summary>
         public DateTime? Birthday { get; set; }
+
+        /// <summary>
+        /// 地址
+        /// </summary>
+        [DefaultValue("")]
+        public string Address { get; set; } = string.Empty;
+
+        /// <summary>
+        /// 身份证号
+        /// </summary>
+        [DefaultValue("")]
+        public string Number { get; set; } = string.Empty;
     }
 }

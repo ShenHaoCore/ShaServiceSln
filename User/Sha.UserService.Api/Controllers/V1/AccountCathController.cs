@@ -1,4 +1,5 @@
 ﻿using Asp.Versioning;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Sha.Framework.Base;
@@ -16,15 +17,16 @@ namespace Sha.UserService.Api.Controllers.V1
     public class AccountCathController : ShaBaseController
     {
         #region 变量
-        private readonly AccountCathBll bll; 
+        private readonly AccountCathBll bll;
         #endregion
 
         /// <summary>
         /// 现金账户
         /// </summary>
         /// <param name="logger">日志</param>
+        /// <param name="mapper">自动映射</param>
         /// <param name="bll">业务逻辑层</param>
-        public AccountCathController(ILogger<AccountCathController> logger, AccountCathBll bll) : base(logger)
+        public AccountCathController(ILogger<AccountCathController> logger, IMapper mapper, AccountCathBll bll) : base(logger, mapper)
         {
             this.bll = bll;
         }

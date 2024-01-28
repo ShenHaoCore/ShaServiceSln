@@ -1,18 +1,20 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using AutoMapper;
+using Microsoft.Extensions.Logging;
 using Sha.Framework.Base;
 
 namespace Sha.UserService.Bll.Common
 {
     /// <summary>
-    /// 
+    /// 用户 业务逻辑层
     /// </summary>
     public class UserServiceBll : ShaServiceBll
     {
         /// <summary>
-        /// 
+        /// 用户 业务逻辑层
         /// </summary>
         /// <param name="logger">日志</param>
-        public UserServiceBll(ILogger<UserServiceBll> logger) : base(logger)
+        /// <param name="mapper">自动映射</param>
+        public UserServiceBll(ILogger<UserServiceBll> logger, IMapper mapper) : base(logger, mapper)
         {
         }
     }

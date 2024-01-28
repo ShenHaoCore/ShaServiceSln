@@ -1,4 +1,5 @@
-﻿using FluentValidation.Results;
+﻿using AutoMapper;
+using FluentValidation.Results;
 using Microsoft.Extensions.Logging;
 using Sha.Framework.Base;
 using Sha.Framework.Enum;
@@ -23,9 +24,10 @@ namespace Sha.UserService.Bll
         /// 员工
         /// </summary>
         /// <param name="logger">日志</param>
+        /// <param name="mapper">自动映射</param>
         /// <param name="redis"></param>
         /// <param name="dal">数据访问层</param>
-        public EmployeeBll(ILogger<EmployeeBll> logger, IRedisManage redis, EmployeeDal dal) : base(logger)
+        public EmployeeBll(ILogger<EmployeeBll> logger, IMapper mapper, IRedisManage redis, EmployeeDal dal) : base(logger, mapper)
         {
             this.redis = redis;
             this.dal = dal;

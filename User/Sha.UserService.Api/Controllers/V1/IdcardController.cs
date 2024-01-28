@@ -1,4 +1,5 @@
 ﻿using Asp.Versioning;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -7,7 +8,6 @@ using Sha.Framework.Enum;
 using Sha.UserService.Bll;
 using Sha.UserService.Model.DTO;
 using Sha.UserService.Model.Entity;
-using Sha.UserService.Model.Request;
 
 namespace Sha.UserService.Api.Controllers.V1
 {
@@ -23,8 +23,9 @@ namespace Sha.UserService.Api.Controllers.V1
         /// 身份证
         /// </summary>
         /// <param name="logger">日志</param>
+        /// <param name="mapper">自动映射</param>
         /// <param name="bll">业务逻辑层</param>
-        public IdcardController(ILogger<IdcardController> logger, IdcardBll bll) : base(logger)
+        public IdcardController(ILogger<IdcardController> logger, IMapper mapper, IdcardBll bll) : base(logger, mapper)
         {
             this.bll = bll;
         }

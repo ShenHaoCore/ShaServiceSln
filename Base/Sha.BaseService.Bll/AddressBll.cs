@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using AutoMapper;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Sha.BaseService.Bll.Common;
 using Sha.BaseService.Dal;
@@ -20,8 +21,9 @@ namespace Sha.BaseService.Bll
         /// 地址
         /// </summary>
         /// <param name="logger">日志</param>
+        /// <param name="mapper">自动映射</param>
         /// <param name="dal"></param>
-        public AddressBll(ILogger<AddressBll> logger, AddressDal dal) : base(logger)
+        public AddressBll(ILogger<AddressBll> logger, IMapper mapper, AddressDal dal) : base(logger, mapper)
         {
             this.dal = dal;
         }
@@ -51,24 +53,26 @@ namespace Sha.BaseService.Bll
         /// <summary>
         /// 新增
         /// </summary>
-        /// <param name="address"></param>
+        /// <param name="paramObj"></param>
         /// <returns></returns>
-        public ResultModel<bool> Create(AddressCreateModel param)
+        public ResultModel<bool> Create(AddressCreate paramObj)
         {
-            logger.LogDebug($"地址新增参数【{JsonConvert.SerializeObject(param)}】");
-            if (!this.dal.Create(ConvertTo(param))) { return new ResultModel<bool>(false, FrameworkEnum.StatusCode.Fail); }
+            logger.LogDebug($"地址新增参数【{JsonConvert.SerializeObject(paramObj)}】");
+            t_Address address = mapper.Map<t_Address>(paramObj);
+            if (!this.dal.Create(address)) { return new ResultModel<bool>(false, FrameworkEnum.StatusCode.Fail); }
             return new ResultModel<bool>(true, FrameworkEnum.StatusCode.Success);
         }
 
         /// <summary>
         /// 更新
         /// </summary>
-        /// <param name="address"></param>
+        /// <param name="paramObj"></param>
         /// <returns></returns>
-        public ResultModel<bool> Update(AddressUpdateParam param)
+        public ResultModel<bool> Update(AddressUpdate paramObj)
         {
-            logger.LogDebug($"地址更新参数【{JsonConvert.SerializeObject(param)}】");
-            if (!this.dal.Update(ConvertTo(param))) { return new ResultModel<bool>(false, FrameworkEnum.StatusCode.Fail); }
+            logger.LogDebug($"地址更新参数【{JsonConvert.SerializeObject(paramObj)}】");
+            t_Address address = mapper.Map<t_Address>(paramObj);
+            if (!this.dal.Update(address)) { return new ResultModel<bool>(false, FrameworkEnum.StatusCode.Fail); }
             return new ResultModel<bool>(true, FrameworkEnum.StatusCode.Success);
         }
 
@@ -81,56 +85,6 @@ namespace Sha.BaseService.Bll
         {
             if (!this.dal.Delete(key)) { return new ResultModel<bool>(false, FrameworkEnum.StatusCode.Fail); }
             return new ResultModel<bool>(true, FrameworkEnum.StatusCode.Success);
-        }
-        #endregion
-
-        #region 转型
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="param"></param>
-        /// <returns></returns>
-        private t_Address ConvertTo(AddressCreateModel param)
-        {
-            t_Address address = new t_Address()
-            {
-                Key = Guid.NewGuid(),
-                Code = param.Code,
-                Number = param.Number,
-                NameCn = param.NameCn,
-                NameEn = param.NameEn,
-                ShortName = param.ShortName,
-                ParentKey = param.ParentKey,
-                Type = param.Type,
-                Sort = param.Sort,
-                IsDelete = false,
-                CreateTime = DateTime.Now
-            };
-            return address;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="param"></param>
-        /// <returns></returns>
-        private t_Address ConvertTo(AddressUpdateParam param)
-        {
-            t_Address address = new t_Address()
-            {
-                Key = param.Key,
-                Code = param.Code,
-                Number = param.Number,
-                NameCn = param.NameCn,
-                NameEn = param.NameEn,
-                ShortName = param.ShortName,
-                ParentKey = param.ParentKey,
-                Type = param.Type,
-                Sort = param.Sort,
-                IsDelete = param.IsDelete,
-                CreateTime = DateTime.Now
-            };
-            return address;
         }
         #endregion
     }

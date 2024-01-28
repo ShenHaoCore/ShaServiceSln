@@ -1,4 +1,5 @@
 ﻿using Asp.Versioning;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Sha.Framework.Base;
@@ -22,8 +23,9 @@ namespace Sha.UserService.ApiBehand.Controllers.V1
         /// 员工
         /// </summary>
         /// <param name="logger">日志</param>
+        /// <param name="mapper">自动映射</param>
         /// <param name="bll">业务逻辑层</param>
-        public EmployeeController(ILogger<EmployeeController> logger, EmployeeBll bll) : base(logger)
+        public EmployeeController(ILogger<EmployeeController> logger, IMapper mapper, EmployeeBll bll) : base(logger, mapper)
         {
             this.bll = bll;
         }

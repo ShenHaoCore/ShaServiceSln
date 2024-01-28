@@ -1,9 +1,9 @@
 ﻿using Asp.Versioning;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Sha.BaseService.Bll;
 using Sha.BaseService.Model.DTO;
-using Sha.BaseService.Model.Request;
 using Sha.Framework.Base;
 using Sha.Framework.Enum;
 
@@ -21,8 +21,9 @@ namespace Sha.BaseService.Api.Controllers.V1
         /// 地址
         /// </summary>
         /// <param name="logger">日志</param>
+        /// <param name="mapper">自动映射</param>
         /// <param name="bll">业务逻辑层</param>
-        public AddressController(ILogger<AddressController> logger, AddressBll bll) : base(logger)
+        public AddressController(ILogger<AddressController> logger, IMapper mapper, AddressBll bll) : base(logger, mapper)
         {
             this.bll = bll;
         }
@@ -33,10 +34,10 @@ namespace Sha.BaseService.Api.Controllers.V1
         /// <param name="request">请求</param>
         /// <returns></returns>
         [HttpPost]
-        public BaseResponse Create([FromBody] AddressCreateRequest request)
+        public BaseResponse Create([FromBody] AddressCreate request)
         {
             logger.LogDebug($"地址新增请求【{JsonConvert.SerializeObject(request)}】");
-            ResultModel<bool> result = bll.Create(ConvertTo(request));
+            ResultModel<bool> result = bll.Create(request);
             if (!result.IsSuccess) { return new BaseResponse(false, result.Code, result.Message); }
             return new BaseResponse(true, FrameworkEnum.StatusCode.Success);
         }
@@ -47,10 +48,10 @@ namespace Sha.BaseService.Api.Controllers.V1
         /// <param name="request">请求</param>
         /// <returns></returns>
         [HttpPost]
-        public BaseResponse Update([FromBody] AddressUpdateRequest request)
+        public BaseResponse Update([FromBody] AddressUpdate request)
         {
             logger.LogDebug($"地址更新请求【{JsonConvert.SerializeObject(request)}】");
-            ResultModel<bool> result = bll.Update(ConvertTo(request));
+            ResultModel<bool> result = bll.Update(request);
             if (!result.IsSuccess) { return new BaseResponse(false, result.Code, result.Message); }
             return new BaseResponse(true, FrameworkEnum.StatusCode.Success);
         }
@@ -69,34 +70,5 @@ namespace Sha.BaseService.Api.Controllers.V1
             if (!result.IsSuccess) { return new BaseResponse(false, result.Code, result.Message); }
             return new BaseResponse(true, FrameworkEnum.StatusCode.Success);
         }
-
-        #region 转型
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
-        private AddressCreateModel ConvertTo(AddressCreateRequest request)
-        {
-            AddressCreateModel param = new AddressCreateModel()
-            {
-                NameCn = request.NameCn,
-            };
-            return param;
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
-        private AddressUpdateParam ConvertTo(AddressUpdateRequest request)
-        {
-            AddressUpdateParam param = new AddressUpdateParam()
-            {
-                NameCn = request.NameCn,
-            };
-            return param;
-        }
-        #endregion
     }
 }

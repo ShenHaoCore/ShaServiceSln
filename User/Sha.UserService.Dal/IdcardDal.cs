@@ -47,12 +47,13 @@ namespace Sha.UserService.Dal
         {
             int totalNumber = 0;
             List<t_IdentityCard> cards = db.Queryable<t_IdentityCard>()
-                .WhereIF(!string.IsNullOrWhiteSpace(qryParam.Name), it => it.Name == qryParam.Name)
-                .WhereIF(!string.IsNullOrWhiteSpace(qryParam.Number), it => it.Number == qryParam.Number)
+                .WhereIF(!string.IsNullOrWhiteSpace(qryParam.Name), it => it.Name.Contains(qryParam.Name))
                 .WhereIF(qryParam.Sex.HasValue, it => it.Sex == qryParam.Sex)
                 .WhereIF(qryParam.Nation.HasValue, it => it.Nation == qryParam.Nation)
                 .WhereIF(qryParam.Birthday.HasValue, it => SqlFunc.DateIsSame(it.Birthday, qryParam.Birthday))
-                .OrderByDescending(it => it.ID)
+                .WhereIF(!string.IsNullOrWhiteSpace(qryParam.Address), it => it.Address.Contains(qryParam.Address))
+                .WhereIF(!string.IsNullOrWhiteSpace(qryParam.Number), it => it.Number.Contains(qryParam.Number))
+                .OrderBy(it => it.ID)
                 .ToPageList(qryParam.PageIndex, qryParam.PageSize, ref totalNumber);
             qryParam.TotalNumber = totalNumber;
             return cards;

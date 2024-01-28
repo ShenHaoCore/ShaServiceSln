@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using AutoMapper;
 using FluentValidation.Results;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -28,9 +29,10 @@ namespace Sha.UserService.Bll
         /// 现金账户
         /// </summary>
         /// <param name="logger">日志</param>
+        /// <param name="mapper">自动映射</param>
         /// <param name="dal">数据访问层</param>
         /// <param name="context"></param>
-        public AccountCathBll(ILogger<IdcardBll> logger, AccountCathDal dal, IComponentContext context) : base(logger)
+        public AccountCathBll(ILogger<IdcardBll> logger, IMapper mapper, AccountCathDal dal, IComponentContext context) : base(logger, mapper)
         {
             this.dal = dal;
             this.context = context;
