@@ -162,7 +162,7 @@ namespace Sha.BaseService.Model.DTO
     /// <summary>
     /// 地址验证
     /// </summary>
-    public class AddressUpdateValidator : AbstractValidator<AddressCreate>
+    public class AddressUpdateValidator : AbstractValidator<AddressUpdate>
     {
         /// <summary>
         /// 地址验证

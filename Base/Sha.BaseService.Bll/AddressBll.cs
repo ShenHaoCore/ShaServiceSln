@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using FluentValidation;
+using FluentValidation.Results;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Sha.BaseService.Bll.Common;
@@ -7,6 +9,7 @@ using Sha.BaseService.Model.DTO;
 using Sha.BaseService.Model.Entity;
 using Sha.Framework.Base;
 using Sha.Framework.Enum;
+using Sha.Framework.Jwt;
 
 namespace Sha.BaseService.Bll
 {
@@ -58,6 +61,9 @@ namespace Sha.BaseService.Bll
         public ResultModel<bool> Create(AddressCreate paramObj)
         {
             logger.LogDebug($"地址新增参数【{JsonConvert.SerializeObject(paramObj)}】");
+            AddressCreateValidator validator = new AddressCreateValidator();
+            ValidationResult validResult = validator.Validate(paramObj);
+            if (!validResult.IsValid) { return new ResultModel<bool>(false, FrameworkEnum.StatusCode.ValidateFail); }
             t_Address address = mapper.Map<t_Address>(paramObj);
             if (!this.dal.Create(address)) { return new ResultModel<bool>(false, FrameworkEnum.StatusCode.Fail); }
             return new ResultModel<bool>(true, FrameworkEnum.StatusCode.Success);
@@ -71,6 +77,9 @@ namespace Sha.BaseService.Bll
         public ResultModel<bool> Update(AddressUpdate paramObj)
         {
             logger.LogDebug($"地址更新参数【{JsonConvert.SerializeObject(paramObj)}】");
+            AddressUpdateValidator validator = new AddressUpdateValidator();
+            ValidationResult validResult = validator.Validate(paramObj);
+            if (!validResult.IsValid) { return new ResultModel<bool>(false, FrameworkEnum.StatusCode.ValidateFail); }
             t_Address address = mapper.Map<t_Address>(paramObj);
             if (!this.dal.Update(address)) { return new ResultModel<bool>(false, FrameworkEnum.StatusCode.Fail); }
             return new ResultModel<bool>(true, FrameworkEnum.StatusCode.Success);
