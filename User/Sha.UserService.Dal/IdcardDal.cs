@@ -16,9 +16,7 @@ namespace Sha.UserService.Dal
         /// </summary>
         /// <param name="db"></param>
         /// <param name="logger"></param>
-        public IdcardDal(ISqlSugarClient db, ILogger<IdcardDal> logger) : base(db, logger)
-        {
-        }
+        public IdcardDal(ISqlSugarClient db, ILogger<IdcardDal> logger) : base(db, logger) { }
 
         /// <summary>
         /// 获取
@@ -32,11 +30,7 @@ namespace Sha.UserService.Dal
         /// </summary>
         /// <param name="idcard"></param>
         /// <returns></returns>
-        public bool Create(t_IdentityCard idcard)
-        {
-            db.Insertable<t_IdentityCard>(idcard).ExecuteCommand();
-            return true;
-        }
+        public bool Create(t_IdentityCard idcard) => db.Insertable<t_IdentityCard>(idcard).ExecuteCommand() > 0;
 
         /// <summary>
         /// 分页查询

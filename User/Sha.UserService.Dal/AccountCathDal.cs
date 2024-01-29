@@ -15,19 +15,13 @@ namespace Sha.UserService.Dal
         /// </summary>
         /// <param name="db"></param>
         /// <param name="logger"></param>
-        public AccountCathDal(ISqlSugarClient db, ILogger<AccountCathDal> logger) : base(db, logger)
-        {
-        }
+        public AccountCathDal(ISqlSugarClient db, ILogger<AccountCathDal> logger) : base(db, logger) { }
 
         /// <summary>
         /// 创建充值交易
         /// </summary>
         /// <param name="recharge"></param>
         /// <returns></returns>
-        public bool CreateTrade(t_RechargeTrade recharge)
-        {
-            db.Insertable<t_RechargeTrade>(recharge).ExecuteCommand();
-            return true;
-        }
+        public bool CreateTrade(t_RechargeTrade recharge) => db.Insertable<t_RechargeTrade>(recharge).ExecuteCommand() > 0;
     }
 }
