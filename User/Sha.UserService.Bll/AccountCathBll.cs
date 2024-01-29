@@ -53,7 +53,7 @@ namespace Sha.UserService.Bll
             IPayment iPay = context.ResolveKeyed<IPayment>((BusinessEnum.Payment)paramObj.Payment);
             var recharge = CreateTrade(paramObj);
             if (recharge is null) { return new ResultModel<RechargeTradeModel>(false, FrameworkEnum.StatusCode.Fail); }
-            PaymentTrade trade = new PaymentTrade("支付充值", $"账户充值{recharge.Amount.ToString("f2")}元", recharge.Amount, recharge.TradeNo);
+            PaymentTrade trade = new PaymentTrade("支付充值", $"账户充值{recharge.Amount:f2}元", recharge.Amount, recharge.TradeNo);
             ResultModel<PaymentTradeOrder> payResult = iPay.AppTrade(trade);
             if (!payResult.IsSuccess) { return new ResultModel<RechargeTradeModel>(false, payResult.Code, payResult.Message); }
             if (payResult.Data is null) { return new ResultModel<RechargeTradeModel>(false, FrameworkEnum.StatusCode.NotFountData); }
@@ -74,7 +74,7 @@ namespace Sha.UserService.Bll
             IPayment iPay = context.ResolveKeyed<IPayment>((BusinessEnum.Payment)paramObj.Payment);
             var recharge = CreateTrade(paramObj);
             if (recharge is null) { return new ResultModel<RechargeTradeModel>(false, FrameworkEnum.StatusCode.Fail); }
-            PaymentTrade trade = new PaymentTrade("支付充值", $"账户充值{recharge.Amount.ToString("f2")}元", recharge.Amount, recharge.TradeNo, paramObj.IsGet);
+            PaymentTrade trade = new PaymentTrade("支付充值", $"账户充值{recharge.Amount:f2}元", recharge.Amount, recharge.TradeNo, paramObj.IsGet);
             ResultModel<PaymentTradeOrder> payResult = iPay.PageTrade(trade);
             if (!payResult.IsSuccess) { return new ResultModel<RechargeTradeModel>(false, payResult.Code, payResult.Message); }
             if (payResult.Data is null) { return new ResultModel<RechargeTradeModel>(false, FrameworkEnum.StatusCode.NotFountData); }
