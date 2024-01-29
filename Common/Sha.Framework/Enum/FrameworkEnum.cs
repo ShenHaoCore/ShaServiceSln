@@ -119,6 +119,12 @@ namespace Sha.Framework.Enum
             /// </summary>
             [Description("密码错误")]
             PasswordError = 20001,
+
+            /// <summary>
+            /// 编码重复
+            /// </summary>
+            [Description("编码重复")]
+            RepeatNumber = 20002,
         }
     }
 }

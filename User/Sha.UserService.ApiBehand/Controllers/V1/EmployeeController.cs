@@ -7,6 +7,7 @@ using Sha.Framework.Enum;
 using Sha.Framework.Jwt;
 using Sha.UserService.Bll;
 using Sha.UserService.Model.DTO;
+using Sha.UserService.Model.Entity;
 
 namespace Sha.UserService.ApiBehand.Controllers.V1
 {
@@ -29,6 +30,22 @@ namespace Sha.UserService.ApiBehand.Controllers.V1
         {
             this.bll = bll;
         }
+
+        /// <summary>
+        /// 获取
+        /// </summary>
+        /// <param name="id">ID</param>
+        /// <returns></returns>
+        [HttpGet]
+        public BaseResponseObject<t_Employee> GetById([FromQuery] int id) => new BaseResponseObject<t_Employee>(true, FrameworkEnum.StatusCode.Success, bll.GetById(id));
+
+        /// <summary>
+        /// 获取
+        /// </summary>
+        /// <param name="number">工号</param>
+        /// <returns></returns>
+        [HttpGet]
+        public BaseResponseObject<t_Employee> GetByNumber([FromQuery] string number) => new BaseResponseObject<t_Employee>(true, FrameworkEnum.StatusCode.Success, bll.GetByNumber(number));
 
         /// <summary>
         /// 登录

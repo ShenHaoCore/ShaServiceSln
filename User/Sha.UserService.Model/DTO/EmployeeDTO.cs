@@ -50,23 +50,19 @@ namespace Sha.UserService.Model.DTO
     public class EmployeeCreate
     {
         /// <summary>
-        /// 
-        /// </summary>
-        public EmployeeCreate(string number, string password)
-        {
-            this.Number = number;
-            this.Password = password;
-        }
-
-        /// <summary>
         /// 工号
         /// </summary>
-        public string Number { get; set; }
+        public string Number { get; set; } = string.Empty;
 
         /// <summary>
         /// 密码
         /// </summary>
-        public string Password { get; set; }
+        public string Password { get; set; } = string.Empty;
+
+        /// <summary>
+        /// 姓名
+        /// </summary>
+        public string Name { get; set; } = string.Empty;
     }
 
     /// <summary>
@@ -80,7 +76,8 @@ namespace Sha.UserService.Model.DTO
         public EmployeeCreateValidator()
         {
             RuleFor(it => it.Number).NotEmpty().WithMessage("{PropertyName}不能为空").WithName("工号");
-            RuleFor(it => it.Password).Cascade(CascadeMode.Stop).NotEmpty().WithMessage("{PropertyName}不能为空").MinimumLength(6).WithMessage("{PropertyName}长度小于{MinLength}").WithName("密码");
+            RuleFor(it => it.Password).NotEmpty().WithMessage("{PropertyName}不能为空").WithName("密码");
+            RuleFor(it => it.Name).Cascade(CascadeMode.Stop).NotEmpty().WithMessage("{PropertyName}不能为空").MaximumLength(10).WithMessage("{PropertyName}长度大于{MaxLength}").WithName("姓名");
         }
     }
 }

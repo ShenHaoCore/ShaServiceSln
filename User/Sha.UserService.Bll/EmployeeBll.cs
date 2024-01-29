@@ -34,6 +34,20 @@ namespace Sha.UserService.Bll
         }
 
         /// <summary>
+        /// 获取
+        /// </summary>
+        /// <param name="id">ID</param>
+        /// <returns></returns>
+        public t_Employee GetById(int id) => dal.GetById(id);
+
+        /// <summary>
+        /// 获取
+        /// </summary>
+        /// <param name="number">工号</param>
+        /// <returns></returns>
+        public t_Employee GetByNumber(string number) => dal.GetByNumber(number);
+
+        /// <summary>
         /// 登录
         /// </summary>
         /// <param name="paramObj">参数</param>
@@ -62,6 +76,10 @@ namespace Sha.UserService.Bll
             EmployeeCreateValidator validator = new EmployeeCreateValidator();
             ValidationResult validResult = validator.Validate(paramObj);
             if (!validResult.IsValid) { return new ResultModel<bool>(false, FrameworkEnum.StatusCode.ValidateFail); }
+            t_Employee employee = dal.GetByNumber(paramObj.Number);
+            if (employee is not null) { return new ResultModel<bool>(false, FrameworkEnum.StatusCode.RepeatNumber); }
+            employee = mapper.Map<t_Employee>(paramObj);
+            if (!dal.Create(employee)) { return new ResultModel<bool>(false, FrameworkEnum.StatusCode.Fail); }
             return new ResultModel<bool>(true, FrameworkEnum.StatusCode.Success);
         }
     }

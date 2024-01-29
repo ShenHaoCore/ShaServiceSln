@@ -15,6 +15,7 @@ namespace Sha.UserService.Model.Common
         public AutoMapperProfile()
         {
             CreateMap<IdcardCreate, t_IdentityCard>();
+            CreateMap<EmployeeCreate, t_Employee>();
         }
     }
 }

@@ -22,8 +22,22 @@ namespace Sha.UserService.Dal
         /// <summary>
         /// 获取
         /// </summary>
+        /// <param name="id">ID</param>
+        /// <returns></returns>
+        public t_Employee GetById(int id) => db.Queryable<t_Employee>().First(P => P.ID == id);
+
+        /// <summary>
+        /// 获取
+        /// </summary>
         /// <param name="number">工号</param>
         /// <returns></returns>
         public t_Employee GetByNumber(string number) => db.Queryable<t_Employee>().First(P => P.Number == number);
+
+        /// <summary>
+        /// 新建
+        /// </summary>
+        /// <param name="employee"></param>
+        /// <returns></returns>
+        public bool Create(t_Employee employee) => db.Insertable(employee).ExecuteCommand() > 0;
     }
 }

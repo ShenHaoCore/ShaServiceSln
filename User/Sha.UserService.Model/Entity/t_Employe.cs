@@ -14,6 +14,7 @@ namespace Sha.UserService.Model.Entity
         {
             this.Number = string.Empty;
             this.Password = string.Empty;
+            this.Name = string.Empty;
         }
 
         /// <summary>
@@ -31,5 +32,10 @@ namespace Sha.UserService.Model.Entity
         /// 
         /// </summary>
         public System.String Password { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public System.String Name { get; set; }
     }
 }
