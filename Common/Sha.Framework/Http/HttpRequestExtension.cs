@@ -16,7 +16,7 @@ namespace Sha.Framework.Http
         {
             string? ipString = SplitCsv(GetHeaderString(context, "X-Forwarded-For")).FirstOrDefault();
             if (string.IsNullOrWhiteSpace(ipString)) { ipString = SplitCsv(GetHeaderString(context, "X-Real-IP")).FirstOrDefault(); }
-            if (string.IsNullOrWhiteSpace(ipString) && context.Connection?.RemoteIpAddress != null) { ipString = context.Connection.RemoteIpAddress.ToString(); }
+            if (string.IsNullOrWhiteSpace(ipString) && context.Connection?.RemoteIpAddress is not null) { ipString = context.Connection.RemoteIpAddress.ToString(); }
             if (string.IsNullOrWhiteSpace(ipString)) { ipString = GetHeaderString(context, "REMOTE_ADDR"); }
             return ipString;
         }

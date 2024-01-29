@@ -57,9 +57,9 @@ namespace Sha.Business.WeChat
                 request.AddHeader("User-Agent", UserAgent); // 如果缺少这句代码就会导致下单接口请求失败，报400错误（Bad Request）
                 RestResponse response = client.Get(request);
                 logger.LogDebug($"微信V3获取证书：{response}");
-                if (response == null || response.StatusCode != HttpStatusCode.OK) { return null; }
+                if (response is null || response.StatusCode != HttpStatusCode.OK) { return null; }
                 var certResponse = JsonConvert.DeserializeObject<WeChatCertificatesResponse>(response.Content ?? "");
-                if (certResponse == null) { throw new ArgumentNullException(nameof(certResponse)); }
+                if (certResponse is null) { throw new ArgumentNullException(nameof(certResponse)); }
                 foreach (var item in certResponse.Certificates)
                 {
                     if (certs.ContainsKey(item.SerialNo)) { continue; }
@@ -149,7 +149,7 @@ namespace Sha.Business.WeChat
         {
             using (AesGcm aes = new AesGcm(Encoding.UTF8.GetBytes(setting.APIv3Key), 1024))
             {
-                byte[]? associatedBytes = associatedData == null ? null : Encoding.UTF8.GetBytes(associatedData);
+                byte[]? associatedBytes = associatedData is null ? null : Encoding.UTF8.GetBytes(associatedData);
                 var encryptedBytes = Convert.FromBase64String(ciphertext);
                 var cipherBytes = encryptedBytes[..^16];
                 var tag = encryptedBytes[^16..];

@@ -54,7 +54,7 @@ namespace Sha.Framework.Redis
         /// <param name="ts"></param>
         public bool Set(string key, object value, TimeSpan ts)
         {
-            if (value == null) { return false; }
+            if (value is null) { return false; }
             if (value is string stringValue) { return database.StringSet(key, stringValue, ts); }
             if (value is bool boolValue) { return database.StringSet(key, boolValue, ts); }
             if (value is int intValue) { return database.StringSet(key, intValue, ts); }
@@ -69,7 +69,7 @@ namespace Sha.Framework.Redis
         /// <param name="ts"></param>
         public async Task<bool> SetAsync(string key, object value, TimeSpan ts)
         {
-            if (value == null) { return false; }
+            if (value is null) { return false; }
             if (value is string stringValue) { return await database.StringSetAsync(key, stringValue, ts); }
             if (value is bool boolValue) { return await database.StringSetAsync(key, boolValue, ts); }
             if (value is int intValue) { return await database.StringSetAsync(key, intValue, ts); }

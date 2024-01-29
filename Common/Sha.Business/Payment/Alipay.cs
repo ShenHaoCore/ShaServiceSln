@@ -37,7 +37,7 @@ namespace Sha.Business.Payment
             trade.ProductCode = ProductCode;
             trade.TimeoutExpress = TimeoutExpress;
             AlipayTradeAppPayResponse? response = client.TradeAppPay(trade);
-            if (response == null || response.IsError) { return new ResultModel<PaymentTradeOrder>(false, FrameworkEnum.StatusCode.ResponseError); }
+            if (response is null || response.IsError) { return new ResultModel<PaymentTradeOrder>(false, FrameworkEnum.StatusCode.ResponseError); }
             return new ResultModel<PaymentTradeOrder>(true, FrameworkEnum.StatusCode.Success, new PaymentTradeOrder(response.Body));
         }
 
@@ -54,7 +54,7 @@ namespace Sha.Business.Payment
             BusinessEnum.RequestMethod method = BusinessEnum.RequestMethod.POST; // POST方式请求，生成FORM表单
             if (paramObj.IsGet == true) { method = BusinessEnum.RequestMethod.GET; } // GET方式请求，即生成URL链接;
             AlipayTradePagePayResponse? response = client.TradePagePay(trade, method);
-            if (response == null || response.IsError) { return new ResultModel<PaymentTradeOrder>(false, FrameworkEnum.StatusCode.ResponseError); }
+            if (response is null || response.IsError) { return new ResultModel<PaymentTradeOrder>(false, FrameworkEnum.StatusCode.ResponseError); }
             return new ResultModel<PaymentTradeOrder>(true, FrameworkEnum.StatusCode.Success, new PaymentTradeOrder(response.Body));
         }
     }

@@ -29,8 +29,8 @@ namespace Sha.Framework.Filter
             {
                 foreach (var selector in controller.Selectors)
                 {
-                    if (selector.AttributeRouteModel == null) { selector.AttributeRouteModel = prefix; }
-                    if (selector.AttributeRouteModel != null) { selector.AttributeRouteModel = AttributeRouteModel.CombineAttributeRouteModel(prefix, selector.AttributeRouteModel); }
+                    if (selector.AttributeRouteModel is null) { selector.AttributeRouteModel = prefix; }
+                    if (selector.AttributeRouteModel is not null) { selector.AttributeRouteModel = AttributeRouteModel.CombineAttributeRouteModel(prefix, selector.AttributeRouteModel); }
                 }
             }
         }

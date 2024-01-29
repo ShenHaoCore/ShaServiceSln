@@ -50,7 +50,7 @@ namespace Sha.Framework.Cache
         public TEntity? Get<TEntity>(string key) where TEntity : class
         {
             var value = cache.Get(key);
-            if (value == null) { return null; }
+            if (value is null) { return null; }
             return JsonConvert.DeserializeObject<TEntity>(Encoding.UTF8.GetString(value));
         }
 
@@ -63,7 +63,7 @@ namespace Sha.Framework.Cache
         public async Task<TEntity?> GetAsync<TEntity>(string key) where TEntity : class
         {
             var value = await cache.GetAsync(key);
-            if (value == null) { return null; }
+            if (value is null) { return null; }
             return JsonConvert.DeserializeObject<TEntity>(Encoding.UTF8.GetString(value));
         }
 
@@ -74,7 +74,7 @@ namespace Sha.Framework.Cache
         /// <returns></returns>
         public bool Exists(string key)
         {
-            return cache.Get(key) != null;
+            return cache.Get(key) is not null;
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace Sha.Framework.Cache
         /// <returns></returns>
         public async Task<bool> ExistsAsync(string key)
         {
-            return await cache.GetAsync(key) != null;
+            return await cache.GetAsync(key) is not null;
         }
         #endregion
     }

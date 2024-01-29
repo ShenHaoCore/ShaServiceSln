@@ -49,15 +49,15 @@ namespace Sha.Framework.Jwt
             if (context.Resource is DefaultHttpContext)
             {
                 var httpContext = context.Resource as DefaultHttpContext;
-                if (httpContext == null) { throw new ArgumentNullException(nameof(httpContext)); }
-                if (httpContext.Request == null) { throw new ArgumentNullException(nameof(httpContext.Request)); }
+                if (httpContext is null) { throw new ArgumentNullException(nameof(httpContext)); }
+                if (httpContext.Request is null) { throw new ArgumentNullException(nameof(httpContext.Request)); }
                 if (!httpContext.Request.Headers.TryGetValue(HeaderNames.Authorization, out StringValues authString)) { return Task.CompletedTask; }
                 if (string.IsNullOrWhiteSpace(authString)) { return Task.CompletedTask; }
                 string token = string.Empty;
                 if (authString.ToString().StartsWith($"{JwtHelper.Type} ", StringComparison.OrdinalIgnoreCase)) { token = authString.ToString()[$"{JwtHelper.Type} ".Length..].Trim(); }
                 TokenInfoModel info = JwtHelper.DeserializeToken(token);
                 var loginInfo = redis.Get<LoginInfoModel>($"{FrameworkEnum.UserType.Customer.ToString().ToUpper()}-{info.UserID}");
-                if (loginInfo == null) { return Task.CompletedTask; }
+                if (loginInfo is null) { return Task.CompletedTask; }
                 context.Succeed(requirement);
             }
             return Task.CompletedTask;
@@ -92,15 +92,15 @@ namespace Sha.Framework.Jwt
             if (context.Resource is DefaultHttpContext)
             {
                 var httpContext = context.Resource as DefaultHttpContext;
-                if (httpContext == null) { throw new ArgumentNullException(nameof(httpContext)); }
-                if (httpContext.Request == null) { throw new ArgumentNullException(nameof(httpContext.Request)); }
+                if (httpContext is null) { throw new ArgumentNullException(nameof(httpContext)); }
+                if (httpContext.Request is null) { throw new ArgumentNullException(nameof(httpContext.Request)); }
                 if (!httpContext.Request.Headers.TryGetValue(HeaderNames.Authorization, out StringValues authString)) { return Task.CompletedTask; }
                 if (string.IsNullOrWhiteSpace(authString)) { return Task.CompletedTask; }
                 string token = string.Empty;
                 if (authString.ToString().StartsWith($"{JwtHelper.Type} ", StringComparison.OrdinalIgnoreCase)) { token = authString.ToString()[$"{JwtHelper.Type} ".Length..].Trim(); }
                 TokenInfoModel info = JwtHelper.DeserializeToken(token);
                 var loginInfo = redis.Get<LoginInfoModel>($"{FrameworkEnum.UserType.Employee.ToString().ToUpper()}-{info.UserID}");
-                if (loginInfo == null) { return Task.CompletedTask; }
+                if (loginInfo is null) { return Task.CompletedTask; }
                 context.Succeed(requirement);
             }
             return Task.CompletedTask;

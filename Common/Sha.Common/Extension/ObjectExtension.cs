@@ -12,7 +12,7 @@
         /// <returns></returns>
         public static string ObjToString(this object value)
         {
-            if (value == null) { return string.Empty; }
+            if (value is null) { return string.Empty; }
             return value.ToString()!.Trim();
         }
     }

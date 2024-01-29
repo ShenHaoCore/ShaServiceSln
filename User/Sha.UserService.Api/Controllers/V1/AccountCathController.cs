@@ -40,12 +40,12 @@ namespace Sha.UserService.Api.Controllers.V1
         [HttpPost]
         public BaseResponseObject<RechargeTradeModel> AppRecharge([FromBody] AppRechargeRequest request)
         {
-            if (request == null) { return new BaseResponseObject<RechargeTradeModel>(false, FrameworkEnum.StatusCode.RequestNull); }
+            if (request is null) { return new BaseResponseObject<RechargeTradeModel>(false, FrameworkEnum.StatusCode.RequestNull); }
             logger.LogDebug($"APP充值请求【{JsonConvert.SerializeObject(request)}】");
             RechargeTradeParam paramObj = new RechargeTradeParam(request.Amount, request.Payment);
             ResultModel<RechargeTradeModel> result = bll.AppRecharge(paramObj);
             if (!result.IsSuccess) { return new BaseResponseObject<RechargeTradeModel>(false, result.Code, result.Message); }
-            if (result.Data == null) { return new BaseResponseObject<RechargeTradeModel>(false, FrameworkEnum.StatusCode.NotFountData); }
+            if (result.Data is null) { return new BaseResponseObject<RechargeTradeModel>(false, FrameworkEnum.StatusCode.NotFountData); }
             return new BaseResponseObject<RechargeTradeModel>(true, result.Code, result.Message, result.Data);
         }
 
@@ -57,12 +57,12 @@ namespace Sha.UserService.Api.Controllers.V1
         [HttpPost]
         public BaseResponseObject<RechargeTradeModel> PageRecharge([FromBody] PageRechargeRequest request)
         {
-            if (request == null) { return new BaseResponseObject<RechargeTradeModel>(false, FrameworkEnum.StatusCode.RequestNull); }
+            if (request is null) { return new BaseResponseObject<RechargeTradeModel>(false, FrameworkEnum.StatusCode.RequestNull); }
             logger.LogDebug($"网页充值请求【{JsonConvert.SerializeObject(request)}】");
             RechargeTradeParam paramObj = new RechargeTradeParam(request.Amount, request.Payment, request.IsGet ?? false);
             ResultModel<RechargeTradeModel> result = bll.PageRecharge(paramObj);
             if (!result.IsSuccess) { return new BaseResponseObject<RechargeTradeModel>(false, result.Code, result.Message); }
-            if (result.Data == null) { return new BaseResponseObject<RechargeTradeModel>(false, FrameworkEnum.StatusCode.NotFountData); }
+            if (result.Data is null) { return new BaseResponseObject<RechargeTradeModel>(false, FrameworkEnum.StatusCode.NotFountData); }
             return new BaseResponseObject<RechargeTradeModel>(true, result.Code, result.Message, result.Data);
         } 
         #endregion

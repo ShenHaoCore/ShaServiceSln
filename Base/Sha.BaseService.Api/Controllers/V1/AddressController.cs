@@ -38,7 +38,7 @@ namespace Sha.BaseService.Api.Controllers.V1
         [ProducesResponseType(StatusCodes.Status200OK)]
         public BaseResponse Create([FromBody] AddressCreate request)
         {
-            if (request == null) { return new BaseResponse(false, FrameworkEnum.StatusCode.RequestNull); }
+            if (request is null) { return new BaseResponse(false, FrameworkEnum.StatusCode.RequestNull); }
             logger.LogDebug($"地址新增请求【{JsonConvert.SerializeObject(request)}】");
             ResultModel<bool> result = bll.Create(request);
             if (!result.IsSuccess) { return new BaseResponse(false, result.Code, result.Message); }
@@ -55,7 +55,7 @@ namespace Sha.BaseService.Api.Controllers.V1
         [ProducesResponseType(StatusCodes.Status200OK)]
         public BaseResponse Update([FromBody] AddressUpdate request)
         {
-            if (request == null) { return new BaseResponse(false, FrameworkEnum.StatusCode.RequestNull); }
+            if (request is null) { return new BaseResponse(false, FrameworkEnum.StatusCode.RequestNull); }
             logger.LogDebug($"地址更新请求【{JsonConvert.SerializeObject(request)}】");
             ResultModel<bool> result = bll.Update(request);
             if (!result.IsSuccess) { return new BaseResponse(false, result.Code, result.Message); }

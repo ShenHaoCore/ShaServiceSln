@@ -53,7 +53,7 @@ namespace Sha.Framework.Serilog
             diagnosticContext.Set("QueryString", httpContext.Request.QueryString.HasValue ? httpContext.Request.QueryString.Value : string.Empty);
             diagnosticContext.Set("Body", httpContext.Request.ContentLength > 0 ? httpContext.Request.GetRequestBodyAsync() : string.Empty);
             diagnosticContext.Set("ContentType", httpContext.Response.ContentType);
-            diagnosticContext.Set("EndpointName", endpoint != null ? endpoint.DisplayName : string.Empty);
+            diagnosticContext.Set("EndpointName", endpoint is not null ? endpoint.DisplayName : string.Empty);
         }
     }
 }

@@ -42,7 +42,7 @@ namespace Sha.Framework.Common
         /// <returns></returns>
         public string RSAEncrypt(string text)
         {
-            if (publicRsa == null) { throw new ArgumentNullException(nameof(publicRsa)); }
+            if (publicRsa is null) { throw new ArgumentNullException(nameof(publicRsa)); }
             var size = publicRsa.KeySize / 8 - 11;
             byte[] buffer = new byte[size]; // 待加密块
             using (MemoryStream msInput = new MemoryStream(encoding.GetBytes(text)))
@@ -69,7 +69,7 @@ namespace Sha.Framework.Common
         /// <returns></returns>
         public string Sign(string text)
         {
-            if (privateRsa == null) { throw new ArgumentNullException(nameof(privateRsa)); }
+            if (privateRsa is null) { throw new ArgumentNullException(nameof(privateRsa)); }
             byte[] textBytes = encoding.GetBytes(text);
             var signBytes = privateRsa.SignData(textBytes, hashname, RSASignaturePadding.Pkcs1);
             return Convert.ToBase64String(signBytes);
@@ -83,7 +83,7 @@ namespace Sha.Framework.Common
         /// <returns></returns>
         public bool Verify(string text, string sign)
         {
-            if (publicRsa == null) { throw new ArgumentNullException(nameof(publicRsa)); }
+            if (publicRsa is null) { throw new ArgumentNullException(nameof(publicRsa)); }
             byte[] textBytes = encoding.GetBytes(text);
             byte[] signBytes = Convert.FromBase64String(sign);
             var verify = publicRsa.VerifyData(textBytes, signBytes, hashname, RSASignaturePadding.Pkcs1);
@@ -96,7 +96,7 @@ namespace Sha.Framework.Common
         /// <returns></returns>
         public string RSADecrypt(string text)
         {
-            if (privateRsa == null) { throw new ArgumentNullException(nameof(privateRsa)); }
+            if (privateRsa is null) { throw new ArgumentNullException(nameof(privateRsa)); }
             var size = privateRsa.KeySize / 8;
             byte[] buffer = new byte[size]; // 待解密块
             using (MemoryStream msInput = new MemoryStream(Convert.FromBase64String(text)))
