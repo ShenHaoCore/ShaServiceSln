@@ -16,23 +16,23 @@ using Sha.UserService.Model.Entity;
 namespace Sha.UserService.Bll
 {
     /// <summary>
-    /// 现金账户
+    /// 账户
     /// </summary>
-    public class AccountCathBll : UserServiceBll
+    public class AccountBll : UserServiceBll
     {
         #region 变量
         private readonly IComponentContext context;
-        private readonly AccountCathDal dal;
+        private readonly AccountDal dal;
         #endregion
 
         /// <summary>
-        /// 现金账户
+        /// 账户
         /// </summary>
         /// <param name="logger">日志</param>
         /// <param name="mapper">自动映射</param>
         /// <param name="dal">数据访问层</param>
         /// <param name="context"></param>
-        public AccountCathBll(ILogger<IdcardBll> logger, IMapper mapper, AccountCathDal dal, IComponentContext context) : base(logger, mapper)
+        public AccountBll(ILogger<AccountBll> logger, IMapper mapper, AccountDal dal, IComponentContext context) : base(logger, mapper)
         {
             this.dal = dal;
             this.context = context;

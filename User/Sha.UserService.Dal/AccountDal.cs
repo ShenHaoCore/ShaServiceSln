@@ -6,16 +6,17 @@ using SqlSugar;
 namespace Sha.UserService.Dal
 {
     /// <summary>
-    /// 现金账户
+    /// 账户
     /// </summary>
-    public class AccountCathDal : UserServiceDal
+    public class AccountDal : UserServiceDal
     {
         /// <summary>
-        /// 现金账户
+        /// 账户
         /// </summary>
         /// <param name="db"></param>
         /// <param name="logger"></param>
-        public AccountCathDal(ISqlSugarClient db, ILogger<AccountCathDal> logger) : base(db, logger) { }
+        public AccountDal(ISqlSugarClient db, ILogger<UserServiceDal> logger) : base(db, logger) { }
+
 
         /// <summary>
         /// 创建充值交易

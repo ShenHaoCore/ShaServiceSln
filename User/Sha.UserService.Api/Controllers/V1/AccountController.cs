@@ -12,23 +12,23 @@ using Sha.UserService.Model.Request;
 namespace Sha.UserService.Api.Controllers.V1
 {
     /// <summary>
-    /// 现金账户
+    /// 账户
     /// </summary>
     [Authorize]
     [ApiVersion(1.0)]
-    public class AccountCathController : ShaBaseController
+    public class AccountController : ShaBaseController
     {
         #region 变量
-        private readonly AccountCathBll bll;
+        private readonly AccountBll bll;
         #endregion
 
         /// <summary>
-        /// 现金账户
+        /// 账户
         /// </summary>
         /// <param name="logger">日志</param>
         /// <param name="mapper">自动映射</param>
         /// <param name="bll">业务逻辑层</param>
-        public AccountCathController(ILogger<AccountCathController> logger, IMapper mapper, AccountCathBll bll) : base(logger, mapper)
+        public AccountController(ILogger<AccountController> logger, IMapper mapper, AccountBll bll) : base(logger, mapper)
         {
             this.bll = bll;
         }
@@ -68,7 +68,7 @@ namespace Sha.UserService.Api.Controllers.V1
             if (!result.IsSuccess) { return new BaseResponseObject<RechargeTradeModel>(false, result.Code, result.Message); }
             if (result.Data is null) { return new BaseResponseObject<RechargeTradeModel>(false, FrameworkEnum.StatusCode.NotFountData); }
             return new BaseResponseObject<RechargeTradeModel>(true, result.Code, result.Message, result.Data);
-        } 
+        }
         #endregion
     }
 }
