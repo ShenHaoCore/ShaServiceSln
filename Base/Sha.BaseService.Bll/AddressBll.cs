@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
-using FluentValidation;
 using FluentValidation.Results;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using Sha.BaseService.Bll.Common;
 using Sha.BaseService.Dal;
 using Sha.BaseService.Model.DTO;
@@ -10,7 +8,6 @@ using Sha.BaseService.Model.Entity;
 using Sha.Common.Extension;
 using Sha.Framework.Base;
 using Sha.Framework.Enum;
-using Sha.Framework.Jwt;
 
 namespace Sha.BaseService.Bll
 {

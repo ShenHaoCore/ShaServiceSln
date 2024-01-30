@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using RestSharp;
 using Sha.Common.Extension;
 using Sha.Framework.Common;
