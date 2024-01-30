@@ -31,9 +31,9 @@ namespace Sha.Framework.Jwt
         {
             var setting = AppSettingHelper.GetObject<JwtSetting>(JwtSetting.KEY);
             ArgumentNullException.ThrowIfNull(setting);
-            IEnumerable<Claim> claims = new Claim[] { 
-                new Claim(JwtRegisteredClaimNames.Jti, info.UserID.ToString()), 
-                new Claim(ClaimTypes.Role, info.Role) 
+            IEnumerable<Claim> claims = new Claim[] {
+                new Claim(JwtRegisteredClaimNames.Jti, info.UserID.ToString()),
+                new Claim(ClaimTypes.Role, info.Role)
             };
             SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(setting.SecretKey));
             SigningCredentials sign = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -54,7 +54,7 @@ namespace Sha.Framework.Jwt
             TokenInfoModel info = new TokenInfoModel();
             JwtSecurityToken jwtoken = handler.ReadJwtToken(token);
             if (long.TryParse(jwtoken.Id, out long uid)) { info.UserID = uid; }
-            if (jwtoken.Payload.TryGetValue(ClaimTypes.Role, out object? role)) { info.Role = role.ObjToString(); }
+            if (jwtoken.Payload.TryGetValue(ClaimTypes.Role, out var role)) { info.Role = role.ObjToString(); }
             return info;
         }
     }

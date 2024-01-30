@@ -58,7 +58,7 @@ namespace Sha.Business.WeChat
                 RestResponse response = client.Get(request);
                 logger.LogDebug($"微信V3获取证书：{response}");
                 if (response is null || response.StatusCode != HttpStatusCode.OK) { return null; }
-                var certResponse = (response.Content ?? "").ToObject<WeChatCertificatesResponse>();
+                var certResponse = response.Content.ToObject<WeChatCertificatesResponse>();
                 if (certResponse is null) { throw new ArgumentNullException(nameof(certResponse)); }
                 foreach (var item in certResponse.Certificates)
                 {

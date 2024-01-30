@@ -1,18 +1,18 @@
 ﻿using Asp.Versioning;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Sha.Business.WeChat;
+using Sha.Business.Alipay;
 using Sha.Framework.Base;
 
 namespace Sha.UserService.Api.Controllers.V1
 {
     /// <summary>
-    /// 微信
+    /// 支付宝
     /// </summary>
     [ApiVersion(1.0)]
-    public class WeChatController : ShaBaseController
+    public class AlipayController : ShaBaseController
     {
-        private readonly IWeChatClient client;
+        private readonly IAlipayClient client;
 
         /// <summary>
         /// 
@@ -20,7 +20,7 @@ namespace Sha.UserService.Api.Controllers.V1
         /// <param name="logger">日志</param>
         /// <param name="mapper">自动映射</param>
         /// <param name="client"></param>
-        public WeChatController(ILogger<WeChatController> logger, IMapper mapper, IWeChatClient client) : base(logger, mapper)
+        public AlipayController(ILogger<AlipayController> logger, IMapper mapper, IAlipayClient client) : base(logger, mapper)
         {
             this.client = client;
         }
@@ -31,7 +31,6 @@ namespace Sha.UserService.Api.Controllers.V1
         [HttpPost]
         public void Notify()
         {
-            client.GetCertificates("724EB39A82961A2582A8BE95C2C8F2347CAA8BEA");
         }
     }
 }

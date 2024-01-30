@@ -35,7 +35,7 @@ namespace Sha.Framework.Filter
                 BaseResponse response = new BaseResponse(false, FrameworkEnum.StatusCode.ServerError);
                 response.Exception = new BaseResponseException() { StackTrace = context.Exception.StackTrace ?? "", Source = context.Exception.Source ?? "", Message = context.Exception.Message ?? "" };
                 if (environment.IsDevelopment()) { }
-                logger.LogError(context.Exception, $"系统错误：{context.Exception.Message}");
+                logger.LogError(context.Exception, $"系统异常：{context.Exception.Message}");
                 context.Result = new JsonResult(response);
                 context.ExceptionHandled = true; // 异常已处理
             }
