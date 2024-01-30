@@ -27,10 +27,10 @@ namespace Sha.Business.Alipay
             this.setting = AppSettingHelper.GetObject<AlipaySetting>(AlipaySetting.KEY) ?? throw new ArgumentNullException();
         }
 
-        public readonly string Version  = "1.0";
-        public readonly string Format  = "JSON";
+        public readonly string Version = "1.0";
+        public readonly string Format = "JSON";
         public readonly string SignType = "RSA2";
-        public readonly string Charset  = "UTF-8";
+        public readonly string Charset = "UTF-8";
 
         /// <summary>
         /// APP支付
