@@ -5,6 +5,7 @@ using Aop.Api.Response;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Sha.Business.Enum;
+using Sha.Common.Extension;
 using Sha.Framework.Common;
 
 namespace Sha.Business.Alipay
@@ -41,13 +42,13 @@ namespace Sha.Business.Alipay
         {
             try
             {
-                logger.LogDebug($"APP支付，参数【{JsonConvert.SerializeObject(bizmodel)}】");
+                logger.LogDebug($"APP支付，参数【{bizmodel.ToJson()}】");
                 IAopClient client = new DefaultAopClient(setting.ServerUrl, setting.AppID, setting.MerchantPrivateKey, Format, Version, SignType, setting.AlipayPublicKey, Charset, false);
                 AlipayTradeAppPayRequest request = new AlipayTradeAppPayRequest();
                 request.SetBizModel(bizmodel);
                 request.SetNotifyUrl(setting.NotifyUrl);
                 AlipayTradeAppPayResponse response = client.SdkExecute(request);
-                logger.LogDebug($"APP支付，响应【{JsonConvert.SerializeObject(response)}】");
+                logger.LogDebug($"APP支付，响应【{response.ToJson()}】");
                 return response;
             }
             catch (Exception ex)
@@ -67,14 +68,14 @@ namespace Sha.Business.Alipay
         {
             try
             {
-                logger.LogDebug($"电脑网站支付，参数【{JsonConvert.SerializeObject(bizModel)}】");
+                logger.LogDebug($"电脑网站支付，参数【{bizModel.ToJson()}】");
                 IAopClient client = new DefaultAopClient(setting.ServerUrl, setting.AppID, setting.MerchantPrivateKey, Format, Version, SignType, setting.AlipayPublicKey, Charset, false);
                 AlipayTradePagePayRequest request = new AlipayTradePagePayRequest();
                 request.SetBizModel(bizModel);
                 request.SetNotifyUrl(setting.NotifyUrl);
                 request.SetReturnUrl(setting.ReturnUrl);
                 AlipayTradePagePayResponse response = client.pageExecute(request, "", method.ToString());
-                logger.LogDebug($"电脑网站支付，响应【{JsonConvert.SerializeObject(response)}】");
+                logger.LogDebug($"电脑网站支付，响应【{response.ToJson()}】");
                 return response;
             }
             catch (Exception ex)
@@ -94,14 +95,14 @@ namespace Sha.Business.Alipay
         {
             try
             {
-                logger.LogDebug($"手机网站支付，参数【{JsonConvert.SerializeObject(bizModel)}】");
+                logger.LogDebug($"手机网站支付，参数【{bizModel.ToJson()}】");
                 IAopClient client = new DefaultAopClient(setting.ServerUrl, setting.AppID, setting.MerchantPrivateKey, Format, Version, SignType, setting.AlipayPublicKey, Charset, false);
                 AlipayTradeWapPayRequest request = new AlipayTradeWapPayRequest();
                 request.SetBizModel(bizModel);
                 request.SetNotifyUrl(setting.NotifyUrl);
                 request.SetReturnUrl(setting.ReturnUrl);
                 AlipayTradeWapPayResponse response = client.pageExecute(request, "", method.ToString());
-                logger.LogDebug($"手机网站支付，响应【{JsonConvert.SerializeObject(response)}】");
+                logger.LogDebug($"手机网站支付，响应【{response.ToJson()}】");
                 return response;
             }
             catch (Exception ex)
@@ -120,13 +121,13 @@ namespace Sha.Business.Alipay
         {
             try
             {
-                logger.LogDebug($"付款码支付，参数【{JsonConvert.SerializeObject(bizmodel)}】");
+                logger.LogDebug($"付款码支付，参数【{bizmodel.ToJson()}】");
                 IAopClient client = new DefaultAopClient(setting.ServerUrl, setting.AppID, setting.MerchantPrivateKey, Format, Version, SignType, setting.AlipayPublicKey, Charset, false);
                 AlipayTradePayRequest request = new AlipayTradePayRequest();
                 request.SetBizModel(bizmodel);
                 request.SetNotifyUrl(setting.NotifyUrl);
                 AlipayTradePayResponse response = client.Execute(request);
-                logger.LogDebug($"付款码支付，响应【{JsonConvert.SerializeObject(response)}】");
+                logger.LogDebug($"付款码支付，响应【{response.ToJson()}】");
                 return response;
             }
             catch (Exception ex)
@@ -145,13 +146,13 @@ namespace Sha.Business.Alipay
         {
             try
             {
-                logger.LogDebug($"扫码支付，参数【{JsonConvert.SerializeObject(bizmodel)}】");
+                logger.LogDebug($"扫码支付，参数【{bizmodel.ToJson()}】");
                 IAopClient client = new DefaultAopClient(setting.ServerUrl, setting.AppID, setting.MerchantPrivateKey, Format, Version, SignType, setting.AlipayPublicKey, Charset, false);
                 AlipayTradePrecreateRequest request = new AlipayTradePrecreateRequest();
                 request.SetBizModel(bizmodel);
                 request.SetNotifyUrl(setting.NotifyUrl);
                 AlipayTradePrecreateResponse response = client.Execute(request);
-                logger.LogDebug($"扫码支付，响应【{JsonConvert.SerializeObject(response)}】");
+                logger.LogDebug($"扫码支付，响应【{response.ToJson()}】");
                 return response;
             }
             catch (Exception ex)

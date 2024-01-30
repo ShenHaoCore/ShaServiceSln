@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using Sha.Common.Extension;
 using StackExchange.Redis;
 
 namespace Sha.Framework.Redis
@@ -58,7 +58,7 @@ namespace Sha.Framework.Redis
             if (value is string stringValue) { return database.StringSet(key, stringValue, ts); }
             if (value is bool boolValue) { return database.StringSet(key, boolValue, ts); }
             if (value is int intValue) { return database.StringSet(key, intValue, ts); }
-            return database.StringSet(key, JsonConvert.SerializeObject(value), ts);
+            return database.StringSet(key, value.ToJson(), ts);
         }
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace Sha.Framework.Redis
             if (value is string stringValue) { return await database.StringSetAsync(key, stringValue, ts); }
             if (value is bool boolValue) { return await database.StringSetAsync(key, boolValue, ts); }
             if (value is int intValue) { return await database.StringSetAsync(key, intValue, ts); }
-            return await database.StringSetAsync(key, JsonConvert.SerializeObject(value), ts);
+            return await database.StringSetAsync(key, value.ToJson(), ts);
         }
         #endregion
 
@@ -101,27 +101,27 @@ namespace Sha.Framework.Redis
         /// <summary>
         /// 获取
         /// </summary>
-        /// <typeparam name="TEntity"></typeparam>
+        /// <typeparam name="T"></typeparam>
         /// <param name="key"></param>
         /// <returns></returns>
-        public TEntity? Get<TEntity>(string key) where TEntity : class
+        public T? Get<T>(string key) where T : class
         {
             var value = database.StringGet(key);
             if (!value.HasValue) { return null; }
-            return JsonConvert.DeserializeObject<TEntity>(value!);
+            return value.ToString().ToObject<T>();
         }
 
         /// <summary>
         /// 获取
         /// </summary>
-        /// <typeparam name="TEntity"></typeparam>
+        /// <typeparam name="T"></typeparam>
         /// <param name="key"></param>
         /// <returns></returns>
-        public async Task<TEntity?> GetAsync<TEntity>(string key) where TEntity : class
+        public async Task<T?> GetAsync<T>(string key) where T : class
         {
             var value = await database.StringGetAsync(key);
             if (!value.HasValue) { return null; }
-            return JsonConvert.DeserializeObject<TEntity>(value!);
+            return value.ToString().ToObject<T>();
         }
 
         /// <summary>

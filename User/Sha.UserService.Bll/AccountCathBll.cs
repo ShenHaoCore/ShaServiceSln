@@ -2,10 +2,10 @@
 using AutoMapper;
 using FluentValidation.Results;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using Sha.Business.Common;
 using Sha.Business.Enum;
 using Sha.Business.Payment;
+using Sha.Common.Extension;
 using Sha.Framework.Base;
 using Sha.Framework.Enum;
 using Sha.UserService.Bll.Common;
@@ -46,7 +46,7 @@ namespace Sha.UserService.Bll
         /// <returns></returns>
         public ResultModel<RechargeTradeModel> AppRecharge(RechargeTradeParam paramObj)
         {
-            logger.LogDebug($"APP充值请求【{JsonConvert.SerializeObject(paramObj)}】");
+            logger.LogDebug($"APP充值请求【{paramObj.ToJson()}】");
             RechargeTradeValidator validator = new RechargeTradeValidator();
             ValidationResult validResult = validator.Validate(paramObj);
             if (!validResult.IsValid) { return new ResultModel<RechargeTradeModel>(false, FrameworkEnum.StatusCode.ValidateFail); }
@@ -67,7 +67,7 @@ namespace Sha.UserService.Bll
         /// <returns></returns>
         public ResultModel<RechargeTradeModel> PageRecharge(RechargeTradeParam paramObj)
         {
-            logger.LogDebug($"网页充值请求【{JsonConvert.SerializeObject(paramObj)}】");
+            logger.LogDebug($"网页充值请求【{paramObj.ToJson()}】");
             RechargeTradeValidator validator = new RechargeTradeValidator();
             ValidationResult validResult = validator.Validate(paramObj);
             if (!validResult.IsValid) { return new ResultModel<RechargeTradeModel>(false, FrameworkEnum.StatusCode.ValidateFail); }

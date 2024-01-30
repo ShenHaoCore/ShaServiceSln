@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
+using Sha.Common.Extension;
 using Sha.Framework.Base;
 using Sha.Framework.Common;
 using Sha.Framework.Enum;
@@ -72,7 +74,7 @@ namespace Sha.Framework.Jwt
         {
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = StatusCodes.Status200OK;
-            context.Response.WriteAsync(JsonConvert.SerializeObject(new BaseResponse(false, FrameworkEnum.StatusCode.Forbidden)));
+            context.Response.WriteAsync(new BaseResponse(false, FrameworkEnum.StatusCode.Forbidden).ToJson());
             return Task.CompletedTask;
         }
 
@@ -106,7 +108,7 @@ namespace Sha.Framework.Jwt
             context.HandleResponse();
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = StatusCodes.Status200OK;
-            context.Response.WriteAsync(JsonConvert.SerializeObject(new BaseResponse(false, FrameworkEnum.StatusCode.UnAuthorized)));
+            context.Response.WriteAsync(new BaseResponse(false, FrameworkEnum.StatusCode.UnAuthorized).ToJson());
             return Task.CompletedTask;
         }
 

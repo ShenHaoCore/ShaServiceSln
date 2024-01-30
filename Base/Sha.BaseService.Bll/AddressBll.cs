@@ -7,6 +7,7 @@ using Sha.BaseService.Bll.Common;
 using Sha.BaseService.Dal;
 using Sha.BaseService.Model.DTO;
 using Sha.BaseService.Model.Entity;
+using Sha.Common.Extension;
 using Sha.Framework.Base;
 using Sha.Framework.Enum;
 using Sha.Framework.Jwt;
@@ -60,7 +61,7 @@ namespace Sha.BaseService.Bll
         /// <returns></returns>
         public ResultModel<bool> Create(AddressCreate paramObj)
         {
-            logger.LogDebug($"地址新增参数【{JsonConvert.SerializeObject(paramObj)}】");
+            logger.LogDebug($"地址新增参数【{paramObj.ToJson()}】");
             AddressCreateValidator validator = new AddressCreateValidator();
             ValidationResult validResult = validator.Validate(paramObj);
             if (!validResult.IsValid) { return new ResultModel<bool>(false, FrameworkEnum.StatusCode.ValidateFail); }
@@ -76,7 +77,7 @@ namespace Sha.BaseService.Bll
         /// <returns></returns>
         public ResultModel<bool> Update(AddressUpdate paramObj)
         {
-            logger.LogDebug($"地址更新参数【{JsonConvert.SerializeObject(paramObj)}】");
+            logger.LogDebug($"地址更新参数【{paramObj.ToJson()}】");
             AddressUpdateValidator validator = new AddressUpdateValidator();
             ValidationResult validResult = validator.Validate(paramObj);
             if (!validResult.IsValid) { return new ResultModel<bool>(false, FrameworkEnum.StatusCode.ValidateFail); }

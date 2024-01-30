@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using Sha.BaseService.Bll;
 using Sha.BaseService.Model.DTO;
 using Sha.BaseService.Model.Entity;
+using Sha.Common.Extension;
 using Sha.Framework.Base;
 using Sha.Framework.Enum;
 
@@ -60,7 +61,7 @@ namespace Sha.BaseService.ApiBehand.Controllers.V1
         [HttpPost]
         public BaseResponse Create([FromBody] AddressCreate request)
         {
-            logger.LogDebug($"地址新增请求【{JsonConvert.SerializeObject(request)}】");
+            logger.LogDebug($"地址新增请求【{request.ToJson()}】");
             ResultModel<bool> result = bll.Create(request);
             if (!result.IsSuccess) { return new BaseResponse(false, result.Code, result.Message); }
             return new BaseResponse(true, FrameworkEnum.StatusCode.Success);

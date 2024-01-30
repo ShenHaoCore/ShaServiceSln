@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
+using Sha.Common.Extension;
 using System.Text;
 
 namespace Sha.Framework.Cache
@@ -44,27 +45,27 @@ namespace Sha.Framework.Cache
         /// <summary>
         /// 获取
         /// </summary>
-        /// <typeparam name="TEntity"></typeparam>
+        /// <typeparam name="T"></typeparam>
         /// <param name="key"></param>
         /// <returns></returns>
-        public TEntity? Get<TEntity>(string key) where TEntity : class
+        public T? Get<T>(string key) where T : class
         {
             var value = cache.Get(key);
             if (value is null) { return null; }
-            return JsonConvert.DeserializeObject<TEntity>(Encoding.UTF8.GetString(value));
+            return Encoding.UTF8.GetString(value).ToObject<T>();
         }
 
         /// <summary>
         /// 获取
         /// </summary>
-        /// <typeparam name="TEntity"></typeparam>
+        /// <typeparam name="T"></typeparam>
         /// <param name="key"></param>
         /// <returns></returns>
-        public async Task<TEntity?> GetAsync<TEntity>(string key) where TEntity : class
+        public async Task<T?> GetAsync<T>(string key) where T : class
         {
             var value = await cache.GetAsync(key);
             if (value is null) { return null; }
-            return JsonConvert.DeserializeObject<TEntity>(Encoding.UTF8.GetString(value));
+            return Encoding.UTF8.GetString(value).ToObject<T>();
         }
 
         /// <summary>

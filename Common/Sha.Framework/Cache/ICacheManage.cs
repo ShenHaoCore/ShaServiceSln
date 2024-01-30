@@ -23,18 +23,18 @@
         /// <summary>
         /// 获取对象
         /// </summary>
-        /// <typeparam name="TEntity"></typeparam>
+        /// <typeparam name="T"></typeparam>
         /// <param name="key"></param>
         /// <returns></returns>
-        TEntity? Get<TEntity>(string key) where TEntity : class;
+        T? Get<T>(string key) where T : class;
 
         /// <summary>
         /// 获取对象
         /// </summary>
-        /// <typeparam name="TEntity"></typeparam>
+        /// <typeparam name="T"></typeparam>
         /// <param name="key"></param>
         /// <returns></returns>
-        Task<TEntity?> GetAsync<TEntity>(string key) where TEntity : class;
+        Task<T?> GetAsync<T>(string key) where T : class;
 
         /// <summary>
         /// 是否存在

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Sha.BaseService.Bll;
 using Sha.BaseService.Model.DTO;
+using Sha.Common.Extension;
 using Sha.Framework.Base;
 using Sha.Framework.Enum;
 
@@ -39,7 +40,7 @@ namespace Sha.BaseService.Api.Controllers.V1
         public BaseResponse Create([FromBody] AddressCreate request)
         {
             if (request is null) { return new BaseResponse(false, FrameworkEnum.StatusCode.RequestNull); }
-            logger.LogDebug($"地址新增请求【{JsonConvert.SerializeObject(request)}】");
+            logger.LogDebug($"地址新增请求【{request.ToJson()}】");
             ResultModel<bool> result = bll.Create(request);
             if (!result.IsSuccess) { return new BaseResponse(false, result.Code, result.Message); }
             return new BaseResponse(true, FrameworkEnum.StatusCode.Success);
@@ -56,7 +57,7 @@ namespace Sha.BaseService.Api.Controllers.V1
         public BaseResponse Update([FromBody] AddressUpdate request)
         {
             if (request is null) { return new BaseResponse(false, FrameworkEnum.StatusCode.RequestNull); }
-            logger.LogDebug($"地址更新请求【{JsonConvert.SerializeObject(request)}】");
+            logger.LogDebug($"地址更新请求【{request.ToJson()}】");
             ResultModel<bool> result = bll.Update(request);
             if (!result.IsSuccess) { return new BaseResponse(false, result.Code, result.Message); }
             return new BaseResponse(true, FrameworkEnum.StatusCode.Success);

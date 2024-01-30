@@ -71,8 +71,8 @@ namespace Sha.UserService.Model.DTO
         /// </summary>
         public RechargeTradeValidator()
         {
-            RuleFor(it => it.Amount).GreaterThan(0).WithName("金额");
-            RuleFor(it => it.Payment).Must(IsPayment).WithMessage("支付平台错误");
+            RuleFor(it => it.Amount).GreaterThan(0).WithMessage("{PropertyName}必须大于0").WithName("金额");
+            RuleFor(it => it.Payment).Must(IsPayment).WithMessage("{PropertyName}错误").WithName("支付平台");
         }
 
         /// <summary>

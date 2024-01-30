@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using RestSharp;
+using Sha.Common.Extension;
 using Sha.Framework.Common;
 using System.Collections.Concurrent;
 using System.Net;
@@ -58,7 +59,7 @@ namespace Sha.Business.WeChat
                 RestResponse response = client.Get(request);
                 logger.LogDebug($"微信V3获取证书：{response}");
                 if (response is null || response.StatusCode != HttpStatusCode.OK) { return null; }
-                var certResponse = JsonConvert.DeserializeObject<WeChatCertificatesResponse>(response.Content ?? "");
+                var certResponse = (response.Content ?? "").ToObject<WeChatCertificatesResponse>();
                 if (certResponse is null) { throw new ArgumentNullException(nameof(certResponse)); }
                 foreach (var item in certResponse.Certificates)
                 {
