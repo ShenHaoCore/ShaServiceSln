@@ -13,10 +13,7 @@ namespace Sha.Common.Extension
         /// <typeparam name="T"></typeparam>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static T? ToObject<T>(this string value)
-        {
-            return JsonConvert.DeserializeObject<T>(value);
-        }
+        public static T? ToObject<T>(this string value) => JsonConvert.DeserializeObject<T>(value);
 
         /// <summary>
         /// 拆分字符串为整数数组
