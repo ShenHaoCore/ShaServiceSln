@@ -16,17 +16,11 @@ namespace Sha.Common.Extension
         public static T? ToObject<T>(this string value) => JsonConvert.DeserializeObject<T>(value);
 
         /// <summary>
-        /// 拆分字符串为整数数组
+        /// 拆分
         /// </summary>
         /// <param name="value"></param>
-        /// <param name="separator"></param>
-        /// <returns></returns>
-        public static List<int> SplitToInt(this string value, params char[]? separator)
-        {
-            List<int> list = new List<int>();
-            string[] items = value.Split(separator);
-            for (int i = 0; i < items.Length; i++) { if (int.TryParse(items[i], out int val)) { list.Add(val); } }
-            return list;
-        }
+        /// <param name="separator">分隔符</param>
+        /// <returns>整数数组</returns>
+        public static List<int> SplitToInt(this string value, params char[]? separator) => value.Split(separator).Where(it => int.TryParse(it, out int val)).Select(int.Parse).ToList();
     }
 }
