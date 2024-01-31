@@ -35,10 +35,7 @@ namespace Sha.Common.Helper
         /// </summary>
         /// <param name="source"></param>
         /// <returns></returns>
-        public byte[] Encrypt(byte[] source)
-        {
-            return Encrypt(source, PublicKey);
-        }
+        public byte[] Encrypt(byte[] source) => Encrypt(source, PublicKey);
 
         /// <summary>
         /// 使用指定公钥加密字符串
@@ -58,10 +55,7 @@ namespace Sha.Common.Helper
         /// </summary>
         /// <param name="source"></param>
         /// <returns></returns>
-        public byte[] Decrypt(byte[] source)
-        {
-            return Decrypt(source, PrivateKey);
-        }
+        public byte[] Decrypt(byte[] source) => Decrypt(source, PrivateKey);
 
         /// <summary>
         /// 使用指定私钥解密字符串
@@ -81,10 +75,7 @@ namespace Sha.Common.Helper
         /// </summary>
         /// <param name="source">要签名的明文字节数组</param>
         /// <returns>明文签名的字节数组</returns>
-        public byte[] SignData(byte[] source)
-        {
-            return SignData(source, PrivateKey);
-        }
+        public byte[] SignData(byte[] source) => SignData(source, PrivateKey);
 
         /// <summary>
         /// 使用指定私钥签名字符串
@@ -105,10 +96,7 @@ namespace Sha.Common.Helper
         /// <param name="source">解密的明文字节数组</param>
         /// <param name="signData">明文签名字节数组</param>
         /// <returns>验证是否通过</returns>
-        public bool VerifyData(byte[] source, byte[] signData)
-        {
-            return VerifyData(source, signData, PublicKey);
-        }
+        public bool VerifyData(byte[] source, byte[] signData) => VerifyData(source, signData, PublicKey);
 
         /// <summary>
         /// 使用指定公钥验证解密得到的明文是否符合签名
