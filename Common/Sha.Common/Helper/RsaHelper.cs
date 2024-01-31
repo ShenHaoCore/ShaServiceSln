@@ -33,15 +33,15 @@ namespace Sha.Common.Helper
         /// <summary>
         /// 加密字节数组
         /// </summary>
-        /// <param name="source"></param>
+        /// <param name="source">要加密的明文字节数组</param>
         /// <returns></returns>
         public byte[] Encrypt(byte[] source) => Encrypt(source, PublicKey);
 
         /// <summary>
         /// 使用指定公钥加密字符串
         /// </summary>
-        /// <param name="source"></param>
-        /// <param name="publicKey"></param>
+        /// <param name="source">要加密的明文字节数组</param>
+        /// <param name="publicKey">公钥</param>
         /// <returns></returns>
         public static string Encrypt(string source, string publicKey)
         {
@@ -53,15 +53,15 @@ namespace Sha.Common.Helper
         /// <summary>
         /// 解密字节数组
         /// </summary>
-        /// <param name="source"></param>
+        /// <param name="source">要解密的密文字节数组</param>
         /// <returns></returns>
         public byte[] Decrypt(byte[] source) => Decrypt(source, PrivateKey);
 
         /// <summary>
         /// 使用指定私钥解密字符串
         /// </summary>
-        /// <param name="source"></param>
-        /// <param name="privateKey"></param>
+        /// <param name="source">要解密的密文字节数组</param>
+        /// <param name="privateKey">私钥</param>
         /// <returns></returns>
         public static string Decrypt(string source, string privateKey)
         {
@@ -116,7 +116,7 @@ namespace Sha.Common.Helper
         /// <summary>
         /// 使用指定公钥加密字节数组
         /// </summary>
-        /// <param name="data"></param>
+        /// <param name="data">要加密的明文字节数组</param>
         /// <param name="publicKey">公钥</param>
         /// <returns></returns>
         public static byte[] Encrypt(byte[] data, string publicKey)
