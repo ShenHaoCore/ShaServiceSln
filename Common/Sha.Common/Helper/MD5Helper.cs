@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace Sha.Framework.Common
+namespace Sha.Common.Helper
 {
     /// <summary>
     /// MD5帮助类
@@ -26,10 +26,6 @@ namespace Sha.Framework.Common
         /// <param name="text">明文</param>
         /// <param name="salt">盐</param>
         /// <returns></returns>
-        public static string MD5Encoding(string text, string salt)
-        {
-            if (string.IsNullOrWhiteSpace(salt)) { throw new ArgumentNullException(nameof(salt)); }
-            return MD5Encoding($"{text}{salt}");
-        }
+        public static string MD5Encoding(string text, string salt) => MD5Encoding($"{text}{salt}");
     }
 }
