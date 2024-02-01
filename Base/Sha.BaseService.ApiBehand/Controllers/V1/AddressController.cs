@@ -22,7 +22,7 @@ namespace Sha.BaseService.ApiBehand.Controllers.V1
         /// 地址
         /// </summary>
         /// <param name="logger">日志</param>
-        /// <param name="mapper">自动映射</param>
+        /// <param name="mapper">映射</param>
         /// <param name="bll">业务逻辑层</param>
         public AddressController(ILogger<AddressController> logger, IMapper mapper, AddressBll bll) : base(logger, mapper)
         {

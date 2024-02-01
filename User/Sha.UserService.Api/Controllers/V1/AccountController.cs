@@ -26,7 +26,7 @@ namespace Sha.UserService.Api.Controllers.V1
         /// 账户
         /// </summary>
         /// <param name="logger">日志</param>
-        /// <param name="mapper">自动映射</param>
+        /// <param name="mapper">映射</param>
         /// <param name="bll">业务逻辑层</param>
         public AccountController(ILogger<AccountController> logger, IMapper mapper, AccountBll bll) : base(logger, mapper)
         {

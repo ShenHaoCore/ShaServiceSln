@@ -29,7 +29,7 @@ namespace Sha.UserService.Bll
         /// 账户
         /// </summary>
         /// <param name="logger">日志</param>
-        /// <param name="mapper">自动映射</param>
+        /// <param name="mapper">映射</param>
         /// <param name="dal">数据访问层</param>
         /// <param name="context"></param>
         public AccountBll(ILogger<AccountBll> logger, IMapper mapper, AccountDal dal, IComponentContext context) : base(logger, mapper)

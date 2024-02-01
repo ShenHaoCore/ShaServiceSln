@@ -20,7 +20,7 @@ namespace Sha.UserService.Bll
         /// 身份证
         /// </summary>
         /// <param name="logger">日志</param>
-        /// <param name="mapper">自动映射</param>
+        /// <param name="mapper">映射</param>
         /// <param name="dal">数据访问层</param>
         public IdcardBll(ILogger<IdcardBll> logger, IMapper mapper, IdcardDal dal) : base(logger, mapper)
         {

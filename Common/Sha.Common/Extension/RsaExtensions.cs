@@ -42,7 +42,7 @@ namespace Sha.Common.Extension
             }
             else
             {
-                throw new Exception("Invalid XML RSA key.");
+                throw new Exception("无效的 XML RSA 密钥");
             }
 
             rsa.ImportParameters(parameters);

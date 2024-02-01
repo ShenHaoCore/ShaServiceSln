@@ -17,7 +17,7 @@ namespace Sha.Framework.Base
         public readonly ILogger<ShaBaseController> logger;
 
         /// <summary>
-        /// 自动映射
+        /// 映射
         /// </summary>
         public readonly IMapper mapper;
 
@@ -25,7 +25,7 @@ namespace Sha.Framework.Base
         /// 控制器
         /// </summary>
         /// <param name="logger">日志</param>
-        /// <param name="mapper">自动映射</param>
+        /// <param name="mapper">映射</param>
         public ShaBaseController(ILogger<ShaBaseController> logger, IMapper mapper)
         {
             this.logger = logger;

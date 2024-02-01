@@ -24,6 +24,7 @@ namespace Sha.Framework.Swagger
                 xmlNames.ForEach(name => { if (File.Exists(Path.Combine(AppContext.BaseDirectory, name))) { options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, name), true); } });
                 options.AddSecurityRequirement(new OpenApiSecurityRequirement { { new OpenApiSecurityScheme { Reference = new OpenApiReference { Id = "Bearer", Type = ReferenceType.SecurityScheme } }, new List<string>() } });
                 options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme { Description = "JWT授权 Bearer {Token}（注意两者之间是一个空格）", Name = "Authorization", In = ParameterLocation.Header, Type = SecuritySchemeType.ApiKey });
+                options.OperationFilter<SwaggerApiOperation>();
             });
         }
     }

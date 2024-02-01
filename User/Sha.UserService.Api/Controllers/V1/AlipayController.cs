@@ -18,7 +18,7 @@ namespace Sha.UserService.Api.Controllers.V1
         /// 
         /// </summary>
         /// <param name="logger">日志</param>
-        /// <param name="mapper">自动映射</param>
+        /// <param name="mapper">映射</param>
         /// <param name="client"></param>
         public AlipayController(ILogger<AlipayController> logger, IMapper mapper, IAlipayClient client) : base(logger, mapper)
         {

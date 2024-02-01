@@ -24,7 +24,7 @@ namespace Sha.UserService.ApiBehand.Controllers.V1
         /// 员工
         /// </summary>
         /// <param name="logger">日志</param>
-        /// <param name="mapper">自动映射</param>
+        /// <param name="mapper">映射</param>
         /// <param name="bll">业务逻辑层</param>
         public EmployeeController(ILogger<EmployeeController> logger, IMapper mapper, EmployeeBll bll) : base(logger, mapper)
         {

@@ -22,7 +22,7 @@ namespace Sha.BaseService.Bll
         /// 地址
         /// </summary>
         /// <param name="logger">日志</param>
-        /// <param name="mapper">自动映射</param>
+        /// <param name="mapper">映射</param>
         /// <param name="dal"></param>
         public AddressBll(ILogger<AddressBll> logger, IMapper mapper, AddressDal dal) : base(logger, mapper)
         {

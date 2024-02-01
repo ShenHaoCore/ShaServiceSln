@@ -13,7 +13,7 @@ namespace Sha.Framework.Base
         public readonly ILogger<ShaServiceBll> logger;
 
         /// <summary>
-        /// 自动映射
+        /// 映射
         /// </summary>
         public readonly IMapper mapper;
 
@@ -21,7 +21,7 @@ namespace Sha.Framework.Base
         /// 业务逻辑层
         /// </summary>
         /// <param name="logger">日志</param>
-        /// <param name="mapper">自动映射</param>
+        /// <param name="mapper">映射</param>
         public ShaServiceBll(ILogger<ShaServiceBll> logger, IMapper mapper)
         {
             this.logger = logger;

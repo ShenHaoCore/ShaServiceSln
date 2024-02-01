@@ -13,7 +13,7 @@ namespace Sha.UserService.Bll.Common
         /// 用户 业务逻辑层
         /// </summary>
         /// <param name="logger">日志</param>
-        /// <param name="mapper">自动映射</param>
+        /// <param name="mapper">映射</param>
         public UserServiceBll(ILogger<UserServiceBll> logger, IMapper mapper) : base(logger, mapper)
         {
         }
