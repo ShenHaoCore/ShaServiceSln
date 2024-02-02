@@ -1,5 +1,4 @@
-﻿using Aop.Api.Domain;
-using Sha.Framework.Base;
+﻿using Sha.Framework.Base;
 using Sha.Framework.Enum;
 
 namespace Sha.Business.Payment
