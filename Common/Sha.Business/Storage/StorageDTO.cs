@@ -15,7 +15,7 @@ namespace Sha.Business.Storage
         /// <summary>
         /// 是否临时文件
         /// </summary>
-        public bool IsTemp { get; set; }
+        public bool IsTemp { get; set; } = true;
     }
 
     /// <summary>

@@ -49,6 +49,15 @@ namespace Sha.Business.Storage
         }
 
         /// <summary>
+        /// 保存
+        /// </summary>
+        /// <param name="paramObj"></param>
+        public static void Save(FileUpload paramObj)
+        {
+            if (paramObj.IsTemp) { SaveTemp(paramObj.Files); }
+        }
+
+        /// <summary>
         /// 保存到临时目录
         /// </summary>
         /// <param name="file">文件</param>
