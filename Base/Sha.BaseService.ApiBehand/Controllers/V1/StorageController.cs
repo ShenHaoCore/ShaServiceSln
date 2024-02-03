@@ -28,20 +28,6 @@ namespace Sha.BaseService.ApiBehand.Controllers.V1
         /// <returns></returns>
         [HttpPost]
         [Description("上传文件")]
-        public BaseResponseList<UploadModel> Upload([FromForm] FileUpload request)
-        {
-            return new BaseResponseList<UploadModel>(true, FrameworkEnum.StatusCode.Success, StorageHelper.TempSave(request.Files));
-        }
-
-        /// <summary>
-        /// 下载
-        /// </summary>
-        /// <returns></returns>
-        [HttpPost]
-        [Description("下载文件")]
-        public BaseResponse Download()
-        {
-            return new BaseResponse(true, FrameworkEnum.StatusCode.Success);
-        }
+        public BaseResponseList<UploadModel> Upload([FromForm] FileUpload request) => new BaseResponseList<UploadModel>(true, FrameworkEnum.StatusCode.Success, StorageHelper.SaveTemp(request.Files));
     }
 }

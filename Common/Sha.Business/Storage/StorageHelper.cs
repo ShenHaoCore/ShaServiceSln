@@ -22,12 +22,12 @@ namespace Sha.Business.Storage
             string path = GetTempPath(file);
             using (FileStream stream = new FileStream(path, FileMode.Create)) { file.CopyTo(stream); }
             FileStream fileStream = new FileStream(path, FileMode.Open);
-            System.IO.File.Delete(path);
+            File.Delete(path);
             return fileStream;
         }
 
         /// <summary>
-        /// 获取临时路径
+        /// 获取临时临时路径
         /// </summary>
         /// <param name="file"></param>
         /// <returns></returns>
@@ -49,10 +49,10 @@ namespace Sha.Business.Storage
         }
 
         /// <summary>
-        /// 临时保存
+        /// 保存到临时目录
         /// </summary>
         /// <param name="file">文件</param>
-        public static string TempSave(IFormFile file)
+        public static string SaveTemp(IFormFile file)
         {
             string path = GetTempPath(file);
             Save(file, path);
@@ -60,22 +60,22 @@ namespace Sha.Business.Storage
         }
 
         /// <summary>
-        /// 临时保存
+        /// 保存到临时目录
         /// </summary>
         /// <param name="upload">上传</param>
-        public static void TempSave(UploadModel upload)
+        public static void SaveTemp(UploadModel upload)
         {
-            upload.Path = TempSave(upload.File);
+            upload.Path = SaveTemp(upload.File);
         }
 
         /// <summary>
-        /// 临时保存
+        /// 保存到临时目录
         /// </summary>
         /// <param name="files">文件</param>
-        public static List<UploadModel> TempSave(List<IFormFile> files)
+        public static List<UploadModel> SaveTemp(List<IFormFile> files)
         {
             List<UploadModel> uploads = files.Select(file => new UploadModel() { File = file, Path = string.Empty }).ToList();
-            Parallel.ForEach(uploads, TempSave);
+            Parallel.ForEach(uploads, SaveTemp);
             return uploads;
         }
     }
