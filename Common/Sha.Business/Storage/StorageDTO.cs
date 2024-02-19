@@ -8,7 +8,7 @@ namespace Sha.Business.Storage
     public class FileUpload
     {
         /// <summary>
-        /// 
+        /// 文件
         /// </summary>
         public required List<IFormFile> Files { get; set; }
 
@@ -24,7 +24,7 @@ namespace Sha.Business.Storage
     public class UploadModel
     {
         /// <summary>
-        /// 
+        /// 文件
         /// </summary>
         public required IFormFile File { get; set; }
 

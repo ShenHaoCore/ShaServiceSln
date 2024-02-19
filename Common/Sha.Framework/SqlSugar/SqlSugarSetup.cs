@@ -48,8 +48,11 @@ namespace Sha.Framework.SqlSugar
         public static void ConsoleSql(string sql, SugarParameter[] pars)
         {
 #if DEBUG
-            Console.WriteLine(sql);
+            Console.WriteLine(sql); // 输出SQL, 查看执行SQL  性能无影响
             Console.WriteLine(string.Join(",", pars.Select(it => $"{it.ParameterName}:{it.Value}")));
+
+            // Console.WriteLine(UtilMethods.GetNativeSql(sql, pars)); // 获取原生SQL推荐 5.1.4.63  性能OK
+            Console.WriteLine(UtilMethods.GetSqlString(DbType.SqlServer, sql, pars)); // 获取无参数化SQL 对性能有影响，特别大的SQL参数多的，调试使用
 #endif
         }
     }
