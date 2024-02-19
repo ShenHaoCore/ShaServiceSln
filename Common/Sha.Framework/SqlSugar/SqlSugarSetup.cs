@@ -32,11 +32,11 @@ namespace Sha.Framework.SqlSugar
         {
             ArgumentNullException.ThrowIfNull(services);
             ArgumentNullException.ThrowIfNull(AppSettingHelper.config);
-            string connectionString = AppSettingHelper.GetConnectionString("ShaService") ?? throw new ArgumentNullException();
-            if (string.IsNullOrWhiteSpace(connectionString)) { throw new ArgumentNullException(nameof(connectionString)); }
+            var connectionString = AppSettingHelper.GetConnectionString("ShaService");
+            ArgumentNullException.ThrowIfNull(connectionString);
 
-            List<ConnectionConfig> connections = new List<ConnectionConfig> { new ConnectionConfig() { ConnectionString = connectionString, DbType = DbType.SqlServer, IsAutoCloseConnection = true } };
-            SqlSugarScope scope = new SqlSugarScope(connections, db => { db.Aop.OnLogExecuting = ConsoleSql; });
+            List<ConnectionConfig> connections = [new ConnectionConfig() { ConnectionString = connectionString, DbType = DbType.SqlServer, IsAutoCloseConnection = true }];
+            SqlSugarScope scope = new(connections, db => { db.Aop.OnLogExecuting = ConsoleSql; });
             services.AddSingleton<ISqlSugarClient>(scope);
         }
 
