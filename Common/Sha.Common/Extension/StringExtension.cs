@@ -8,14 +8,6 @@ namespace Sha.Common.Extension
     public static class StringExtension
     {
         /// <summary>
-        /// 反序列化
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static T? ToObject<T>(this string? value) => JsonConvert.DeserializeObject<T>(value is null ? string.Empty : value);
-
-        /// <summary>
         /// 拆分
         /// </summary>
         /// <param name="value"></param>
