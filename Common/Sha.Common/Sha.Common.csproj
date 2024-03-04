@@ -20,8 +20,8 @@
     <PackageReference Include="RestSharp" Version="110.2.0" />
     <PackageReference Include="Serilog.AspNetCore" Version="8.0.1" />
     <PackageReference Include="Serilog.Sinks.Async" Version="1.5.0" />
-    <PackageReference Include="SqlSugarCore" Version="5.1.4.142" />
-    <PackageReference Include="StackExchange.Redis" Version="2.7.17" />
+    <PackageReference Include="SqlSugarCore" Version="5.1.4.143" />
+    <PackageReference Include="StackExchange.Redis" Version="2.7.27" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     <PackageReference Include="System.Security.Cryptography.Pkcs" Version="8.0.0" />
     <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />

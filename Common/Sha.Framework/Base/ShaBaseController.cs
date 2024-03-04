@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Sha.Framework.Base
 {
     /// <summary>
-    /// 控制器
+    /// SHA 基础 控制器
     /// </summary>
     [ApiController]
     [Produces("application/json")]

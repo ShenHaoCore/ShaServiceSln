@@ -20,12 +20,12 @@ namespace Sha.Common.Extension
         /// <typeparam name="T"></typeparam>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public static T? DeepClone<T>(this T obj)
+        public static T? DeepClone<T>(this T obj) where T : class
         {
             ArgumentNullException.ThrowIfNull(obj);
-            JsonSerializerSettings deserSettings = new() { ObjectCreationHandling = ObjectCreationHandling.Replace };
-            JsonSerializerSettings serSettings = new() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
-            return JsonConvert.DeserializeObject<T>(JsonConvert.SerializeObject(obj, serSettings), deserSettings);
+            JsonSerializerSettings deset = new() { ObjectCreationHandling = ObjectCreationHandling.Replace };
+            JsonSerializerSettings set = new() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
+            return JsonConvert.DeserializeObject<T>(JsonConvert.SerializeObject(obj, set), deset);
         }
     }
 }
