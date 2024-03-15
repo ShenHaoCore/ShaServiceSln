@@ -1,22 +1,24 @@
 ﻿using Newtonsoft.Json;
-using NPOI.OpenXmlFormats.Dml;
 using System.Security.Cryptography.X509Certificates;
 
 namespace Sha.Business.WeChat
 {
     /// <summary>
-    /// 
+    /// 微信证书请求
     /// </summary>
-    public class WeChatCertificatesResponse
+    public class WeChatCertResponse
     {
+        /// <summary>
+        /// 
+        /// </summary>
         [JsonProperty("data")]
-        public List<Certificate> Certificates { get; set; } = new();
+        public List<Cert> Certs { get; set; } = [];
     }
 
     /// <summary>
     /// 平台证书信息
     /// </summary>
-    public class Certificate
+    public class Cert
     {
         /// <summary>
         /// 序列号
@@ -40,13 +42,13 @@ namespace Sha.Business.WeChat
         /// 加密证书
         /// </summary>
         [JsonProperty("encrypt_certificate")]
-        public EncryptCertificate EncryptCertificate { get; set; } = new();
+        public EncryptCert EncryptCert { get; set; } = new();
     }
 
     /// <summary>
     /// 加密证书信息
     /// </summary>
-    public class EncryptCertificate
+    public class EncryptCert
     {
         /// <summary>
         /// 获取或设置算法类型，目前只支持：AEAD_AES_256_GCM。
@@ -85,14 +87,14 @@ namespace Sha.Business.WeChat
         /// <param name="serialno"></param>
         /// <param name="effectivetime"></param>
         /// <param name="expiretime"></param>
-        /// <param name="certificate"></param>
-        public WeChatCert(string mchid, string serialno, DateTime effectivetime, DateTime expiretime, X509Certificate2 certificate)
+        /// <param name="cert"></param>
+        public WeChatCert(string mchid, string serialno, DateTime effectivetime, DateTime expiretime, X509Certificate2 cert)
         {
             this.MchId = mchid;
             this.SerialNo = serialno;
             this.ExpireTime = effectivetime;
             this.ExpireTime = expiretime;
-            this.Certificate = certificate;
+            this.Cert = cert;
         }
 
         /// <summary>
@@ -118,7 +120,7 @@ namespace Sha.Business.WeChat
         /// <summary>
         /// 证书
         /// </summary>
-        public X509Certificate2 Certificate;
+        public X509Certificate2 Cert;
     }
 
     /// <summary>

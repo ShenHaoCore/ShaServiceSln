@@ -12,7 +12,7 @@ namespace Sha.UserService.Api.Controllers.V1
     [ApiVersion(1.0)]
     public class WeChatController : ShaBaseController
     {
-        private readonly IWeChatClient client;
+        private readonly IWeChatMerchant client;
 
         /// <summary>
         /// 
@@ -20,7 +20,7 @@ namespace Sha.UserService.Api.Controllers.V1
         /// <param name="logger">日志</param>
         /// <param name="mapper">映射</param>
         /// <param name="client"></param>
-        public WeChatController(ILogger<WeChatController> logger, IMapper mapper, IWeChatClient client) : base(logger, mapper)
+        public WeChatController(ILogger<WeChatController> logger, IMapper mapper, IWeChatMerchant client) : base(logger, mapper)
         {
             this.client = client;
         }
@@ -31,7 +31,7 @@ namespace Sha.UserService.Api.Controllers.V1
         [HttpPost]
         public void Notify()
         {
-            client.GetCertificates("724EB39A82961A2582A8BE95C2C8F2347CAA8BEA");
+            client.GetCert("724EB39A82961A2582A8BE95C2C8F2347CAA8BEA");
         }
     }
 }

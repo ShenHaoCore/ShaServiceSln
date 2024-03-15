@@ -12,13 +12,13 @@ namespace Sha.Business.Payment
     /// </summary>
     public class Alipay : IPayment
     {
-        public readonly IAlipayClient client;
+        public readonly IAlipayMerchant client;
 
         /// <summary>
         /// 支付宝
         /// </summary>
         /// <param name="client">客户端</param>
-        public Alipay(IAlipayClient client)
+        public Alipay(IAlipayMerchant client)
         {
             this.client = client;
         }

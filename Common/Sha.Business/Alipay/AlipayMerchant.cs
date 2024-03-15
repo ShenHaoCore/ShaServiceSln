@@ -12,16 +12,16 @@ namespace Sha.Business.Alipay
     /// <summary>
     /// 支付宝客户端
     /// </summary>
-    public class AlipayClient : IAlipayClient
+    public class AlipayMerchant : IAlipayMerchant
     {
-        private readonly ILogger<AlipayClient> logger;
+        private readonly ILogger<AlipayMerchant> logger;
         private readonly AlipaySetting setting;
 
         /// <summary>
         /// 支付宝客户端
         /// </summary>
         /// <param name="logger">日志</param>
-        public AlipayClient(ILogger<AlipayClient> logger)
+        public AlipayMerchant(ILogger<AlipayMerchant> logger)
         {
             this.logger = logger;
             this.setting = AppSettingHelper.GetObject<AlipaySetting>(AlipaySetting.KEY) ?? throw new ArgumentNullException();

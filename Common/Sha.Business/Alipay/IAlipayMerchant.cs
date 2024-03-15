@@ -7,7 +7,7 @@ namespace Sha.Business.Alipay
     /// <summary>
     /// 
     /// </summary>
-    public interface IAlipayClient
+    public interface IAlipayMerchant
     {
         /// <summary>
         /// APP支付
