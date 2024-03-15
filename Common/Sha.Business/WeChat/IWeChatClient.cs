@@ -11,6 +11,6 @@
         /// <param name="serialno"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentNullException"></exception>
-        WeChatCertificate? GetCertificates(string serialno);
+        WeChatCert? GetCertificates(string serialno);
     }
 }

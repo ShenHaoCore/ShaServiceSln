@@ -76,7 +76,7 @@ namespace Sha.Business.WeChat
     /// <summary>
     /// 
     /// </summary>
-    public class WeChatCertificate
+    public class WeChatCert
     {
         /// <summary>
         /// 
@@ -86,7 +86,7 @@ namespace Sha.Business.WeChat
         /// <param name="effectivetime"></param>
         /// <param name="expiretime"></param>
         /// <param name="certificate"></param>
-        public WeChatCertificate(string mchid, string serialno, DateTime effectivetime, DateTime expiretime, X509Certificate2 certificate)
+        public WeChatCert(string mchid, string serialno, DateTime effectivetime, DateTime expiretime, X509Certificate2 certificate)
         {
             this.MchId = mchid;
             this.SerialNo = serialno;

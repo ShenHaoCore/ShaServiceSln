@@ -34,7 +34,7 @@ namespace Sha.Business.WeChat
 
         private readonly string Accept = "application/json";
         private readonly string UserAgent = "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705;)";
-        private readonly ConcurrentDictionary<string, WeChatCertificate> certs = new();
+        private readonly ConcurrentDictionary<string, WeChatCert> certs = new();
 
         /// <summary>
         /// 获取证书
@@ -42,9 +42,9 @@ namespace Sha.Business.WeChat
         /// <param name="serialno"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public WeChatCertificate? GetCertificates(string serialno)
+        public WeChatCert? GetCertificates(string serialno)
         {
-            WeChatCertificate? platformCert;
+            WeChatCert? platformCert;
             if (certs.TryGetValue(serialno, out platformCert)) { return platformCert; } // 如果证书序列号已缓存，则直接使用缓存的证书
             try
             {
@@ -65,7 +65,7 @@ namespace Sha.Business.WeChat
                     if (certs.ContainsKey(item.SerialNo)) { continue; }
                     string certificate = AesGcmDecrypt(item.EncryptCertificate.AssociatedData, item.EncryptCertificate.Nonce, item.EncryptCertificate.Ciphertext);
                     X509Certificate2 x509 = new X509Certificate2(Encoding.ASCII.GetBytes(certificate), string.Empty, X509KeyStorageFlags.MachineKeySet | X509KeyStorageFlags.PersistKeySet | X509KeyStorageFlags.Exportable);
-                    WeChatCertificate cert = new WeChatCertificate(setting.MchId, item.SerialNo, item.EffectiveTime, item.ExpireTime, x509);
+                    WeChatCert cert = new WeChatCert(setting.MchId, item.SerialNo, item.EffectiveTime, item.ExpireTime, x509);
                     certs.TryAdd(item.SerialNo, cert);
                 }
                 if (certs.TryGetValue(serialno, out platformCert)) { return platformCert; }
