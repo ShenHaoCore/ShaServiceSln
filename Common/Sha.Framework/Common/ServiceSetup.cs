@@ -25,9 +25,9 @@ namespace Sha.Framework.Common
                 option.Conventions.Insert(0, new GlobalRoutePrefixFilter(new RouteAttribute(prefixName)));
             }).AddNewtonsoftJson(options =>
             {
-                options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver(); // 序列化时KEY为驼峰样式
-                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore; // 忽略循环引用
-                options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss"; // 时间格式化
+                options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();         // 序列化时KEY为驼峰样式
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;                    // 忽略循环引用
+                options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";                                // 时间格式化
                 options.SerializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Local;
             });
         }
@@ -41,10 +41,14 @@ namespace Sha.Framework.Common
             ArgumentNullException.ThrowIfNull(services);
             services.AddApiVersioning(options =>
             {
-                options.DefaultApiVersion = new ApiVersion(1, 0);
-                options.AssumeDefaultVersionWhenUnspecified = true;
-                options.ReportApiVersions = true;
-                options.ApiVersionReader = ApiVersionReader.Combine(new UrlSegmentApiVersionReader(), new HeaderApiVersionReader("X-API-VERSION"), new MediaTypeApiVersionReader("VER"));
+                options.DefaultApiVersion = new ApiVersion(1, 0);       // 默认版本
+                options.AssumeDefaultVersionWhenUnspecified = true;     // 如果没有指定版本用默认配置
+                options.ReportApiVersions = true;                       // Response Header 指定可用版本
+                options.ApiVersionReader = ApiVersionReader.Combine(
+                    new UrlSegmentApiVersionReader(),
+                    new HeaderApiVersionReader("X-API-VERSION"),
+                    new MediaTypeApiVersionReader("VER")
+                );
             }).AddMvc().AddApiExplorer(options =>
             {
                 options.GroupNameFormat = "'v'VVV";

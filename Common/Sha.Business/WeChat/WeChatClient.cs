@@ -117,7 +117,7 @@ namespace Sha.Business.WeChat
             string uri = new Uri(url).PathAndQuery;
             string timeStamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString();
             string nonce = Guid.NewGuid().ToString("N");
-            string message = BuildMessage(uri, method, timeStamp, nonce, body);
+            string message = WeChatHelper.BuildMessage(uri, method, timeStamp, nonce, body);
             string sign = Sign(message);
             return $"mchid=\"{setting.MchId}\",nonce_str=\"{nonce}\",timestamp=\"{timeStamp}\",serial_no=\"{setting.SerialNo}\",signature=\"{sign}\"";
         }
