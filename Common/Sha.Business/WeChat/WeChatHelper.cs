@@ -1,4 +1,7 @@
-﻿using System.Security.Cryptography;
+﻿using Org.BouncyCastle.Crypto.Engines;
+using Org.BouncyCastle.Crypto.Modes;
+using Org.BouncyCastle.Crypto.Parameters;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace Sha.Business.WeChat
@@ -29,9 +32,10 @@ namespace Sha.Business.WeChat
         {
             using RSA rsa = RSA.Create();
             byte[] keyByte = Convert.FromBase64String(privateKey);
+            byte[] messageByte = Encoding.UTF8.GetBytes(message);
             rsa.ImportPkcs8PrivateKey(keyByte, bytesRead: out _);
-            var signbytes = rsa.SignData(Encoding.UTF8.GetBytes(message), HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
-            return Convert.ToBase64String(signbytes);
+            byte[] signByte = rsa.SignData(messageByte, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
+            return Convert.ToBase64String(signByte);
         }
 
         /// <summary>
@@ -50,7 +54,7 @@ namespace Sha.Business.WeChat
             string timestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString();
             string nonce = Guid.NewGuid().ToString("N");
             string message = CreateMessage(uri, method, timestamp, nonce, body);
-            string signature = GenerateSign(message, privateKey);
+            string signature = GenerateSign(privateKey, message);
             return $"mchid=\"{mchId}\",nonce_str=\"{nonce}\",timestamp=\"{timestamp}\",serial_no=\"{serialNo}\",signature=\"{signature}\"";
         }
     }

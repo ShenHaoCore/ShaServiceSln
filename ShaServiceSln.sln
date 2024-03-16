@@ -41,7 +41,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sha.Gateway", "Gateway\Sha.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sha.Identity", "Identity\Sha.Identity\Sha.Identity.csproj", "{EFBDB0AF-4DFD-4C9D-9978-D0C204A8C225}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sha.BaseService.Api", "Base\Sha.BaseService.Api\Sha.BaseService.Api.csproj", "{B31B4E19-5A8C-40BD-A025-E8AD4C80EAF9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sha.BaseService.Api", "Base\Sha.BaseService.Api\Sha.BaseService.Api.csproj", "{B31B4E19-5A8C-40BD-A025-E8AD4C80EAF9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

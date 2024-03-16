@@ -1,10 +1,10 @@
 ﻿using Microsoft.Extensions.Logging;
 using RestSharp;
 using Sha.Common.Extension;
+using Sha.Common.Helper;
 using Sha.Framework.Common;
 using System.Collections.Concurrent;
 using System.Net;
-using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
@@ -60,10 +60,10 @@ namespace Sha.Business.WeChat
                 if (response is null || response.StatusCode != HttpStatusCode.OK) { return null; }
                 var certResponse = response.Content.ToObject<WeChatCertResponse>();
                 ArgumentNullException.ThrowIfNull(certResponse);
-                foreach (var item in certResponse.Certs)
+                foreach (Cert item in certResponse.Certs)
                 {
                     if (certs.ContainsKey(item.SerialNo)) { continue; }
-                    string certificate = AesGcmDecrypt(item.EncryptCert.AssociatedData, item.EncryptCert.Nonce, item.EncryptCert.Ciphertext);
+                    string certificate = AesHelper.GcmDecrypt(setting.APIv3Key, item.EncryptCert.AssociatedData, item.EncryptCert.Nonce, item.EncryptCert.Ciphertext);
                     X509Certificate2 x509 = new X509Certificate2(Encoding.ASCII.GetBytes(certificate), string.Empty, X509KeyStorageFlags.MachineKeySet | X509KeyStorageFlags.PersistKeySet | X509KeyStorageFlags.Exportable);
                     WeChatCert cert = new WeChatCert(setting.MchId, item.SerialNo, item.EffectiveTime, item.ExpireTime, x509);
                     certs.TryAdd(item.SerialNo, cert);
@@ -89,27 +89,6 @@ namespace Sha.Business.WeChat
             RestRequest request = new RestRequest();
             string token = WeChatHelper.GenerateToken(V3_PAY_TRADE_APP, "POST", "", setting.PrivateKey, setting.MchId, setting.SerialNo);
             return null;
-        }
-
-        /// <summary>
-        /// 报文解密
-        /// </summary>
-        /// <param name="associatedData"></param>
-        /// <param name="nonce"></param>
-        /// <param name="ciphertext"></param>
-        /// <returns></returns>
-        public string AesGcmDecrypt(string associatedData, string nonce, string ciphertext)
-        {
-            using (AesGcm aes = new AesGcm(Encoding.UTF8.GetBytes(setting.APIv3Key), 1024))
-            {
-                byte[]? associatedBytes = associatedData is null ? null : Encoding.UTF8.GetBytes(associatedData);
-                var encryptedBytes = Convert.FromBase64String(ciphertext);
-                var cipherBytes = encryptedBytes[..^16];
-                var tag = encryptedBytes[^16..];
-                var decryptedData = new byte[cipherBytes.Length];
-                aes.Decrypt(Encoding.UTF8.GetBytes(nonce), cipherBytes, tag, decryptedData, associatedBytes);
-                return Encoding.UTF8.GetString(decryptedData);
-            }
         }
     }
 }
