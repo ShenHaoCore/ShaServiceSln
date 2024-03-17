@@ -39,13 +39,13 @@ namespace Sha.Business.WeChat
         /// <summary>
         /// 获取证书
         /// </summary>
-        /// <param name="serialno"></param>
+        /// <param name="serialNo"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public WeChatCert? GetCert(string serialno)
+        public WeChatCert? GetCert(string serialNo)
         {
-            WeChatCert? platformCert;
-            if (certs.TryGetValue(serialno, out platformCert)) { return platformCert; }                 // 如果证书序列号已缓存，则直接使用缓存的证书
+            WeChatCert? wcCert;
+            if (certs.TryGetValue(serialNo, out wcCert)) { return wcCert; }                             // 如果证书序列号已缓存，则直接使用缓存的证书
             try
             {
                 RestClient client = new RestClient(V3_CERTIFICATE);
@@ -63,12 +63,13 @@ namespace Sha.Business.WeChat
                 foreach (Cert item in certResponse.Certs)
                 {
                     if (certs.ContainsKey(item.SerialNo)) { continue; }
-                    string certificate = AesHelper.GcmDecrypt(setting.APIv3Key, item.EncryptCert.AssociatedData, item.EncryptCert.Nonce, item.EncryptCert.Ciphertext);
-                    X509Certificate2 x509 = new X509Certificate2(Encoding.ASCII.GetBytes(certificate), string.Empty, X509KeyStorageFlags.MachineKeySet | X509KeyStorageFlags.PersistKeySet | X509KeyStorageFlags.Exportable);
-                    WeChatCert cert = new WeChatCert(setting.MchId, item.SerialNo, item.EffectiveTime, item.ExpireTime, x509);
+                    string plaintext = AesHelper.GcmDecrypt(setting.APIv3Key, item.EncryptCert.AssociatedData, item.EncryptCert.Nonce, item.EncryptCert.Ciphertext);
+                    X509KeyStorageFlags flags = X509KeyStorageFlags.MachineKeySet | X509KeyStorageFlags.PersistKeySet | X509KeyStorageFlags.Exportable;
+                    byte[] rawData = Encoding.ASCII.GetBytes(plaintext);
+                    WeChatCert cert = new(setting.MchId, item.SerialNo, item.EffectiveTime, item.ExpireTime, new(rawData, string.Empty, flags));
                     certs.TryAdd(item.SerialNo, cert);
                 }
-                if (certs.TryGetValue(serialno, out platformCert)) { return platformCert; }
+                if (certs.TryGetValue(serialNo, out wcCert)) { return wcCert; }
                 return null;
             }
             catch (Exception ex)

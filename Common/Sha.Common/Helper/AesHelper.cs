@@ -15,7 +15,7 @@ namespace Sha.Common.Helper
         /// </summary>
         /// <param name="key"></param>
         /// <param name="associatedData"></param>
-        /// <param name="nonce"></param>
+        /// <param name="nonce">随机数值</param>
         /// <param name="ciphertext">密文</param>
         /// <returns></returns>
         public static string GcmDecrypt(string key, string associatedData, string nonce, string ciphertext)
