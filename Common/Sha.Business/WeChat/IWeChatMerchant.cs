@@ -8,9 +8,9 @@
         /// <summary>
         /// 获取证书
         /// </summary>
-        /// <param name="serialno"></param>
+        /// <param name="serialNo"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentNullException"></exception>
-        WeChatCert? GetCert(string serialno);
+        WeChatCert? GetCert(string serialNo);
     }
 }

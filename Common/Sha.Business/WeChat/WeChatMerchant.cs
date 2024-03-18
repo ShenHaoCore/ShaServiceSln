@@ -30,7 +30,7 @@ namespace Sha.Business.WeChat
 
         private const string V3_CERTIFICATE = "https://api.mch.weixin.qq.com/v3/certificates";
         private const string V3_PAY_TRADE_APP = "https://api.mch.weixin.qq.com/v3/pay/transactions/app";
-        private const string WECHATPAY2_RSA_2048_WITH_SHA256 = "WECHATPAY2-SHA256-RSA2048";
+        private const string PAY2_SHA256_RSA2048 = "WECHATPAY2-SHA256-RSA2048";
 
         private readonly string Accept = "application/json";
         private readonly string UserAgent = "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705;)";
@@ -51,8 +51,8 @@ namespace Sha.Business.WeChat
                 RestClient client = new RestClient(V3_CERTIFICATE);
                 RestRequest request = new RestRequest();
                 string token = WeChatHelper.GenerateToken(V3_CERTIFICATE, "GET", "", setting.PrivateKey, setting.MchId, setting.SerialNo);
-                logger.LogDebug($"微信V3获取证书 TOKEN：{WECHATPAY2_RSA_2048_WITH_SHA256} {token}");
-                request.AddHeader("Authorization", $"{WECHATPAY2_RSA_2048_WITH_SHA256} {token}");
+                logger.LogDebug($"微信V3获取证书 TOKEN：{PAY2_SHA256_RSA2048} {token}");
+                request.AddHeader("Authorization", $"{PAY2_SHA256_RSA2048} {token}");
                 request.AddHeader("Accept", Accept);                                                    // 如果缺少这句代码就会导致下单接口请求失败，报400错误（Bad Request）
                 request.AddHeader("User-Agent", UserAgent);                                             // 如果缺少这句代码就会导致下单接口请求失败，报400错误（Bad Request）
                 RestResponse response = client.Get(request);
