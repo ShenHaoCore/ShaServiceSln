@@ -84,7 +84,7 @@ namespace Sha.Business.WeChat
         /// </summary>
         /// <param name="bizmodel"></param>
         /// <returns></returns>
-        public WeChatTradeAppPayResponse? TradeAppPay(WeChatTradeAppPayModel bizmodel)
+        public TradeAppPayResponse? TradeAppPay(WeChatTradeAppPayModel bizmodel)
         {
             RestClient client = new RestClient(V3_PAY_TRADE_APP);
             RestRequest request = new RestRequest();

@@ -1,4 +1,6 @@
-﻿using System.Security.Cryptography;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Primitives;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace Sha.Business.WeChat
@@ -53,6 +55,21 @@ namespace Sha.Business.WeChat
             string message = CreateMessage(uri, method, timestamp, nonce, body);
             string signature = GenerateSign(privateKey, message);
             return $"mchid=\"{mchId}\",nonce_str=\"{nonce}\",timestamp=\"{timestamp}\",serial_no=\"{serialNo}\",signature=\"{signature}\"";
+        }
+
+        /// <summary>
+        /// 获取通知头
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public static NotifyHeader GetNotifyHeader(HttpRequest request)
+        {
+            NotifyHeader header = new NotifyHeader();
+            if (request.Headers.TryGetValue("Wechatpay-Serial", out StringValues serialValues)) { header.SerialNo = serialValues.First() ?? ""; }
+            if (request.Headers.TryGetValue("Wechatpay-Timestamp", out StringValues timestampValues)) { header.Timestamp = timestampValues.First() ?? ""; }
+            if (request.Headers.TryGetValue("Wechatpay-Nonce", out StringValues nonceValues)) { header.Nonce = nonceValues.First() ?? ""; }
+            if (request.Headers.TryGetValue("Wechatpay-Signature", out StringValues signatureValues)) { header.Signature = signatureValues.First() ?? ""; }
+            return header;
         }
     }
 }

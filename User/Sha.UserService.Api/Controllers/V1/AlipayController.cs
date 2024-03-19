@@ -2,6 +2,7 @@
 using Asp.Versioning;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Primitives;
 using Sha.Business.Alipay;
 using Sha.Framework.Base;
 using Sha.Framework.Common;
@@ -37,8 +38,7 @@ namespace Sha.UserService.Api.Controllers.V1
             ArgumentNullException.ThrowIfNull(setting);
             string nResponse = "failure";
             IDictionary<string, string> sArray = new Dictionary<string, string>();
-            var keys = Request.Form.Keys;                                                                           // 获取表单变量中的KEY
-            foreach (string key in keys) { sArray.Add(key, Request.Form[key]!); }
+            foreach (string key in Request.Form.Keys) { if (Request.Form.TryGetValue(key, out StringValues values)) { sArray.Add(key, values.First() ?? ""); } }
             bool flag = AlipaySignature.RSACheckV1(sArray, setting.AlipayPublicKey, "UTF-8", "RSA2", false);
             return Content(nResponse);
         }

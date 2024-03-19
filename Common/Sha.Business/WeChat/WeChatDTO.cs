@@ -162,13 +162,13 @@ namespace Sha.Business.WeChat
         /// 金额
         /// </summary>
         [JsonProperty("amount")]
-        public WeChatTradeAppAmountModel Amount { get; set; } = new();
+        public TradeAppAmountModel Amount { get; set; } = new();
     }
 
     /// <summary>
     /// 订单金额请求
     /// </summary>
-    public class WeChatTradeAppAmountModel
+    public class TradeAppAmountModel
     {
         /// <summary>
         /// 总金额（单位为分）
@@ -186,8 +186,34 @@ namespace Sha.Business.WeChat
     /// <summary>
     /// 
     /// </summary>
-    public class WeChatTradeAppPayResponse
+    public class TradeAppPayResponse
     {
         
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public class NotifyHeader
+    {
+        /// <summary>
+        /// 平台证书序列号[Wechatpay-Serial]
+        /// </summary>
+        public string SerialNo { get; set; } = string.Empty;
+
+        /// <summary>
+        /// 时间戳[Wechatpay-Timestamp]
+        /// </summary>
+        public string Timestamp { get; set; } = string.Empty;
+
+        /// <summary>
+        /// 随机串[Wechatpay-Nonce]
+        /// </summary>
+        public string Nonce { get; set; } = string.Empty;
+
+        /// <summary>
+        /// 签名串[Wechatpay-Signature]
+        /// </summary>
+        public string Signature { get; set; } = string.Empty;
     }
 }

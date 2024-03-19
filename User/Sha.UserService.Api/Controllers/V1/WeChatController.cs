@@ -31,7 +31,8 @@ namespace Sha.UserService.Api.Controllers.V1
         [HttpPost]
         public void Notify()
         {
-            client.GetCert("724EB39A82961A2582A8BE95C2C8F2347CAA8BEA");
+            NotifyHeader header = WeChatHelper.GetNotifyHeader(this.Request);
+            client.GetCert(header.SerialNo);
         }
     }
 }
