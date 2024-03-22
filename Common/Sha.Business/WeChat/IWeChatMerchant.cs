@@ -8,9 +8,9 @@
         /// <summary>
         /// 获取证书
         /// </summary>
-        /// <param name="serialNo"></param>
+        /// <param name="serialno">序列号<para>示例值：700BAAFDC1CD14D0381E4237432AADEA7E7DA9A7</para></param>
         /// <returns></returns>
         /// <exception cref="ArgumentNullException"></exception>
-        WeChatCert? GetCert(string serialNo);
+        PlatformCert? GetPlatformCert(string serialno);
     }
 }

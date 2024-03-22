@@ -40,6 +40,7 @@ namespace Sha.UserService.Api.Controllers.V1
             IDictionary<string, string> sArray = new Dictionary<string, string>();
             foreach (string key in Request.Form.Keys) { if (Request.Form.TryGetValue(key, out StringValues values)) { sArray.Add(key, values.First() ?? ""); } }
             bool flag = AlipaySignature.RSACheckV1(sArray, setting.AlipayPublicKey, "UTF-8", "RSA2", false);
+            if (flag) { nResponse = "success"; }
             return Content(nResponse);
         }
     }

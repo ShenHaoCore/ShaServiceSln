@@ -71,5 +71,17 @@ namespace Sha.Business.WeChat
             if (request.Headers.TryGetValue("Wechatpay-Signature", out StringValues signatureValues)) { header.Signature = signatureValues.First() ?? ""; }
             return header;
         }
+
+        /// <summary>
+        /// 验签
+        /// </summary>
+        /// <param name="rsa"></param>
+        /// <param name="message">消息</param>
+        /// <param name="signature">签名</param>
+        /// <returns></returns>
+        public static bool VerifyData(RSA rsa, string message, string signature)
+        {
+            return rsa.VerifyData(Encoding.UTF8.GetBytes(message), Convert.FromBase64String(signature), HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
+        }
     }
 }

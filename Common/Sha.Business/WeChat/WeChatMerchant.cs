@@ -34,18 +34,19 @@ namespace Sha.Business.WeChat
 
         private readonly string Accept = "application/json";
         private readonly string UserAgent = "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705;)";
-        private readonly ConcurrentDictionary<string, WeChatCert> certs = new();
+        private readonly ConcurrentDictionary<string, PlatformCert> certs = new();
 
         /// <summary>
         /// 获取证书
+        /// <para>700BAAFDC1CD14D0381E4237432AADEA7E7DA9A7</para>
         /// </summary>
-        /// <param name="serialNo"></param>
+        /// <param name="serialno">序列号</param>
         /// <returns></returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public WeChatCert? GetCert(string serialNo)
+        public PlatformCert? GetPlatformCert(string serialno)
         {
-            WeChatCert? wcCert;
-            if (certs.TryGetValue(serialNo, out wcCert)) { return wcCert; }                             // 如果证书序列号已缓存，则直接使用缓存的证书
+            PlatformCert? wcCert;
+            if (certs.TryGetValue(serialno, out wcCert)) { return wcCert; }                             // 如果证书序列号已缓存，则直接使用缓存的证书
             try
             {
                 RestClient client = new RestClient(V3_CERTIFICATE);
@@ -58,7 +59,7 @@ namespace Sha.Business.WeChat
                 RestResponse response = client.Get(request);
                 logger.LogDebug($"微信V3获取证书：{response}");
                 if (response is null || response.StatusCode != HttpStatusCode.OK) { return null; }
-                var certResponse = response.Content.ToObject<WeChatCertResponse>();
+                var certResponse = response.Content.ToObject<CertResponse>();
                 ArgumentNullException.ThrowIfNull(certResponse);
                 foreach (Cert item in certResponse.Certs)
                 {
@@ -66,10 +67,10 @@ namespace Sha.Business.WeChat
                     string plaintext = AesHelper.GcmDecrypt(setting.APIv3Key, item.EncryptCert.AssociatedData, item.EncryptCert.Nonce, item.EncryptCert.Ciphertext);
                     X509KeyStorageFlags flags = X509KeyStorageFlags.MachineKeySet | X509KeyStorageFlags.PersistKeySet | X509KeyStorageFlags.Exportable;
                     byte[] rawData = Encoding.ASCII.GetBytes(plaintext);
-                    WeChatCert cert = new(setting.MchId, item.SerialNo, item.EffectiveTime, item.ExpireTime, new(rawData, string.Empty, flags));
+                    PlatformCert cert = new(setting.MchId, item.SerialNo, item.EffectiveTime, item.ExpireTime, new(rawData, string.Empty, flags));
                     certs.TryAdd(item.SerialNo, cert);
                 }
-                if (certs.TryGetValue(serialNo, out wcCert)) { return wcCert; }
+                if (certs.TryGetValue(serialno, out wcCert)) { return wcCert; }
                 return null;
             }
             catch (Exception ex)
@@ -84,7 +85,7 @@ namespace Sha.Business.WeChat
         /// </summary>
         /// <param name="bizmodel"></param>
         /// <returns></returns>
-        public TradeAppPayResponse? TradeAppPay(WeChatTradeAppPayModel bizmodel)
+        public TradeAppPayResponse? TradeAppPay(TradeAppPayModel bizmodel)
         {
             RestClient client = new RestClient(V3_PAY_TRADE_APP);
             RestRequest request = new RestRequest();
