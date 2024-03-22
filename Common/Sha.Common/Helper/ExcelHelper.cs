@@ -13,17 +13,16 @@ namespace Sha.Common.Helper
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="filePath">文件路径</param>
         /// <returns></returns>
         public static DataTable GetDataTable(string filePath)
         {
             DataTable table = new DataTable();
             if (!File.Exists(filePath)) { return table; }
-            using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
-            {
-                string fileExtension = Path.GetExtension(filePath);
-                if (fileExtension.ToUpper() == ".XLS") { table = XlsToDataTable(fileStream); }
-                if (fileExtension.ToUpper() == ".XLSX") { table = XlsxToDataTable(fileStream); }
-            }
+            using FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+            string fileExtension = Path.GetExtension(filePath);
+            if (fileExtension.ToUpper().Equals(".XLS")) { table = XlsToDataTable(fileStream); }
+            if (fileExtension.ToUpper().Equals(".XLSX")) { table = XlsxToDataTable(fileStream); }
             return table;
         }
 
@@ -34,10 +33,8 @@ namespace Sha.Common.Helper
         /// <returns></returns>
         private static DataTable XlsToDataTable2(Stream stream)
         {
-            using (HSSFWorkbook workbook = new HSSFWorkbook(stream))
-            {
-                return SheetToDataTable(workbook.GetSheetAt(workbook.ActiveSheetIndex));
-            }
+            using HSSFWorkbook workbook = new HSSFWorkbook(stream);
+            return SheetToDataTable(workbook.GetSheetAt(workbook.ActiveSheetIndex));
         }
 
         /// <summary>
@@ -79,10 +76,8 @@ namespace Sha.Common.Helper
         /// <returns></returns>
         private static DataTable XlsxToDataTable2(Stream stream)
         {
-            using (XSSFWorkbook workbook = new XSSFWorkbook(stream))
-            {
-                return SheetToDataTable(workbook.GetSheetAt(workbook.ActiveSheetIndex));
-            }
+            using XSSFWorkbook workbook = new XSSFWorkbook(stream);
+            return SheetToDataTable(workbook.GetSheetAt(workbook.ActiveSheetIndex));
         }
 
         /// <summary>
